@@ -1,0 +1,25 @@
+Ranked according to priority.
+- Entity component system.
+    - Many different entities with different components acting on each other.
+    - Creating and deleting lots of entities fast.
+    - Physics case with box2d on all engines. Again lots of entities.
+- Particle system.
+    - Ramp it up to 11.
+    - Animating the particles.
+    - Transparency.
+- Communication system.
+    - Sending lots of messages.
+    - Latency.
+- Scene graph.
+    - Effectiveness of going deep and bredth.
+
+Key differences:
+- Entity Component System.
+    - Quite different between the engines.
+    - Suttung: Each actor has pointers to its components, as well as its child.
+    - Unity: All components are tied to a gameobject, how this is implemented is unknown. (For now).
+    - FTCP: A gameobject is represented by a unique id, components related to a gameobject shares this id. Components lie in their own managers, and have all the data they need to function properly. 
+- Communication system.
+    - Suttung: Through a listener pattern.
+    - Unity: Raw access to other components. And messaging.
+    - FTCP: Exclusively messaging. Components dont send messages, managers do.
