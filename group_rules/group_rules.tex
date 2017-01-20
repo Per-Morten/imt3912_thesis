@@ -1,36 +1,70 @@
 \documentclass{article}
 \usepackage{booktabs}
+\usepackage[none]{hyphenat}
+\usepackage{tabularx}
+
+\newcommand*{\SignatureAndDate}[1]{
+    \par\noindent\makebox[2.5in]{\hrulefill} \hfill\makebox[2.0in]{\hrulefill}
+    \par\noindent\makebox[2.5in][r]{\textit{#1}}     \hfill\makebox[2.0in][r]{\textit{Date}}
+}
 
 \begin{document}
     \pagenumbering{gobble}
 \section*{Group Rules}
 
 \begin{enumerate}
-    \item Expected hours.
-    \item Working days.
-    \item Dissagreements.
-    \item Toggl.
-    \item Issue tracking.
-    \item Branching strategies. (own document).
-    \item Version control.
-    \item Coding convention.
-    \item Daily morning meetings.
-    \item Supervisor meetings.
+    \item 
+        The expected amount of working hours per week is a minimum of 35 hours. 
+        Monday through Friday. 
+
+    \item
+        A log will be written each work day, summing the progress and achievements for that day.
+
+    \item
+        All time spent on the project will be tracked through toggl, with each entry given a proper headline indicating what sort of work that were done.
+    
+    \item
+        Academic disagreements are handled internally within the group at first, possibly including a supervisor or third party if no agreement can be reached.
+    
+    \item 
+        Each day is started with a meeting, reporting on what tasks that will be completed that day, progress from the day before, what issues we are currently having. 
+    
+    \item 
+        Meetings with the projects supervisor are scheduled to happen weekly or biweekly.
+        All members of the group shall be present at said meetings.
+    
+    \item 
+        Version control is done through git. (link at the bottom of the document)
+             
+    \item 
+        Coding conventions shall be followed to the best of ones ability. (link at the bottom of the document)
 \end{enumerate}
 
 \subsection*{Consequences}
-Noticable deveation from the rules will at first be handled internally, if no improvement is noticed, supervisor is made aware of the situation.
+    Noticable deveation from the rules will at first be handled internally, if no improvement is noticed, supervisor is made aware of the situation.
 
 \subsection*{Contact Information}
 \begin{table}[h!]
-    \begin{tabular}{lll}
+    \begin{tabularx}{\textwidth}{XXX}
         \toprule
         Name & Phone & Email \\
         \midrule
         Per-Morten Straume & 97186892 & p.m.straume@outlook.com \\
         Trond Lohne & 95919415 & trondlohne95@hotmail.no \\
         \bottomrule
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
+\subsection*{Links}
+    Git process:
+    Coding conventions:
+
+\SignatureAndDate{Trond Lohne}
+\bigskip
+\SignatureAndDate{Per-Morten Straume}
+
+
 \end{document}
+
+
+
