@@ -1,0 +1,19 @@
+Meeting
+ECS = Entity Component System
+
+Different ways to expand:
+- More research on ECS.
+    - Less code, more research and informed decisions.
+    - Analyse architectures.
+- Can also add more dev topics.
+
+- Primary research
+    - Research engines yourself.
+    - Find out how to meassure ECSs.
+    - Describe how entity component systems are applied.
+- Secondary research
+    - Read what other people have researched on ECSs.
+
+Sources:
+- Can use blogs and other sources, however prefer static sources like books etc.
+- Find someone with an ECS analysis, apply the analysis to some systems.

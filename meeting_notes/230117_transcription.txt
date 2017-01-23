@@ -1,0 +1,12 @@
+"Meeting - Simon McCallum
+Topic:
+Confirmed another topic change. Want to implement an ECS system into the NOX engine.
+We were wondering how we could expand the project, and that it was big enough for bachelor.
+
+There are different ways to expand the project. We could add more development topics i.e. features, or we could focus more on the research aspect of the thesis. 
+The research aspect would entail analyzing different approaches to developing Entity Component Systems, giving us a greater understanding as well as functioning like a foundation for our choices.
+
+We also discussed different research strategies, primary vs secondary research. We are probably leaning more towards the secondary research approach. 
+
+Discussions on different source and academic literature approaches, and what sources were acceptable.
+Static sources were preferred, however blog's etc can be used.
