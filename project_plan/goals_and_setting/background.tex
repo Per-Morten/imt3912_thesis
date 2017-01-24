@@ -1,0 +1,27 @@
+\section*{Background}
+
+\todo
+{Rewrite this, topics that can improve intro: Games as soft realtime systems, performance requirements.}
+The video game industry is one of the largest entertainment industries in the market today.
+The industry is both technology driven and creative at heart. 
+The focus of creating unique experiences as well as pushing the performance and graphics fidelity forward leads to a plethora of technological challenges.
+The technology powering these games (hence forth known as game engines), must be flexible enough to allow for creative gameplay situations, while still able to meet the stringent performance requirements of modern games.
+The balance issue of flexibility vs performance have lead to some interesting patterns within the industry.
+
+\subsection*{Entity Component Systems}
+Entity Component Systems originally appeared towards the end of the 1990's, however the popularity of this approach has only grown. \cite{wikipedia_ecs_history}
+
+Entity Component Systems exists in various forms with different flavors, however they all seem to share the same backbone, the focus on domain specific, decoupled and isolated behavior building blocks.
+These building blocks can then be combined in almost endless fashions to create complex behavior. 
+
+The goal of an entity component system is to reduce complexity and decoupling within games. This in turn leads to greater flexibility, higher code reuse, and shorter iteration cycles. 
+
+An entity is often defined as something that exists in the game world. How the entity functions is described through the component it contains, i.e. there is a larger focus on aggregation rather than inheritance. 
+\todo{Cite game programming patterns, components. Book not web}
+
+As mentioned earlier there are several forms of entity component systems. Some implementations keep a more traditional OOP implementation, \todo{Cite Game Programming Patterns, components}
+while others are more akin to relational databases, where entities are simply identified through a unique ID. \cite{t_machine_ecs_are_the_future_p2} 
+
+\subsection*{Data Oriented Design}
+
+\subsection*{NOX Engine}
