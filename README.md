@@ -2,7 +2,7 @@ This repo contains the bachelor thesis of Per-Morten Straume and Trond Lohne.
 
 ##Relevant Repos:
 ###Used for writing:
-GitLab: https://gitlab.com/per-morten.straume/imt3912_thesis
+GitLab: https://bitbucket.org/Per-Morten/imt3912_thesis
 
 ###Used only for shareLaTeX integration:
 GitHub: https://github.com/Perrern/imt3912_thesis
@@ -11,4 +11,3 @@ GitHub: https://github.com/Perrern/imt3912_thesis
 Engine: https://gitlab.com/per-morten.straume/nox-engine
 
 Samples using the engine: https://gitlab.com/per-morten.straume/nox-engine-sample
-
