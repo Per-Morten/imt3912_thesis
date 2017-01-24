@@ -1,0 +1,133 @@
+MÅL OG RAMMER:
+Bakgrunn.
+- Skriv om EC-Systemer.
+- Hvorfor er de relevante i spill industrien.
+- Skriv om NOX engine.
+- Nevne DOD.
+
+Mål for oppgaven. (Deler ikke inn i resultatmål og effektmål)
+- Gi innsikt i forskjellige typer EC-Systemer, både via egen testing og utvikling, og innblik i andre publiserte verk.
+- Ha et ferdig utviklet EC-System klar til bruk i NOX engine, med fleksibiliteten av deres forrige implementasjon,
+    samt økt ytelse gjennom multithreading, effektiv minnebruk og effektiv arkitektur.
+- Performance resultater fra et test case, relevant for NOX engine. Sammenligner vår entity system, deres løsning, og potensielt en standard OOP rettet implementasjon. 
+
+Rammer:
+Teknologiske rammer:
+- Open source når det gjelder Suttung.
+    - Kan derfor kun bruke open source biblioteker.
+
+Forskningsmessige rammer:
+- Begrenset hvor mye relevant forskning som ligger ute.
+    - Det som ligger ute virker dog til å være av god kvalitet, og er nyere studier.
+
+Tidsmessig ramme:
+- Hard deadline.
+
+OMFANG:
+Fagområde:
+
+Avgrensning:
+
+Oppgave Beskrivelse:
+
+PROSJEKTORGANISERING:
+Ansvarsforhold og roller:
+
+Rutiner og regler i gruppa:
+
+PLANLEGGING, OPPFØLGING OG RAPPORTERING:
+Hovedinndeling av prosjektet:
+    - Valg av SU-modell/prosessrammeverk med argumentasjon.
+Plan for statusmøter og beslutningspunkter:
+
+ORGANISERING AV KVALITETSSIKRING:
+Dokumentasjon, standardbruk og kildekode:
+
+Konfigurasjonsstyring:
+
+Risikoanalyse:
+
+
+PLAN FOR GJENNOMFØRING:
+Gant skjema:
+
+Liste over aktiviteter:
+
+Milepæler og beslutningspunkter:
+
+Tids- og ressursplan:
+
+
+
+// Kom på flere rammer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bakgrunn.
+- Gi oversikt over engine situasjonen i spillmarkedet.
+- Nevne at man får fleksibilitet på bekostning av andre ting. 
+    - bla. performance.
+
+Mål for oppgaven. (Deler ikke inn i resultatmål og effektmål)
+- Få innsikt i og presentere fordeler og ulemper relatert til effektivitet, gjennbrukbarhet og fleksibilitet ved å bruke egenutviklet spesialisert software vs engines.
+- Trekke frem rettningslinjer vedrørende utvikling av egne engines. 
+    - Hvilke områder optimaliseres for casene man jobber med, og hva kan forbli generelt.
+    - Hva trengs å være fleksibelt, og hva koster fleksibilitet.
+    - Hva trengs å være optimalisert, og hva koster optimaliseringen.
+- Få innsikt i hva som skjer med koden når man utnytter seg av så mye informasjon relatert til situasjonen som mulig. // Ikke skriv dette rett frem.
+    - Gjort gjennom analyse av dataen som eksisterer i systemet.
+- Lage flere samples som tar for seg forskjellige cases, bygget på forskjeller i engine arkitektur. 
+- Sammenligner forskjellige fremgangsmåter til velkjente problemer innenfor spillsoftware.
+    - Entity component systemer og meldingsstruktur.
+- Få frem forskjeller mellom design rundt data, og design rundt konsepter. (DOD(ish) vs OOP(ish))
+
+Rammer:
+Teknologiske rammer:
+- Open source når det gjelder Suttung og FTCP engine.
+    - Kan derfor kun bruke open source biblioteker.
+- Ulik funksjonaliteter legger begrensninger på cases vi kan ta for oss.
+    - Vår implementasjoner gjennom FTCP engine skrenker inn kompleksiteten av cases.
+
+Tidsmessig ramme:
+- Hard deadline.
+
+// Måle vedlikeholdbarhet gjennom cyclic complexity?
+// Se på space time tradeoff.
