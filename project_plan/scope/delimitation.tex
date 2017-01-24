@@ -1,0 +1,31 @@
+\subsubsection{Delimitation}
+There are a couple of delimitation for each of our modules:
+
+\subsubsection*{NOX-ECS 2}
+\begin{itemize}
+    
+    \item Will provide the same functionality as the old system.
+    \item Improved performance through multi threading and architectural decisions.
+    \item Has better maintainability with a more decoupled structure.
+    \item Adopting NOX-ECS 2 into the NOX-Engine should be as trivial as possible.
+    
+\end{itemize}
+
+\subsubsection*{Naive Implementation}
+\begin{itemize}
+    
+    \item Meant to be simple, only doing what the samples requires it to do.
+    \item Is object oriented, using inheritance, polymorphism and abstractions.
+
+\end{itemize}
+
+\subsubsection*{Samples}
+There are going to be multiple samples showcasing the strength and weaknesses of each implementation. These are going to include:
+\begin{itemize}
+    
+    \item Sample with lots of insertions, deletions and moves of entities and components, checking the performance of the memory management of the system.
+    \item Complex entities and components
+    \item Both deep and wide scenegraph examples
+    \item Multiple entity compositions that require a large amount of communication, challenging the performance of the messaging system.
+    
+\end{itemize}
