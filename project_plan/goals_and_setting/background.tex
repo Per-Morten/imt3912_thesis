@@ -23,5 +23,15 @@ As mentioned earlier there are several forms of entity component systems. Some i
 while others are more akin to relational databases, where entities are simply identified through a unique ID. \cite{t_machine_ecs_are_the_future_p2} 
 
 \subsection*{Data Oriented Design}
+Data Oriented Design(DOD) represents a shift in perspective in relation to software and modeling. 
+Traditional Object Oriented Design favors layers and layers of abstraction and focus on single elements, DOD takes a completely different route. 
+DOD focuses on the data that will flow through the program, what sort of data is it, its frequency, how its transformed, what patterns does it follow, etc. 
+The architectural decisions when designing the program are made to ensure that the flow of data and transformations happens as efficiently as possible.
+\cite{noel_dod_shoot_in_foot, dod_com} 
+
+The DOD focus on data is also influenced by the growing gap between memory and CPU speed. 
+The fact that memory access is a huge bottleneck within games, lead DOD down the road of optimizing for memory, 
+with a focus on homogeneous transformations on large sets of data at the time.
+\cite{pitfalls_of_OOP}
 
 \subsection*{NOX Engine}
