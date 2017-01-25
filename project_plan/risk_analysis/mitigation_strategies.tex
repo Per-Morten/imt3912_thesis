@@ -1,1 +1,26 @@
 \section*{Mitigation Strategies}
+Bellow follows our strategies for mitigating the chances of the identified risks happening.
+And how we might deal with them if they would occur.
+
+\subsection*{Poor Performance}
+Performance problems will be mitigated through recurring profiling.
+Benchmarks should ideally be run quite often,
+and these benchmarks should guide further optimizations if needed.
+
+\subsection*{Incompatible Implementation}
+The implementation will first go through a design phase,
+before it is presented to Suttung. 
+This proposed design will be built on the research
+that have been conducted into the Suttung engine,
+as well as a relevant test case.
+Hopefully this will be enough to mitigate the changes
+of our implementation being incompatible with the NOX Engine.
+
+\subsection*{Multi-threaded Related Bugs}
+Reducing the risk of multi-threaded bugs is a difficult task, 
+however some general guidelines helps when developing multi-threaded code.
+We will have a focus on clear access patterns,
+and local scope when writing multi-threaded code.
+There might also be some libraries out there that
+allows us to build tests specifically aimed at
+multi-threaded code.
