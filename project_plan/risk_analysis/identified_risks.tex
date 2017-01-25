@@ -1,1 +1,45 @@
+%Todo put these into their own file, or put then in the project plan.
+\newcommand{\ptparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\ptsubparagraph}[1]{\mbox{}\\\textbf{#1}\mbox{}\\}
+
 \section*{Identified Risks}
+Bellow follows the identified risks related to this project, 
+as well as the consequences related to the individual risks.
+
+\subsection*{Poor performance}
+Performance is a pretty hard topic, especially when combined with
+systems as complicated as ECS's.\\
+\textbf{Probability}: Medium\\
+\textbf{Impact}: Medium
+
+\ptparagraph{Consequence}
+A poor performing system would mean that we would have to spend more time
+optimizing the ECS, which could get in the way of the other tasks.
+A suboptimal solution would probably not be something Suttung would be interested
+in using either.
+
+\subsection*{Incompatible Implementation}
+The main goal of this project is to allow Suttung to easily integrate the new ECS
+into their system. 
+However it might be that our system ends up fundamentally different than theirs,
+and that the integration is not an easy process.
+\textbf{Probability}: Medium\\
+\textbf{Impact}: High
+
+\ptparagraph{Consequence} 
+An incompatible implementation would mean that the Suttung group would not be able to
+easily integrate the ECS into their systems without major changes. 
+In this case Suttung might decide that the new ECS is not worth it,
+and stay with their current solution.
+
+\subsection*{Multi-threaded Related Bugs}
+Writing multi-threaded code is a difficult challenge, and finding bugs in multi-threaded
+code is even more difficult and time consuming.
+\textbf{Probability}: High\\
+\textbf{Impact}: Depends
+
+\ptparagraph{Consequence}
+The consequence of a multi-threaded related bug depends on what sort of bug, 
+and how fatal it is. Non fatal bugs with low recurrence is obviously not wanted,
+but it might be acceptable. This cannot be said for fatal program terminating bugs
+that recur with a high frequency.
