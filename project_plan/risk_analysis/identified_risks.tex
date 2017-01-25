@@ -43,3 +43,24 @@ The consequence of a multi-threaded related bug depends on what sort of bug,
 and how fatal it is. Non fatal bugs with low recurrence is obviously not wanted,
 but it might be acceptable. This cannot be said for fatal program terminating bugs
 that recur with a high frequency.
+
+\subsection*{Unrepresentative Test Case}
+The plan is to write a representative test case with the NOX Engine that we can use
+to see the flexibility and usage of the engine. However Suttung might decide that this
+case is not representative enough for their normal usage patterns.
+\textbf{Probability}: Low\\
+\textbf{Impact}: Medium
+
+\ptparagraph{Consequence}
+In the case where the test case is not representative enough, we would probably have to
+rewrite the test case, which will then take up time that we don't really have available.
+
+\subsection*{Lost Work}
+Lost work could take many different forms, it could be loss of source code or documents.
+\textbf{Probability}: Med\\
+\textbf{Impact}: Depends
+
+\ptparagraph{Consequences}
+The consequence of loosing work would be to either redo it, or drop the features if possible.
+How bad this is for the project depends on how much work that needs to be redone, and
+if we have enough time to redo the work.
