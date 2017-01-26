@@ -1,117 +1,107 @@
-\section*{Identified Risks}
+\subsection{Identified Risks}
 Bellow follows the identified risks related to this project, 
 as well as the consequences related to the individual risks.
 
-\subsection*{Poor Performance}
+\ptparagraph{Poor Performance}
 Performance is a pretty hard topic, especially when combined with
 systems as complicated as ECS's.\\
 \textbf{Probability}: Medium\\
-\textbf{Impact}: Medium
-
-\ptparagraph{Consequence}
+\textbf{Impact}: Medium\\
+\textbf{Consequence}:\\
 A poor performing system would mean that we would have to spend more time
 optimizing the ECS, which could get in the way of the other tasks.
 A suboptimal solution would probably not be something Suttung would be interested
 in using either.
 
-\subsection*{Incompatible Implementation}
+\ptparagraph{Incompatible Implementation}
 The main goal of this project is to allow Suttung to easily integrate the new ECS
 into their system. 
 However it might be that our system ends up fundamentally different than theirs,
 and that the integration is not an easy process.\\
 \textbf{Probability}: Medium\\
-\textbf{Impact}: High
-
-\ptparagraph{Consequence} 
+\textbf{Impact}: High\\
+\textbf{Consequence}:\\ 
 An incompatible implementation would mean that the Suttung group would not be able to
 easily integrate the ECS into their systems without major changes. 
 In this case Suttung might decide that the new ECS is not worth it,
 and stay with their current solution.
 
-\subsection*{Multi-threaded Related Bugs}
+\ptparagraph{Multi-threaded Related Bugs}
 Writing multi-threaded code is a difficult challenge, and finding bugs in multi-threaded
 code is even more difficult and time consuming.\\
 \textbf{Probability}: High\\
-\textbf{Impact}: Depends
-
-\ptparagraph{Consequence}
+\textbf{Impact}: Depends\\
+\textbf{Consequence}:\\
 The consequence of a multi-threaded related bug depends on what sort of bug, 
 and how fatal it is. Non fatal bugs with low recurrence is obviously not wanted,
 but it might be acceptable. This cannot be said for fatal program terminating bugs
 that recur with a high frequency.
 
-\subsection*{Unrepresentative Test Case}
+\ptparagraph{Unrepresentative Test Case}
 The plan is to write a representative test case with the NOX Engine that we can use
 to see the flexibility and usage of the engine. However Suttung might decide that this
 case is not representative enough for their normal usage patterns.\\
 \textbf{Probability}: Low\\
-\textbf{Impact}: Medium
-
-\ptparagraph{Consequence}
+\textbf{Impact}: Medium\\
+\textbf{Consequence}:\\
 In the case where the test case is not representative enough, we would probably have to
 rewrite the test case, which will then take up time that we don't really have available.
 
-\subsection*{Lost Work}
+\ptparagraph{Lost Work}
 Lost work could take many different forms, it could be loss of source code or documents.\\
 \textbf{Probability}: Medium\\
-\textbf{Impact}: Depends
-
-\ptparagraph{Consequences}
+\textbf{Impact}: Depends\\
+\textbf{Consequences}
 The consequence of loosing work would be to either redo it, or drop the features if possible.
 How bad this is for the project depends on how much work that needs to be redone, and
 if we have enough time to redo the work.
 
-\subsection*{Internal Conflict}
+\ptparagraph{Internal Conflict}
 Internal conflict would in this case mean all discussions and disagreements that severely
 hamper the progress of the project.\\
 \textbf{Probability}: Low\\
-\textbf{Impact}: Depends
-
-\ptparagraph{Consequences}
+\textbf{Impact}: Depends\\
+\textbf{Consequences}
 The consequences of an internal conflict could be quite severe, in that it would hurt
 our overall progress. Again the impact here depends on how severe the conflict is
 and at what time the conflict is over.
 
-\subsection*{Problem Understanding the NOX Engine}
+\ptparagraph{Problem Understanding the NOX Engine}
 The NOX Engine is a big and complex system, getting a proper overview of the engine
 might prove difficult.\\
 \textbf{Probability}: Medium\\
-\textbf{Impact}: High
-
-\ptparagraph{Consequences}
+\textbf{Impact}: High\\
+\textbf{Consequences}
 The largest consequence of this is that if we don't have a proper understanding of the engine,
 then we won't be able to fully understand how we should optimally implement our new structures either.
 This will also result in a loss of time that we could have used on development.
 
-\subsection*{Missing Group Members}
+\ptparagraph{Missing Group Members}
 Chances are quite large that some days one of the group member wont show up for work.
 If this is a result of illness or any other factors is not really that relevant.\\
 \textbf{Probability}: High\\
-\textbf{Impact}: Depends
-
-\ptparagraph{Consequences}
+\textbf{Impact}: Depends\\
+\textbf{Consequences}
 The consequence of this situation will be a loss of time that could be spent on work, 
 both for the person who is gone, as well as the member who shows up.
 How much this impacts the project depends on how long the member is gone,
 and how much the other member relies on their work.
 
-\subsection*{Lack of Proper Measurement Tools}
+\ptparagraph{Lack of Proper Measurement Tools}
 Measuring performance will require specific tools. 
 Hopefully the tools we want to use will fit the problem at hand, 
 as well as giving us the wanted precision.\\
 \textbf{Probability}: Medium\\
-\textbf{Impact}: High
-
-\ptparagraph{Consequences}
+\textbf{Impact}: High\\
+\textbf{Consequences}
 If we can't find proper tools for the measurements we want,
 we will have to find less precise measurement methods,
 which might hurt our case when we present the performance results.
 
-\subsection*{Wrongly Estimated Time}
+\ptparagraph{Wrongly Estimated Time}
 Wrongly estimating the time it will take to work on each "module" within the project is a real risk.\\
 \textbf{Probability}: Medium\\
-\textbf{Impact}: Medium
-
-\ptparagraph{Consequences}
+\textbf{Impact}: Medium\\
+\textbf{Consequences}
 The consequence in time estimation would be that we would have to drop a planned module,
 like implementing the OOP test case.
