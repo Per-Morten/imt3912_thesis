@@ -1,9 +1,11 @@
-\documentclass{article}
+\documentclass[hidelinks]{article}
+
 \usepackage{cite}
 \usepackage{import}
 \usepackage{enumitem}
 \usepackage{rotating}
 \usepackage{pdflscape}
+\usepackage{pdfpages}
 \usepackage[export]{adjustbox}
 
 \subimport{}{ntnu_std_commands.tex}
@@ -12,6 +14,19 @@
 
 \begin{document}
     \pagenumbering{gobble}
+
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE O7 PTPERF: Project Plan \par}
+    \vspace{2cm}
+    {Per-Morten Straume \par}
+    {Trond Lohne \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\pagebreak
+\tableofcontents
 
 \section*{Project Plan}
 \subimport{goals_and_setting/}{goals_and_setting_format.tex}
@@ -24,4 +39,11 @@
 
 \bibliographystyle{unsrt}
 \bibliography{project_plan}
+
+\pagebreak
+\section*{Appendices}
+\subsection*{Appendix A: Gant Diagram}
+\includegraphics[width=\linewidth]{gant_diagram_sideways}
+\subsection*{Appendix B: Group Rules}
+\includepdf[pages=-]{../group_rules/signed_group_rules.pdf}
 \end{document}
