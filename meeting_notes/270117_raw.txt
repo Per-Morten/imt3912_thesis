@@ -1,0 +1,41 @@
+Identify performance measurements:
+- From the user point of view?
+- From the tech view?
+- Memory?
+- Code quality?
+- Cyclic Complexity.
+
+- Discuss specs and metrics with Suttung.
+
+
+Specs -> design -> implementation -> game -> tests -> design
+
+First step is to agree on specs.
+Then use those specs to go through the loop.
+
+Base our design on their specs, and architecture.
+
+Involve Suttung along the path. 
+
+Tests are ideally static. At least what they measure. What metrics we are using.
+We check metrics with Suttung. (in a secondary way). (But is it not needed).
+
+Milestone 1. Agreeing on specs, and metrics.
+
+At least 2 iterations, or 3. 
+Three weeks pr iteration.
+
+Milestones are metrics for each iteration.
+
+Add inn some time that is a buffer. Especially on the specs part.
+Always add buffers when talking with external parties.
+
+Remove arbitrary choices like DOD stuff.
+
+Quality Assurance:
+Just focus on the code.
+
+Come up with some more explanation on consequences in regard to the group rules.
+How do we document the group rules.
+How do we deal with repeated offenses.
+Need a more administrative process of when things go wrong.

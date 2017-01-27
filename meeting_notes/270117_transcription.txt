@@ -1,0 +1,42 @@
+Meeting - Mariusz Nowostawski
+Topic: Project Plan Review.
+Need to change problem approach in certain ways.
+We need to identify performance metrics before we start with the implementations.
+The performance metrics will be based on specs supplied by and agreed upon with Suttung.
+Remove arbitrary choices, like DOD sections. 
+Remove OOP inheritance implementation, as it is irrelevant.
+
+Topic: Tests
+The metrics measuring performance should be as static as possible, (can be checked with Suttung).
+this is also important for the tests themselves, however they are allowed to be more flexible, 
+as they are glued more on top of the test cases.
+
+Topic: New Suggested Iteration Loop
+1. Start with specs supplied by Suttung, use these to decide upon metrics.
+2. Create ECS design based on specs, research and previous iteration data.
+3. Implement suggested system.
+4. Write Test Case/Game.
+5. Do performance Tests on Test Case/Game.
+6. If time for more iterations, go to pt. 2.
+7. Integrate new ECS into NOX Engine.
+
+Suttung will probably be involved in several steps of the iteration loop.
+
+Topic: New Milestones
+Milestone 1. Agree on specs and metrics.
+Milestone 2 & 3. Implemented and tested a proposed ECS.
+Milestone 4. Integrate ECS into NOX Engine and Gamejam with Suttung.
+
+Topic: Time Estimation
+Add in some time buffers where we rely on stakeholders. 
+For example in regard to agreeing on metrics and specs.
+Extra buffer time can be used for more iterations or thesis report towards the end of the project.
+
+Topic: Group Rules
+Add more explanation regarding consequences, and how we keep track of and document rule violations.
+The explanation can focus on dealing with repeated offenses.
+Can remove links to git rules and code conventions, as they are not required in the project plan.
+
+Topic: Quality Assurance
+Don't need a focus on the QA of the thesis, as we are only at bachelor level,
+however the QA regarding implementation seems ok.
