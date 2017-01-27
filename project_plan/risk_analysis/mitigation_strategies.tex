@@ -16,14 +16,16 @@ as well as a relevant test case.
 Hopefully this will be enough to mitigate the changes
 of our implementation being incompatible with the NOX Engine.
 
-\ptparagraph{Multi-threaded Related Bugs}
-Reducing the risk of multi-threaded bugs is a difficult task, 
-however some general guidelines helps when developing multi-threaded code.
-We will have a focus on clear access patterns,
+\ptparagraph{Hard to find Bugs}
+Reducing the risk of bugs is a difficult task, 
+however some general guidelines helps when developing code.
+For example,
+we will have a focus on clear access patterns,
 and local scope when writing multi-threaded code.
 There might also be some libraries out there that
 allows us to build tests specifically aimed at
 multi-threaded code.
+Other mitigation strategies includes writing more tests for the different code sections.
 
 \ptparagraph{Unrepresentative Test Case}
 The test case will be developed based on usage patterns
