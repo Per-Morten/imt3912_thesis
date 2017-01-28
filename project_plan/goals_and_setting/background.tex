@@ -1,22 +1,23 @@
 \subsection{Background}
 The video game industry is one of the largest entertainment industries in the market today. 
 With a focus on creating unique experiences as well as pushing the performance and graphics fidelity
-forward the video game industry have encountered a plethora of technological challenges.
+forward; the video game industry have encountered a plethora of technological challenges.
 The technology powering these games must be flexible enough to allow for creative gameplay situations, 
 while still able to meet the stringent performance requirements of modern games.
 This balance issue of flexibility vs performance have lead to some interesting patterns within the industry.
 
 \subsubsection{Entity Component Systems}
-Entity Component Systems originally appeared towards the end of the 1990's, 
+Entity Component Systems(ECS) originally appeared towards the end of the 1990's, 
 however the popularity of this approach has only grown. 
 \cite{wikipedia_ecs_history}
-Entity Component Systems exists in various forms with different flavors,
+Entity component systems exists in various forms with different flavors,
 however they all seem to share the same backbone, the focus on domain specific, 
 decoupled and isolated behavior building blocks.
 These building blocks can then be combined in almost endless fashions to create complex behavior. 
 The goal of an entity component system is to reduce complexity and decoupling within games. 
-This in turn leads to greater flexibility, higher code reuse, and shorter iteration cycles. 
-An entity is often defined as something that exists in the game world. 
+This in turn leads to greater flexibility, higher code reuse, and shorter iteration cycles.
+
+\noindent An entity is often defined as something that exists in the game world. 
 How the entity functions is described through the component it contains, 
 i.e. there is a larger focus on aggregation rather than inheritance. 
 \cite[components]{game_programming_patterns}
