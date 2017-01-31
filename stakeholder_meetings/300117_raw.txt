@@ -1,0 +1,39 @@
+Technical Specification, til perfromance metrics.
+- Spawning av mange objekter.
+    - Rask update.
+    - Helst også holde minne relativt lite.
+    - Skal gå fortere.
+- Kan gå opp mot et par 100 components.
+    - Burde støtte det.
+    - Minst 30. 
+    - Ikke mye knyttning mellom dem, med mindre man må.
+
+Krav:
+- Actors skal kunne lages både gjennom kode og json filer.
+- Multithreading.
+- Maksimalt 1 loggesystem.
+- Compile time er ikke noe issue.
+    - Sammenlign. 
+
+- Gi så mange garantier i koden som mulig.
+    - Ikke gi programmereren mye kontrol.
+    - Kan gå for et opt-in usikkerhets system.
+    - Sikkerhet står høyt.
+
+Må trolig jobbe i:
+World,
+Logic,
+
+Vi har lov til å merge world og actor.
+Lag noen standard components som funker i vårt system. 
+Physics, Transform, Audio, Graphics, Kanskje ikke controls. (Ønsker samme funksjonalitet, og samme funksjoner).
+Se på de som allerede eksisterer.
+
+Kode endringer:
+Følger deres standard.
+*.tpp filer er lov.
+*.ipp filer er lov.
+
+Ønsker møter:
+Ukentlig.
+Mandag, 13 tiden.

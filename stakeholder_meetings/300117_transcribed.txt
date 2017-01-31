@@ -1,0 +1,19 @@
+Topic: Technical Specification Performance Metrics
+Optimization Goals:
+- Faster update functions.
+- Spawning of many objects.
+- Keep memory use small.
+- Faster in general.
+- Don't increase compile time.
+
+Features:
+- Up to 200+ different components.
+- Multi-threading support.
+- Make logging system thread safe.
+- Create actors both through json files as well as code.
+- Give as many guarantees as possible, safety before performance.
+    - Prefer opt-in unsafe systems.
+- Create standard components within new system.
+
+Meetings:
+- Meetings will occur regularly, every Monday around 13:00.
