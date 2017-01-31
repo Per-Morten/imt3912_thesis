@@ -9,7 +9,7 @@ To keep the repo manageable, as well as tracking progress and work, a standard i
 explanatory body
 
 <footer>
-<time_logging> @time #(issue number) <hours>h <minutes>m
+<time_logging> $time #(issue number) <hours>h <minutes>m
 
 ###### Example:
 ref #6: create standard
@@ -17,7 +17,7 @@ ref #6: create standard
 Creating standard for commit messages.  
 
 ref #7 #8
-@time #6 1h 30m
+$time #6 1h 30m
 
 ##### Time Clarification
 Logging time does not need to happen in each commit,
