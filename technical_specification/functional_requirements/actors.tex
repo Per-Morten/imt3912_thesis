@@ -1,0 +1,64 @@
+\subsubsection*{Actors/Entities}
+An actor, henceforth called an entity describes an object within the game world. 
+Entities can be seen as containers of components, 
+and their functionality is defined through the containers they contain.
+Actors can only contain one of each type of component, to contain "more" than one of each component, a child must be added. 
+A child is just another entity, that is "linked" with the parent entity.
+
+\ptparagraph{Initialization}
+Entities can be initialized in one of two ways.
+\begin{itemize}
+    \item
+    Through a json object.
+
+    \item
+    Directly in C++ code.
+\end{itemize}
+
+\ptparagraph{Queries}
+Entities can be queried for the following information.
+\begin{itemize}
+    \item
+    Information related to the type of the object.
+
+    \item
+    The entity's unique id.
+
+    \item
+    The entity's components.
+
+    \item
+    Children of the entity.
+
+    \item
+    An entity's parent.
+
+    \item
+    An entity's stage in the lifecycle.
+\end{itemize}
+
+\ptparagraph{Manipulation}
+The following manipulations can be applied to an entity.
+\begin{itemize}
+    \item 
+    Attach/Detaching children.
+
+    \item
+    Attach/Detaching components.
+\end{itemize}
+
+\ptparagraph{Lifecycle}
+Actors will be made aware of and can react to the following events in their lifecycle.
+\begin{itemize}
+    \item
+    An entity's own
+    \begin{itemize}
+        \item creation.
+        \item activation.
+        \item deactivation.
+        \item destruction.
+    \end{itemize}
+
+    \item
+    Per frame updates.
+\end{itemize}
