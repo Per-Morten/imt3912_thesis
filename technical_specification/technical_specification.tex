@@ -1,38 +1,36 @@
-\documentclass{article}
+\documentclass[hidelinks]{article}
 \usepackage{import}
+\usepackage{hyperref}
+
 
 \newcommand{\ptparagraph}[1]{\paragraph{#1}\mbox{}\\}
 \newcommand{\ptsubparagraph}[1]{\mbox{}\\\textbf{#1}\mbox{}\\}
 
 \begin{document}
-    \pagenumbering{gobble}
+    \pagenumbering{arabic}
 
-\section*{Technical Specification}
-\subsection*{Functional Requirements}
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE NOX ECS 2: Technical Specification \par}
+    \vspace{2cm}
+    {Functional and Quality Requirements \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\section{Purpose}
+This document will detail the functional and quality requirements of the new NOX Entity component system, NOX ECS 2.
+
+\section{Functional Requirements}
 \subimport{functional_requirements/}{general.tex}
 \subimport{functional_requirements/}{system.tex}
 \subimport{functional_requirements/}{entities.tex}
 \subimport{functional_requirements/}{components.tex}
-
 \subimport{quality_requirements/}{quality_requirements.tex}
-
-\subsection*{Functional Requirements}
-- Multi-threading support,
-- Thread safe logging system,
-- Create actors through json and code,
-- Creation of standard components,
-- Interface against already existing engine modules,
-
-\subsection*{Quality Requirements}
-- 200+ different components,
-- Faster update functions,
-- Faster spawning,
-- Compile time should not be increased to a large degree,
-- Memory usage should not grow to a large extent,
-- Security trumps performance, 
-- Can choose which system to use when starting a new project,
-    - However supporting changing system during development is not a priority.
-
-\subsection*{Measuring Quality Requirements}
+\subimport{quality_requirements/}{measuring_quality_requirements.tex}
 
 \end{document}
