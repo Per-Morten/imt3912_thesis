@@ -1,0 +1,9 @@
+\subsection{Thread safe logging system}
+Show that the logging system has the possibility to function in a multi-threaded environment without any issues.
+
+\subsubsection*{How the test is performed}
+The test is conducted by creating a few components that run on different threads, and let them continuously send messages to the logging system over a set period.
+
+\subsubsection*{How the test is measured}
+Successful if there aren't any crashes or errors over a substantial amount of time. 
+This does not guarantee that there is no issues with the logging system, but is a good indicator that everything is working at an acceptable level.

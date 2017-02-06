@@ -1,0 +1,20 @@
+\subsection{Fast spawning}
+The creation of new actors and their components should be done as fast as possible.
+This is an issue in the NOX-Engine, where creating a lot of new actors or components at the same time causes frame rate issues.
+
+\subsubsection*{How the test is performed}
+Make it so that a significant enough number of actors are spawned so that it has an impact on the frame rate.
+There will be several different versions of this case.
+
+\begin{itemize}
+
+    \item\noindent\textit{Empty actors}\\
+
+    \item\noindent\textit{Actors with empty components}\\
+
+    \item\noindent\textit{Actors with components}\\
+
+\end{itemize}
+
+\subsubsection*{How the test is measured}
+We then measure how long it takes for all of the actors to be spawned, along with various other metrics from several profilers.

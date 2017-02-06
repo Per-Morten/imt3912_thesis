@@ -1,0 +1,22 @@
+\subsection{Compilation time}
+The compilation time should be kept as low as possible when building the engine.
+
+
+\subsubsection*{How the test is performed}
+There are a few ways to measure this.
+
+\begin{itemize}
+
+    \item \noindent\textit{Complete compilation}\\
+    There are occurrences where you would recompile your entire project, but they are rare.
+    However, they happen often enough that it is worth testing, but is not the test we value the most.
+
+    \item \noindent\textit{Partial compilation}\\
+    A bit harder to test, but the most frequent type of compilation is when you use the engine for developing your own game.
+    This results in small parts of the engine being recompiled after each change.
+    The most common occurrence of this would be when adding additional components to the engine.
+
+\end{itemize}
+
+\subsubsection*{How the test is measured}
+Tested by timing the time it takes to compile the engine. Should also be measured using different compilers to ensure the results are consistent.
