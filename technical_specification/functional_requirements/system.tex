@@ -1,0 +1,46 @@
+\subsection{System}
+The system is in this context the module responsible for managing the actors/entities and components.
+
+\ptparagraph{Initialization}
+The system can be populated with entities through the following methods.
+\begin{itemize}
+    \item
+    Through json files.
+
+    \item
+    Directly in C++ code.
+\end{itemize}
+
+\ptparagraph{Data Access}
+The system will be able to respond to events coming from entities, or other parts of the engine. 
+It will also be able to send events to the other parts of the engine.
+In addition the system will have access to the current logic context of the application.
+
+\ptparagraph{Queries}
+The system can be queried for the following information.
+\begin{itemize}
+    \item
+    Entities with a specific id.
+
+    \item
+    Entities within a position in the world.
+
+    \item
+    (Optional) Entities that matches a given user defined query.
+
+    \item
+    Thread safe access to actors for saving/serialization.
+\end{itemize}
+
+\ptparagraph{Manipulation}
+The following manipulations can be done through the system.
+\begin{itemize}
+    \item
+    Creation of new entities.
+
+    \item
+    Destruction of entities.
+
+    \item
+    Per frame update, updating all the entities.
+\end{itemize}

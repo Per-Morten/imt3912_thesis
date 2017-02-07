@@ -1,0 +1,73 @@
+\subsection{Components}
+Components in this specification is described as a domain specific, decoupled and isolated
+implementation of a certain behavior.
+
+\ptparagraph{Initialization}
+The initialization of a component can happen in two ways.
+\begin{itemize}
+    \item
+    Through a json object.
+
+    \item
+    Directly in C++ code.
+\end{itemize}
+
+\ptparagraph{Data Access}
+In regards to data access, components will have the current features.
+These are just the "base" accesses, other features will be implemented when the "base" is extended.
+\begin{itemize}
+    \item
+    Access to the current logic context of the application.
+
+    \item
+    Access to sibling components.
+\end{itemize}
+
+\ptparagraph{Queries}
+Base components can be queried for the following information.
+\begin{itemize}
+    \item
+    Information related to what type of object they are.
+
+    \item
+    Information related to whether or not they are in active state.
+\end{itemize}
+
+\ptparagraph{Lifecycle}
+Components will be made aware of and can react to the following events in their lifecycle.
+\begin{itemize}
+    \item 
+    A components own
+    \begin{itemize}
+        \item creation.
+        \item activation.
+        \item deactivation.
+        \item destruction.
+    \end{itemize}
+
+    \item
+    New sibling components attached and detached.
+
+    \item
+    New child actors being attached or detached from the owner.
+
+    \item
+    Events coming either sibling components, or other parts of the engine.
+
+    \item
+    Per frame updates.
+\end{itemize}
+
+\ptparagraph{Misc}
+In addition to this, components will also support the following features.
+\begin{itemize}
+    \item
+    Serialization into json objects.
+
+    \item
+    Safe casting operations.
+
+    \item
+    Support easy logging operations.\\
+    i.e. Being able to log from inside a component.
+\end{itemize}

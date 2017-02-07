@@ -1,0 +1,17 @@
+\subsection{General}
+In addition to the requirements detailed below, the implementation of the new ECS. 
+
+\ptparagraph{Interfacing Against Existing Engine Modules}
+The NOX Engine is quite large, with several different modules already implemented. 
+The new ECS implementation must be able to work with the existing modules within the NOX Engine. 
+The exception being the already existing actor and component system.
+
+\ptparagraph{Creation of Standard Components}
+The old ECS already had some standard components within the engine. 
+Most of these components should also be supplied within the new ECS.
+
+\ptparagraph{Multi-threading}
+The new ECS shall be multi-threaded as to improve efficiency.
+Because of this, 
+some other parts of the engine might need some added functionality, 
+for example a modification to the logging system to ensure it is thread safe.

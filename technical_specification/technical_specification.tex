@@ -1,0 +1,36 @@
+\documentclass[hidelinks]{article}
+\usepackage{import}
+\usepackage{hyperref}
+
+
+\newcommand{\ptparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\ptsubparagraph}[1]{\mbox{}\\\textbf{#1}\mbox{}\\}
+
+\begin{document}
+    \pagenumbering{arabic}
+
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE NOX ECS 2: Technical Specification \par}
+    \vspace{2cm}
+    {Functional and Quality Requirements \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\section{Purpose}
+This document will detail the functional and quality requirements of the new NOX Entity component system, NOX ECS 2.
+
+\section{Functional Requirements}
+\subimport{functional_requirements/}{general.tex}
+\subimport{functional_requirements/}{system.tex}
+\subimport{functional_requirements/}{entities.tex}
+\subimport{functional_requirements/}{components.tex}
+\subimport{quality_requirements/}{quality_requirements.tex}
+\subimport{quality_requirements/}{measuring_quality_requirements.tex}
+
+\end{document}

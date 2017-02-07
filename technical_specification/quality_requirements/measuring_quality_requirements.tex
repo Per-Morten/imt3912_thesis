@@ -1,0 +1,27 @@
+\section{Measuring Quality Requirements}
+To ensure that the quality requirements are fulfilled several test cases will be built. 
+These test cases will be used to measure whether or not we have fulfilled the quality requirements.
+This section outlines how the different requirements will be tested, and what metrics that will be used.
+All tests will be written with both the current NOX Actor system, and the proposed ECS, and evaluated in a comparative fashion.
+The current NOX Actor system will be used as benchmark, as that is the system we are trying to improve upon.
+
+\ptparagraph{Faster Updates}
+Faster updates can be measured in several ways, in our case we will go for a hybrid approach. 
+We will record how much time that is spent over a set amount of updates. 
+For example, how long time does it take to execute X number of updates, with Y sets of entities.
+The testing methods will include low overhead timing of the system, as well as more in depth profiling.
+This is to ensure that the time is spent mostly within the components, and not the system itself.
+We will also record data in relation to cache and branch prediction.
+
+\ptparagraph{Faster Spawning}
+Faster spawning will be measured in the same ways as the faster updates, 
+by doing time recordings and profiling on inclusive and exclusive function time.
+
+\ptparagraph{Memory Usage}
+Heap based memory usage will be logged with the help of a profiler. Allowing us to inspect how much memory that has been used throughout a test case.
+
+\ptparagraph{Compile Time}
+Compile time will be measured within all the test cases once they are complete.
+
+\ptparagraph{Component Magnitude}
+The component magnitude will function in the same manner as the faster updates and spawning measurements. 
