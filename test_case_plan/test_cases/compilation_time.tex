@@ -12,9 +12,10 @@ There are a few ways to measure this.
     However, they happen often enough that it is worth testing, but is not the test we value the most. This test should simply recompile the entire engine from scratch.
 
     \item \noindent\textit{Partial compilation}\\
-    A bit harder to test, but the most frequent type of compilation is when you use the engine for developing your own game.
-    This results in small parts of the engine being recompiled after each change.
-    The most common occurrence of this would be when adding additional components to the engine.
+    The more realistic case is when a small part of the engine is recompiled.
+    This most often occurs when a new component is added to the engine, so it is fit to test that scenario.
+    It also is easy to test by measuring the amount of time taken to compile by adding a new empty component to the engine.
+    This is done when the engine was completely compiled beforehand, so only the addition of the new component affects the compilation time.
 
 \end{itemize}
 
