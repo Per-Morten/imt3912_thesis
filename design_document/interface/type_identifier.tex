@@ -1,0 +1,9 @@
+\subsection{TypeIdentifier}
+\lstinputlisting[language=cpp, caption=TypeIdentifier.cpp]{../code_samples/type_identifier.cpp}
+The TypeIdentifier is a simple class responsible for holding an identifier/tag to a type. 
+The identifier is either a hashed value created from a std::string, or a non-hashed std::size\_t given by the user.\\
+Mixing the use of hashed values and integer based TypeIdentifiers is illegal. 
+The integer based TypeIdentifier exists to allow for type identification without the need for dynamic
+memory allocation, for example by using enums to identify components instead of strings.
+The value function will return the identifier's underlying value, i.e. the hashed value if it was created with a string, 
+or the original integer given by the user.
