@@ -3,7 +3,7 @@ This case will test the possibility of having many differently functioning compo
 
 \subsubsection*{How the test is performed}
 The test is performed by first creating 200 or more dummy components that does some simple task. 
-We then place out several actors with the components in an otherwise empty world.
+Several actors are then created with said cokmponents, in an otherwise empty world.
 We need to create a script which makes all off these components, as it would be a waste of time for us to do so by hand.
 
 The test will consist of 100 actors each having 200 different components attached to them.
@@ -11,4 +11,4 @@ All the different components will be empty, only difference is having unique cla
 The program will update everything as normal for a total of 10 seconds.
 
 \subsubsection*{How the test is measured}
-As with many of the other tests, it is measured with the profilers to check for cache misses, branch predictions and memory usage.
+As with many of the other tests, it is measured with the profilers to check for cache misses, branch predictions, timing and memory usage.
