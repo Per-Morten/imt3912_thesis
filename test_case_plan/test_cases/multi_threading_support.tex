@@ -4,6 +4,11 @@ Show that the use of multi-threading in our implementation are actually giving a
 \subsubsection*{How the test is performed}
 The setup for this is to create dummy components with busy waits inside their update functions, giving a consistent and reliable method to display that the multi-threaded system improves performance. However, it is not the most realistic scenario, but is sufficient in showing off the gains from a multi threaded system.
 
+The test will have 100 actors, each with a component.
+The component has a update function with a busy wait that lasts for 10 milliseconds.
+Each component will be run 10 times.
+This means that in a single threaded environment, the total time should be 10 seconds.
+
 \subsubsection*{How the test is measured}
 The test case is successful if there is a significant boost in performance.
 There will be comparisons between the NOX-Engines single threaded architecture, ECS-NOX 2 run with a single thread, and ECS-NOX 2 with multiple threads.

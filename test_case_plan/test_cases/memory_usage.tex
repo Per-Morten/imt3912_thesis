@@ -17,11 +17,13 @@ We want to test a few different cases.
 
     \item\noindent\textit{Deep scenegraph}\\
     Place actors with children multiple levels deep in the scenegraph to display how much overhead the graph provides in very deep graphs.
+    Every actor in this case except the leaf node will have one child actor.
 
 
 \end{itemize}
 
 \noindent It is also important to note that an increase in memory usage could be justified by an increase in other aspects off performance, for example faster update loops.
+Each test will be performed with 100 actors in an otherwise empty world.
 
 \subsubsection*{How the test is measured}
 The measurement is checked by how much memory is in use when certain amounts of actors are created.
