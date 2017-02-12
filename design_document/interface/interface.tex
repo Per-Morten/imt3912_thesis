@@ -1,0 +1,7 @@
+\section{Interface}
+\subsection{IComponent}
+\lstinputlisting[language=cpp, caption=IComponent.cpp]{../code_samples/i_component.cpp}
+The IComponent is the base "interface" for all the component classes. 
+It only contains one member, the entityID, which is a unique id used to identify which entity this component belongs to.
+All components within the engines must inherit from the IComponent base class, as the EntityManager only sees and works on IComponent structures.\\
+This base class contains no virtual functions, as the overhead of virtual functions is not wanted.
