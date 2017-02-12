@@ -1,7 +1,7 @@
-\subsection{Large number of different components}
+\subsection{Large Number of Different Components}
 This case will test the possibility of having many differently functioning components at once in the engine. 
 
-\subsubsection*{How the test is performed}
+\subsubsection*{How the Test is Performed}
 The test is performed by first creating 200 or more dummy components that does some simple task. 
 Several actors are then created with said cokmponents, in an otherwise empty world.
 We need to create a script which makes all off these components, as it would be a waste of time for us to do so by hand.
@@ -10,5 +10,5 @@ The test will consist of 100 actors each having 200 different components attache
 All the different components will be empty, only difference is having unique class names.
 The program will update everything as normal for a total of 10 seconds.
 
-\subsubsection*{How the test is measured}
+\subsubsection*{How the Test is Measured}
 As with many of the other tests, it is measured with the profilers to check for cache misses, branch predictions, timing and memory usage.

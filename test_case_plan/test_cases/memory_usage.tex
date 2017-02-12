@@ -1,21 +1,21 @@
-\subsection{Memory usage}
+\subsection{Memory Usage}
 Compare the usage of ram between the NOX Engine and our system.
 We want to avoid increasing the amount of memory used.
 This is important because of the development towards the mobile platforms, which is lacking in the memory aspect compared to the PC platform.
 
-\subsubsection*{How the test is performed}
+\subsubsection*{How the Test is Performed}
 The test is performed by creating a set amount of actors, and then measuring how much memory is currently in use when the spawning is complete.
 We want to test a few different cases.
 
 \begin{itemize}
 
-    \item\noindent\textit{Empty actors}\\
+    \item\noindent\textit{Empty Actors}\\
     Check for actors without any components to compare the overhead of the actors alone.
 
-    \item\noindent\textit{Actors with empty components}\\
+    \item\noindent\textit{Actors with Empty Components}\\
     Actors with empty components to check the overhead of the components.
 
-    \item\noindent\textit{Deep scenegraph}\\
+    \item\noindent\textit{Deep Scenegraph}\\
     Place actors with children multiple levels deep in the scenegraph to display how much overhead the graph provides in very deep graphs.
     Every actor in this case except the leaf node will have one child actor.
 
@@ -25,5 +25,5 @@ We want to test a few different cases.
 \noindent It is also important to note that an increase in memory usage could be justified by an increase in other aspects off performance, for example faster update loops.
 Each test will be performed with 100 actors in an otherwise empty world.
 
-\subsubsection*{How the test is measured}
+\subsubsection*{How the Test is Measured}
 The measurement is checked by how much memory is in use when certain amounts of actors are created.
