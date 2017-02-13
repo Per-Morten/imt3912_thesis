@@ -5,7 +5,7 @@
 /// regarding dereferencing it etc.
 ////////////////////////////////////////////////////////////////
 template<class T>
-class smart_handle
+class SmartHandle
 {
 public:
     ////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@ public:
     ///        Handle is not valid unless constructed 
     ///        with parameters.
     ////////////////////////////////////////////////////////////
-    smart_handle() = default;
+    SmartHandle() = default;
 
     ////////////////////////////////////////////////////////////
     /// \brief Proper constructor, the only one that leaves
@@ -22,12 +22,12 @@ public:
     /// \param object The object to reference.
     /// \param generation The generation the reference 
     ///        was created.
-    /// \param meta_information Pointer the meta_information
+    /// \param MetaInformation Pointer the MetaInformation
     ///        of the component type.
     ////////////////////////////////////////////////////////////
-    smart_handle(T* object, 
+    SmartHandle(T* object, 
                  std::size_t generation, 
-                 meta_information* meta_info);
+                 MetaInformation* meta_info);
 
     ////////////////////////////////////////////////////////////
     /// \brief Gets the underlying pointer to the object.
