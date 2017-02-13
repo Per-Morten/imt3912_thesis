@@ -10,14 +10,14 @@ There will be several different versions of this case.
 
     \item\noindent\textit{Empty Actors}\\
 
-    \item\noindent\textit{Actors with an Empty Component}\\
+    \item\noindent\textit{Actors with a Trivial Component}\\
 
-    \item\noindent\textit{Actors with 10 Empty Components}\\
+    \item\noindent\textit{Actors with 10 Trivial Components}\\
 
 \end{itemize}
-In each case there will be 100000 actors spawned as fast as possible.
+In each case there will be a set number of actors spawned as fast as possible.
 The amount of time taken spawning the actors is recorded.
-
+The number of actors spawned per test will start at a given amount and increase with a given number per test.
 
 \subsubsection*{How the Test is Measured}
 The test is measured through timing how long it takes for all the actors to be spawned, along with various other metrics from several profilers.
