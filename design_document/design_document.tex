@@ -1,5 +1,7 @@
-\documentclass{article}
+\documentclass[hidelinks]{article}
 
+\usepackage{hyperref}
+\usepackage{cite}
 \usepackage{import}
 \import{../latex_utility/}{listing_cpp_syntax.tex}
 \import{../latex_utility/}{pt_commands.tex}
@@ -17,5 +19,9 @@
 \pagebreak
 
 \import{interface/}{interface_format.tex}
+
+\pagebreak
+\bibliographystyle{unsrt}
+\bibliography{design_document}
 
 \end{document}
