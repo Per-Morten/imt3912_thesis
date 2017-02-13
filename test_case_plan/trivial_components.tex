@@ -1,0 +1,12 @@
+\section{Trivial Components}
+Trivial components are mentioned to a large extent within this plan.
+A trivial component is in essence just a mock object.
+It will be a component that satisfies all requirements for a component, 
+but instead of doing actual game logic related tasks it will only do simple processing to mock regular logic.
+Examples of this can be a time specified busy wait within the update function.
+The trivial components will be the main bulk of the tests, 
+as we don't have the time to create proper components in the scale that some of the tests really need.
+The other rationale for this is to ensure that most of the time is spent within our code, and not within external libraries used by the components.
+In addition to these trivial components we will also be using some of the standard components to ensure that the rest of the engine partakes in the test. 
+For example having graphics components, and physics components.
+

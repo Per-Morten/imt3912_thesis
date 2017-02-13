@@ -1,0 +1,14 @@
+\subsection{Multi-threading Support}
+Show that the use of multi-threading in our implementation are actually giving a significant benefit in appropriate scenarios.
+
+\subsubsection*{How the Test is Performed}
+The setup for this is to create dummy components with busy waits inside their update functions, giving a consistent and reliable method to display that the multi-threaded system improves performance.
+However, it is not the most realistic scenario, but should be sufficient in showing off the gains from a multi-threaded system.
+
+The test will have a set number of actors, each with a collection of components, from the different multi-threading categories.
+The components has an update function with a busy wait that lasts for a given number of milliseconds.
+Each component will be run a set number of times.
+
+\subsubsection*{How the Test is Measured}
+The test case is successful if there is a significant boost in performance.
+There will be comparisons between the NOX Engines single threaded architecture, NOX ECS 2 run with a single thread, and NOX ECS 2 with multiple threads.

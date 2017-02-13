@@ -1,0 +1,44 @@
+\section{Testing Tools}
+To ensure the legitimacy of the tests all the test cases will be run with different tools on different platforms.
+
+\subsection{Compilers}
+The tests will be built with the three most common compilers. 
+\begin{itemize}
+
+    \item
+    MSVC
+    
+    \item
+    Clang
+
+    \item
+    GCC
+
+\end{itemize}
+
+
+\subsection{Profilers}
+The tests will be profiled with different profiling software based on what platform we are running on.
+
+\subsubsection{Windows}
+\ptparagraph{Visual Studio Profiler}
+The visual studio profiler is a general purpose profiler with support for both instrumentation and sampling methods.
+In this case the instrumentation functionality of the profiler will be used, to track statistics related to CPU Branch predictions, cache misses etc.
+
+\ptparagraph{Very Sleepy}
+Very Sleepy is a low overhead sampling profiler. 
+Very Sleepy will be used for its function timing functionality, allowing us to inspect exclusive and inclusive function times with an application.
+
+\subsubsection{Linux}
+\ptparagraph{Perf}
+Perf seems to be the "de facto" standard profiling tool on Linux, it uses a sampling based approach.
+It allows for easy access to data related to branch prediction, cache misses etc. 
+
+\ptparagraph{Callgrind}
+Callgrind is part of the Valgrind toolset, and is an instrumentation profiler. 
+In these tests it will mostly be used to recording inclusive and exclusive function times within the application.
+
+\subsubsection{Comparison}
+There are a limited number of multi platform profilers, meaning that comparing results between platforms might not be feasible.
+However the intention of the project was never to measure differences between Windows and Linux, but between the different ECS implementations. 
+For cross platform comparison we will use our own measurements of frame timing etc.

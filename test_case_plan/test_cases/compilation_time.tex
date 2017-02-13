@@ -1,0 +1,24 @@
+\subsection{Compilation Time}
+The compilation time should be kept as low as possible when building the engine.
+
+
+\subsubsection*{How the Test is Performed}
+There are a few ways to measure this.
+
+\begin{itemize}
+
+    \item \noindent\textit{Complete compilation}\\
+    There are occurrences where you would recompile your entire project, but they are rare.
+    However, they happen often enough that it is worth testing, but is not the test we value the most. This test should simply recompile the entire engine from scratch.
+
+    \item \noindent\textit{Partial compilation}\\
+    The more realistic case is when a small part of the engine is recompiled.
+    This most often occurs when a new component is added to the engine, so it is fit to test that scenario.
+    It also is easy to test by measuring the amount of time taken to compile by adding a new trivial component to the engine.
+    This is done when the engine was completely compiled beforehand, so only the addition of the new component affects the compilation time.
+
+\end{itemize}
+
+\subsubsection*{How the Test is Measured}
+Tested by timing the time it takes to compile the engine and the project. 
+Should also be measured using different compilers to ensure the results are consistent.

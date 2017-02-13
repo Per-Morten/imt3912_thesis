@@ -1,0 +1,19 @@
+\subsection{Thread Safe Logging System}
+Show that the logging system has the possibility to function in a multi-threaded environment without any issues.
+
+\subsubsection*{How the Test is Performed}
+The test is conducted by creating a actors with components that let them continuously send messages to the logging system over a set period. These messages will be sent from different threads to actually test the thread safety of the logging system.
+
+There will be a total of 1000 actors, each with their own messaging component.
+The component will send a message each 10 milliseconds.
+The message itself will contain the actors id that the logging system prints out to console.
+Testing will occur for a full minute, where 60 million messages have been sent and processed.
+The print will be printed in a format that allows it to be validated with the following regex: 
+"ID: [0-9]\{1,3\}\verb!\n!".
+The "ID: " will be printed first, then after a small waiting period the "[0-9]\{1,3\}\verb!\n!" will be printed.
+This waiting period should increase the chance of a race happening.
+
+\subsubsection*{How the Test is Measured}
+Successful if there aren't any crashes or errors over the set amount of time. 
+This does not guarantee that there is no issues with the logging system, but is a good indicator that everything is working at an acceptable level.
+The test will be validated by applying the regex onto the prints, any prints not captured by the regex implies a race condition, meaning an unsafe logging system.

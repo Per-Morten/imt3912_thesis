@@ -1,0 +1,28 @@
+\documentclass[hidelinks]{article}
+
+\usepackage{import}
+\usepackage{hyperref}
+
+% File used to store all keywords used accross the project plan.
+\newcommand{\ptparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\ptsubparagraph}[1]{\mbox{}\\\textbf{#1}\mbox{}\\}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE NOX ECS 2: Test Case Plan \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+
+
+\subimport{}{purpose.tex}
+\subimport{}{testing_tools.tex}
+\subimport{}{trivial_components.tex}
+\subimport{test_cases/}{test_cases_format.tex}
+
+\end{document}
