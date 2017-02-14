@@ -26,8 +26,8 @@ public:
     ///        of the component type.
     ////////////////////////////////////////////////////////////
     SmartHandle(T* object, 
-                 std::size_t generation, 
-                 MetaInformation* meta_info);
+                std::size_t generation, 
+                MetaInformation* meta_info);
 
     ////////////////////////////////////////////////////////////
     /// \brief Gets the underlying pointer to the object.
