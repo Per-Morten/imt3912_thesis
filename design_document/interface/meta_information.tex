@@ -4,5 +4,21 @@ The MetaInformation structure contains all needed information related to the dif
 This includes all the different operations that will be done on components within the ECS.
 The meta information is always the first structure that will be queried for operations, and is also used to identify collections of components.
 It also contains information on whether or not these components are interested in certain events. 
+
+\ptparagraph{Creating MetaInformation}
+The MetaInformation is required for the ECS to function properly, it is therefore important to set it up correctly.
+Several createMetaInformation functions will be available, to avoid the excessive use of boilerplate.
+
+\ptparagraph{Required Arguments}
+Most of the operation arguments within the MetaInformation are optionals, the exceptions are:
+\begin{itemize}
+    \item update
+    \item constructor
+    \item destructor
+\end{itemize}
+All other operation members can be nullptr. All the different operations can also be overloaded, 
+allowing for regular functions as well as member functions.
+The user is advised not to overload the constructors and destructors, unless it is really necessary.
+And in that case, look at how it is done originally within the createMetaInformation.
+
 \pttodo{Write about how the meta information will contain event interests}
-\pttodo{Write about which meta information arguments that are optional. All except: constructor, destructor, and OnUpdate. Constructor and Destructor are handled for the user inn all cases except the one where ALL parameters are specified. I.e. setting up own constructors and destructors is the last thing that the user must do if he wants full specialization, as that syntax is ugly and easy to get wrong.}
