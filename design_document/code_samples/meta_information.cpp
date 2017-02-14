@@ -116,8 +116,12 @@ struct MetaInformation
 /// \brief Various convenience create functions will be made,
 ///        to ensure that the user won't have to write much
 ///        boilerplate unless opt-ing out of a lot of stuff to
-///        improve performance.
+///        improve performance. 
+///        At the minimum the identifier is required.
+///
+/// \param identifier the identifier that should be used to
+///        identify this type.
 ////////////////////////////////////////////////////////////////
 template<class T>
 MetaInformation
-createMetaInformation(const T& value);
+createMetaInformation(TypeIdentifier identifier);
