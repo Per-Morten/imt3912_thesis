@@ -14,3 +14,12 @@ to ensure the correct step size when incrementing the pointers.
 \ptparagraph{SingularOperation}
 SingularOperations are simple pointers to functions that only take an IComponent* parameter.\\
 As with the RangedOperation, it is the function implementors responsibility to cast the parameter to the correct type.
+
+\ptparagraph{LogicEventOperation}
+LogicEventOperations are used when components must respond to types coming from the rest of the engine.\\
+Since interest of components are often registered on a component type basis,
+this function will be applied to the entire range of a component type.
+
+\ptparagraph{ActorEventOperation}
+The ActorEventOperation is a function that is called on inter component communication, i.e, 
+sibling or non sibling components send messages to each other.
