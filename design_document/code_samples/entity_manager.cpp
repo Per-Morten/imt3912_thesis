@@ -1,0 +1,166 @@
+class EntityManager 
+    : public nox::event::IListener
+{
+public:
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets up the entity manager in require fashion,
+    ///        does not preallocate space for component types.
+    ////////////////////////////////////////////////////////////
+    EntityManager() = default;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets up the entity manager in the 
+    ///        required fashion.
+    ///        Preallocates space for the component types.
+    ///
+    /// \param numberOfComponentTypes 
+    ///        The number of different component types 
+    ///        that will exist.
+    ////////////////////////////////////////////////////////////
+    EntityManager(std::size_t numberOfComponentTypes);
+
+    EntityManager(const EntityManager&) = delete;
+    EntityManager& operator=(const EntityManager&) = delete;
+    EntityManager(EntityManager&&) = delete;
+    EntityManager& operator=(EntityManager&&) = delete;
+    ~EntityManager();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Registers a component and meta information, 
+    ///        basically telling the entity manager 
+    ///        that this is a type of component that
+    ///        can be created.
+    ///
+    /// \param metaInformation the extra information 
+    ///        needed to process the component.
+    ///
+    /// \see MetaInformation.
+    ////////////////////////////////////////////////////////////
+    void 
+    registerComponent(const MetaInformation& metaInformation);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets up the entity manager, 
+    ///        sorting the different 
+    ///        components based on their thread access data etc.
+    /// 
+    /// \warning Must be run after register components!
+    ////////////////////////////////////////////////////////////
+    void
+    configureComponents();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Creates a new entity, 
+    ///        does no allocation or creates any components, 
+    ///        it just creates a new id.
+    ///        This id can again be used to 
+    ///        assign components to.
+    ///
+    /// \return The id of the newly created entity.
+    ////////////////////////////////////////////////////////////
+    EntityId
+    createEntity();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Creates a new entity with the components 
+    ///        from the given json object.
+    ///
+    /// \return The id of the newly created entity.
+    ////////////////////////////////////////////////////////////
+    EntityId
+    createEntity(const Json::Value& value);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Assigns a component to the given entity.
+    ///
+    /// \param id the entity to assign the component to.
+    /// \param identifier of the type that will be added.
+    ///
+    /// \return Handle to the newly created component.
+    ////////////////////////////////////////////////////////////
+    SmartHandle<IComponent>
+    assignComponent(const EntityId& id,
+                    const TypeIdentifier& identifier);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Gets a handle to the specified components 
+    ///        belonging to the specified entity.
+    ///
+    /// \param id the id of the entity owning the component.
+    /// \param identifier the identifier of the component 
+    ///        type to get.
+    ///
+    /// \return Handle to the specified component.
+    ///
+    /// \see SmartHandle
+    ////////////////////////////////////////////////////////////
+    SmartHandle<IComponent>
+    getComponent(const EntityId& id,
+                 const TypeIdentifier& identifier);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Removes the component specified by the
+    ///        identifier and id.
+    ///
+    /// \param id the id of the entity that the component 
+    ///        belongs to.
+    /// \param identifier the type identifier of the component.
+    ///
+    /// \warning This will destroy the component.
+    ////////////////////////////////////////////////////////////
+    void
+    removeComponent(const EntityId& id,
+                    const TypeIdentifier& identifier);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Removes all the components of the entity
+    ///        specified by the id.
+    ///
+    /// \warning This will destroy all components that belongs
+    ///          to the entities.
+    ////////////////////////////////////////////////////////////
+    void
+    removeEntity(const EntityId& id);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Starts the update loop, running through 
+    ///        the different stages of the batched updates.
+    ///        This includes running onEvents and 
+    ///        onActorEvents onto the components.
+    /// 
+    /// \param deltaTime time since last update.
+    ////////////////////////////////////////////////////////////
+    void
+    updateAll(const nox::Duration& deltaTime);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Broadcasts a given event to an entity.
+    ///
+    /// \param id the id of entity that will receive the 
+    ///        event.
+    /// \param event the event to broadcast.
+    ////////////////////////////////////////////////////////////
+    void
+    broadcastEntityEvent(const EntityId& id,
+                         const EntityEvent event);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Returns the logic context of EntityManager.
+    ////////////////////////////////////////////////////////////
+    nox::logic::IContext*
+    getLogicContext();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Used to interact with the other parts of the
+    ///        engine that uses events. 
+    ///        i.e. These are not actor events.
+    ///
+    /// THIS IS NOT USED OTHER THAN IN KIN-KOU, 
+    ///        it might not be needed!
+    /// It is needed to receive events from the other parts
+    /// of the system, so that the entities are not listeners.
+    /// Them being listeners would not allow us to resort them.
+    ////////////////////////////////////////////////////////////
+    virtual void 
+    onEvent(const std::shared_ptr<event::Event>& event) override;
+};
