@@ -1,8 +1,12 @@
 \subsection{OperationTypes}
-\lstinputlisting[language=cpp, caption=OperationTypes.cpp]{../code_samples/operation_types.cpp}
+Interface: Figure~\ref{lst:operation_types}\\\noindent
 "Replacing" virtual functions are OperationTypes.
 OperationTypes are just function pointers, that accepts IComponents as arguments.
-There are two operation types, RangedOperation and SingleOperation.
+Using function pointers instead of virtual functions allows us to loose
+the vtable variable that is silently introduced into each instance,
+it should also help with cache usage, as we always do the same operation on a range of types.
+It also allows us to do certain "opt-in" type safety features,
+like wrapping lambdas around operations and casting to the correct type before calling specified functions.
 
 \ptparagraph{RangedOperation}
 RangedOperations are given a range of objects to work on, "first" and "last".
@@ -23,3 +27,6 @@ this function will be applied to the entire range of a component type.
 \ptparagraph{ActorEventOperation}
 The ActorEventOperation is a function that is called on inter component communication, i.e, 
 sibling or non sibling components send messages to each other.
+
+\ptparagraph{InitializationOperation}
+The initializationOperation is used for initializing components with a json value.

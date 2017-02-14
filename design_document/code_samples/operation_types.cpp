@@ -1,4 +1,5 @@
 using LogicEvent = std::shared_ptr<nox::logic::event::Event>;
+using JsonValue = Json::Value;
 
 ////////////////////////////////////////////////////////////////
 /// \brief Function applied to a range of elements,
@@ -23,6 +24,19 @@ using RangedOperation = void(*)(IComponent* first,
 ///          correct type.
 ////////////////////////////////////////////////////////////////
 using SingleOperation = void(*)(IComponent* component);
+
+////////////////////////////////////////////////////////////////
+/// \brief Function used for initializing data with a json
+///        value.
+///
+/// \param component the component to initialize.
+/// \param value the json object containing the definition.
+///
+/// \return True if initialization functioned properly, false
+///         otherwise.
+////////////////////////////////////////////////////////////////
+using InitializationOperation = bool(*)(IComponent* component,
+                                        const JsonValue& value);
 
 ////////////////////////////////////////////////////////////////
 /// \brief Function to be called on events coming from the 
