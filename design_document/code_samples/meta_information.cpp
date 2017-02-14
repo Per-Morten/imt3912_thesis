@@ -32,6 +32,15 @@ struct MetaInformation
     ///         Should not be overloaded in most cases.
     ////////////////////////////////////////////////////////////
     SingleOperation destructor;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Used for initializing the component with a json
+    ///        object.
+    ///
+    /// \detail After an object has been constructed, 
+    ///         but before it is awakened.
+    ////////////////////////////////////////////////////////////
+    InitializationOperation initialize;
     
     ////////////////////////////////////////////////////////////
     /// \brief Called on a newly created object.
@@ -102,3 +111,13 @@ struct MetaInformation
     ////////////////////////////////////////////////////////////
     DataAccess onActorEventDataAccess;
 };
+
+////////////////////////////////////////////////////////////////
+/// \brief Various convenience create functions will be made,
+///        to ensure that the user won't have to write much
+///        boilerplate unless opt-ing out of a lot of stuff to
+///        improve performance.
+////////////////////////////////////////////////////////////////
+template<class T>
+MetaInformation
+createMetaInformation(const T& value);

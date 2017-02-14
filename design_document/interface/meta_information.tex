@@ -1,7 +1,8 @@
 \subsection{MetaInformation}
-\lstinputlisting[language=cpp, caption=MetaInformation.cpp]{../code_samples/meta_information.cpp}
+Interface: Figure~\ref{lst:meta_information}\\\noindent
 The MetaInformation structure contains all needed information related to the different components within the system.
 This includes all the different operations that will be done on components within the ECS.
 The meta information is always the first structure that will be queried for operations, and is also used to identify collections of components.
-It also contains information on whether or not these components are interested in certain events.
+It also contains information on whether or not these components are interested in certain events. 
 \pttodo{Write about how the meta information will contain event interests}
+\pttodo{Write about which meta information arguments that are optional. All except: constructor, destructor, and OnUpdate. Constructor and Destructor are handled for the user inn all cases except the one where ALL parameters are specified. I.e. setting up own constructors and destructors is the last thing that the user must do if he wants full specialization, as that syntax is ugly and easy to get wrong.}
