@@ -117,7 +117,7 @@ public:
     ///        specified by the id.
     ///
     /// \warning This will destroy all components that belongs
-    ///          to the entities.
+    ///          to the entity.
     ////////////////////////////////////////////////////////////
     void
     removeEntity(const EntityId& id);
@@ -134,6 +134,30 @@ public:
     updateAll(const nox::Duration& deltaTime);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Applies a function to an entire range,
+    ///        this function is not intended for things like
+    ///        update, but rather for sorting functionality, 
+    ///        etc.
+    ///
+    /// \param identifier the identifier of the type to do the
+    ///                   operation on.
+    ///
+    /// \param rangedOperation the operation to carry out on 
+    ///                        said type.
+    ///
+    /// \warning This function will invalidate all handles,
+    ///          even if no positions are changed!
+    ///
+    /// \warning It is the callers responsibility to cast the
+    ///          parameters to rangedOperation to correct type,
+    ///          casting to incorrect type probably introduce
+    ///          bugs!
+    ////////////////////////////////////////////////////////////
+    void
+    applyToAll(const TypeIdentifier& identifier,
+               RangedOperation rangedOperation);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Broadcasts a given event to an entity.
     ///
     /// \param id the id of entity that will receive the 
@@ -142,7 +166,7 @@ public:
     ////////////////////////////////////////////////////////////
     void
     broadcastEntityEvent(const EntityId& id,
-                         const EntityEvent event);
+                         EntityEvent event);
 
     ////////////////////////////////////////////////////////////
     /// \brief Returns the logic context of EntityManager.
@@ -154,12 +178,6 @@ public:
     /// \brief Used to interact with the other parts of the
     ///        engine that uses events. 
     ///        i.e. These are not actor events.
-    ///
-    /// THIS IS NOT USED OTHER THAN IN KIN-KOU, 
-    ///        it might not be needed!
-    /// It is needed to receive events from the other parts
-    /// of the system, so that the entities are not listeners.
-    /// Them being listeners would not allow us to resort them.
     ////////////////////////////////////////////////////////////
     virtual void 
     onEvent(const std::shared_ptr<event::Event>& event) override;
