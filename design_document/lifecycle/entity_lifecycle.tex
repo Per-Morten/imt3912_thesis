@@ -1,0 +1,39 @@
+\subsection{Entity Lifecycle}
+The entity life cycle follows the original nox lifecycle,
+however to clear up some misunderstandings this document contains a deeper explanation of how the lifecycle will function within the new ECS.
+Below are the following states than a "component" can be in, and how it transitions between states.\\
+All the transitions are async, i.e. a component that is requested to be deactivate is not deactivated until the end of the current frame.
+However going through more than one state still only happens in one "step".
+i.e. Going from raw memory-to-active is done in one frame, not three, same with active-to-raw memory.
+
+\ptparagraph{Raw Memory}
+Just like everything else, a component starts out as raw memory. 
+The reason we include this state is to clear up any confusion with the existing nox engine's destroy transition. 
+The transition from Raw Memory to a hibernation state is done through the constructor of the object. The creation of the component is then done through the assingComponent function in the EntityManager.
+
+There is an optional step between the constructor and going into hibernation, and that is initialization, which can be requested when assigning a component.
+
+\ptparagraph{Hibernating}
+In the hibernating state, the object only holds its own variables in place, and is not part of the update loop.
+
+The hibernation stage is supposed to be for long term inactivity.
+It is sort of like after an onStop has been run within the Android Lifecycle. i.e. The object can still be rebuilt, but it has let go of most of its resources.
+
+Going from hibernation to inactive is done through the Awaken transition.\\
+Going from hibernation to raw memory is done calling the removeComponent or removeEntity function from the EntityManager, 
+which will run the destructor of the component.
+
+\ptparagraph{Inactive}
+The inactive state is for short term inactivity, most resources should still be kept within the component, 
+as reactivating it should be a lightweight transition.
+The component's update function is still not part of the overall update loop.
+
+Going from Inactive to Active is done with the Activate transition.\\
+Going from Inactive to hibernation is done with the Hibernate transition
+
+\ptparagraph{Active}
+When the component is active, its update function is run as normal.
+
+Going from active to inactive is done with the deactivate transition.
+
+Whether or not a component shall receive events outside of its update functions is decided when the component is registered.

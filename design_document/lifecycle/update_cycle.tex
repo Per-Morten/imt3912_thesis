@@ -1,0 +1,44 @@
+\subsection{Update Cycle}
+The update cycle goes through several different steps. The following section elaborates a bit on those steps. The steps are executed in the following sequence.
+\begin{enumerate}
+    \item Update
+    \item Distribute Component Events
+    \item Distribute Logic Events
+    \item Deactivate Requested Components
+    \item Hibernate Requested Components
+    \item Remove Requested Components
+    \item Create Requested Components
+    \item Awake Requested Components
+    \item Activate Requested Components
+\end{enumerate}
+
+\ptparagraph{Update}
+The update step is the first one that will be run. In this step, the EntityManager will loop through each component, 
+and call the update function specified by that component type's MetaInformation.
+The order in which components are updated is unspecified. So the users cannot rely on any ordering of the update functions.
+
+\ptparagraph{Distribute Component Events}
+After the update loop has been run the EntityManager starts distributing the different component events that has been queued during the update function.
+
+\ptparagraph{Distribute of Logic Events}
+After the distribution of the component events is finished, 
+the EntityManager will move over to distributing the logic events that has come from other parts of the nox engine.
+
+\ptparagraph{Deactivate Requested Components}
+If any components are requested to be deactivated, the EntityManager will go through them and call their respective deactivate function.
+
+\ptparagraph{Hibernate Requested Components}
+If any components are requested to go into hibernation state, the EntityManager will go through them and call their respective hibernate function.
+
+\ptparagraph{Remove Requested Components}
+Any components that is requested to be removed will have their destructor called in this phase.
+
+\ptparagraph{Create Requested Components}
+Any creation of components will happen during this phase. This includes both running constructors, and running initialization if that is requested.
+One of the reason for doing this after having removed components is so we can potentially reuse some of the memory that was just freed.
+
+\ptparagraph{Awake Requested Components}
+Any components that has been requested to awake will have their awake function called in this phase.
+
+\ptparagraph{Activate Requested Components}
+Any Components that has been requested to be activated will have their activate function called in this phase.
