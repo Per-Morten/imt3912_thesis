@@ -6,5 +6,5 @@ struct IComponent
     ///        All components belonging to the same actor,
     ///        shares the same ID.
     ////////////////////////////////////////////////////////////
-    EntityID entityID;
+    EntityId entityId;
 };

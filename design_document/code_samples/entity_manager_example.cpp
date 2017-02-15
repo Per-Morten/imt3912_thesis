@@ -8,7 +8,7 @@ int main()
     e.registerComponent(createMetaInformation<C2>("C2"));
     e.configureComponents();
 
-    EntityID eID = e.createEntity();
+    EntityId eID = e.createEntity();
 
     // A feature we want to get in place is implicit conversion,
     // within the smart handles, so that this is possible,
@@ -17,7 +17,7 @@ int main()
     c1Component->someFunction();
 
     // Create a component of type 2 and assign it to the entity
-    // with EntityID eID.
+    // with EntityId eID.
     e.assignComponent(eID, "C2");
 
     // Erasing a component
