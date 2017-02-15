@@ -1,4 +1,5 @@
 \documentclass[hidelinks]{article}
+\setlength\parindent{0pt}
 
 \usepackage{hyperref}
 \usepackage{cite}
@@ -19,10 +20,13 @@
 \pagebreak
 
 \pttodo{\section{Ensure that all refs to actors are renamed to entities!}}
+\pttodo{\section{Ensure that we are consistent on EntityID vs EntityId}}
 \section{Disclaimer}
 This document is meant as an internal design document,
 the interfaces presented in here are guidelines, and features might be added or removed.
 Check the actual documentation within the library for proper documentation.
+Some functions from the interfaces have also been omitted, to keep the document small. 
+These include overloads on parameter types, all of the createMetaInformation convenience functions etc.
 
 \import{interface/}{interface_format.tex}
 
