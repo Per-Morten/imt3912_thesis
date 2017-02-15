@@ -98,18 +98,18 @@ struct MetaInformation
     DataAccess onLogicEventDataAccess;
 
     ////////////////////////////////////////////////////////////
-    /// \brief This function is called on components when an
-    ///        ActorEvent targeted them occurs.
+    /// \brief This function is called on components when a
+    ///        ComponentEvent targeting them occurs.
     ///        This is with the "new" 
     ////////////////////////////////////////////////////////////
-    RangedOperation onActorEvent;
+    RangedOperation onComponentEvent;
 
     ////////////////////////////////////////////////////////////
-    /// \brief What sort of data access does the onActorEvent
-    ///        function do.
+    /// \brief What sort of data access does the
+    ///        onComponentEvent function do.
     ///        See multi-threading section.
     ////////////////////////////////////////////////////////////
-    DataAccess onActorEventDataAccess;
+    DataAccess onComponentEventDataAccess;
 
     ////////////////////////////////////////////////////////////
     /// \brief Used to store what sort of events from other

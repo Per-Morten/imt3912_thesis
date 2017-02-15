@@ -126,7 +126,7 @@ public:
     /// \brief Starts the update loop, running through 
     ///        the different stages of the batched updates.
     ///        This includes running onEvents and 
-    ///        onActorEvents onto the components.
+    ///        onComponentEvent onto the components.
     /// 
     /// \param deltaTime time since last update.
     ////////////////////////////////////////////////////////////
@@ -165,8 +165,8 @@ public:
     /// \param event the event to broadcast.
     ////////////////////////////////////////////////////////////
     void
-    broadcastEntityEvent(const EntityId& id,
-                         EntityEvent event);
+    broadcastComponentEvent(const EntityId& id,
+                            const ComponentEvent* event);
 
     ////////////////////////////////////////////////////////////
     /// \brief Returns the logic context of EntityManager.
@@ -177,7 +177,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Used to interact with the other parts of the
     ///        engine that uses events. 
-    ///        i.e. These are not actor events.
+    ///        i.e. These are not entity events.
     ////////////////////////////////////////////////////////////
     virtual void 
     onEvent(const std::shared_ptr<event::Event>& event) override;

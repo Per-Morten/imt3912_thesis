@@ -64,5 +64,5 @@ using LogicEventOperation = void(*)(IComponent* first,
 /// \warning It is the implementors responsibility to cast to
 ///          correct type.
 ////////////////////////////////////////////////////////////////
-using ActorEventOperation = void(*)(IComponent* component,
-                                    const ActorEvent* event); 
+using ComponentEventOperation = void(*)(IComponent* component,
+                                        const ComponentEvent* event); 
