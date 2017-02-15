@@ -1,0 +1,38 @@
+\documentclass[hidelinks]{article}
+\setlength\parindent{0pt}
+
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{import}
+\import{../latex_utility/}{listing_cpp_syntax.tex}
+\import{../latex_utility/}{pt_commands.tex}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE NOX ECS 2: Design Document \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+
+\section{Disclaimer}
+This document is meant as an internal design document,
+the interfaces presented in here are guidelines, and features might be added or removed.
+Check the actual documentation within the library for proper documentation.
+Some functions from the interfaces have also been omitted, to keep the document small. 
+These include overloads on parameter types, all of the createMetaInformation convenience functions etc.
+
+\import{interface/}{interface_format.tex}
+
+\pagebreak
+\bibliographystyle{unsrt}
+\bibliography{design_document}
+
+\pagebreak
+\import{code_samples/}{code_samples_format.tex}
+
+\end{document}

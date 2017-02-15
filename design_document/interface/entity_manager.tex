@@ -1,0 +1,13 @@
+\subsection{EntityManager}
+Interface: Figure~\ref{lst:entity_manager}\\\noindent
+The EntityManager is at the heart of the new entity system.
+It can be seen as a merge between the old world and actor classes.
+
+The EntityManager is also the main entry point for working with the new ECS,
+as it gives access to creation of entities, updating of entities, access to components as well as access to the internal entity event system.
+
+Some boilerplate are still required to get the EntityManager up and going, 
+just like that last system, all components needs to be registered before they can be created.
+In addition the EntityManager needs to be configured before updates can happen.
+
+An example can be seen in figure~\ref{lst:entity_manager_example}.\\

@@ -1,0 +1,12 @@
+\subsection{SmartHandle}
+Interface: Figure~\ref{lst:smart_handle}\\\noindent
+A smart handle is a simple wrapper for an non owning pointer to a component, with the dereferencing semantics of std::unique\_ptr. 
+A smart handle allows for simple "caching" of a component reference.
+The smart handle is created with the pointer to an object, 
+and the "generation" when the reference was captured. 
+When a handle is dereferenced the generation of the handle is checked against the current generation of the components MetaInformation. 
+If the current generation is newer than the one contained within the handle, 
+the handle will query the EntityManager for an up-to-date reference.
+If an up-to-date reference can't be found, 
+the handle will return a nullptr, meaning that the component is destroyed.
+The concept of generations was inspired by Reinalter\cite{molecular_musings_internal_references}.

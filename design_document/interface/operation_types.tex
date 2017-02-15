@@ -1,0 +1,32 @@
+\subsection{OperationTypes}
+Interface: Figure~\ref{lst:operation_types}\\\noindent
+"Replacing" virtual functions are OperationTypes.
+OperationTypes are just function pointers, that accepts IComponents as arguments.
+Using function pointers instead of virtual functions allows us to loose
+the vtable variable that is silently introduced into each instance,
+it should also help with cache usage, as we always do the same operation on a range of types.
+It also allows us to do certain "opt-in" type safety features,
+like wrapping lambdas around operations and casting to the correct type before calling specified functions.
+
+\ptparagraph{RangedOperation}
+RangedOperations are given a range of objects to work on, "first" and "last".
+This is functions identical to the iterator based approach of the STL library.\\
+The "first" parameter points to the first element in the range, while the "last" parameter points to a past-the-end element of the range.\\
+It is the responsibility of the function implementor to cast these pointers to the correct type, 
+to ensure the correct step size when incrementing the pointers.
+
+\ptparagraph{SingularOperation}
+SingularOperations are simple pointers to functions that only take an IComponent* parameter.\\
+As with the RangedOperation, it is the function implementors responsibility to cast the parameter to the correct type.
+
+\ptparagraph{LogicEventOperation}
+LogicEventOperations are used when components must respond to types coming from the rest of the engine.\\
+Since interest of components are often registered on a component type basis,
+this function will be applied to the entire range of a component type.
+
+\ptparagraph{ComponentEventOperation}
+The ComponentEventOperation is a function that is called on inter component communication, i.e, 
+sibling or non sibling components send messages to each other.
+
+\ptparagraph{InitializationOperation}
+The initializationOperation is used for initializing components with a json value.
