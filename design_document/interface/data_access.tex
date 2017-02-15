@@ -1,0 +1,23 @@
+\subsection{DataAccess}
+Interface: Figure~\ref{lst:data_access}\\\noindent
+The data access enum is used to identify what sort of data access an operation does with an outside system,
+identifying which operations that can be run in parallel and which ones cannot.
+It contains three values that give off different indications.
+If another value than READ\_MODIFY\_WRITE is given, it is the users responsibility to ensure that that sort of DataAccess is followed.
+
+\textbf{Note:} The DataAccess only regards interaction with external non thread-safe systems.
+If an operation only interacts with systems that have some thread protection, it can be labeled as INDEPENDENT.
+
+\ptparagraph{INDEPENDENT}
+INDEPENDENT means that the operation is entirely thread safe, it does not interact with any non thread-safe functionality outside of its own modification.
+
+\ptparagraph{READ\_COMPONENT}
+This operation will involve reading from another component, that is not thread-safe.
+
+\textbf{Note:} In this case, the TypeIdentifiers of the components that shall be read must be listed, so the ECS can figure out which sequence to run the operations in.
+
+\ptparagraph{READ\_MODIFY\_WRITE}
+This value signifies a "hands-off" approach within the ECS,
+operations marked with READ\_MODIFY\_WRITE will always run in a single-threaded environment.
+
+\textbf{Note:} To avoid accidentally introduced race conditions, this is the assumed behavior unless another DataAccess value is specified.
