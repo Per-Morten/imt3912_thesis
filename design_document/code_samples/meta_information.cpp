@@ -116,7 +116,21 @@ struct MetaInformation
     ///        parts of the nox engine that this component
     ///        should receive.
     ////////////////////////////////////////////////////////////
-    std::vector<nox::event::Event::IdType> interestingEvents;
+    std::vector<nox::event::Event::IdType> interestingLogicEvents;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief In what state will this component start to
+    ///        receive logic events?
+    ///        Defaults to ACTIVE
+    ////////////////////////////////////////////////////////////
+    State stateToReceiveLogicEvents;
+
+    ////////////////////////////////////////////////////////////
+    /// \brief In what state will this component start to
+    ///        receive component events?
+    ///        Defaults to ACTIVE
+    ////////////////////////////////////////////////////////////
+    State stateToreceiveComponentEvents;
 };
 
 ////////////////////////////////////////////////////////////////
