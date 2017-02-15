@@ -169,6 +169,20 @@ public:
                             const ComponentEvent* event);
 
     ////////////////////////////////////////////////////////////
+    /// \brief Sends an event to a specified component
+    ///        belonging to an entity.
+    ///
+    /// \param id the id of the entity that will receive the
+    ///        event.
+    /// \param identifier the receiver component type.
+    /// \param event the event to send.
+    ////////////////////////////////////////////////////////////
+    void
+    sendComponentEvent(const EntityId& id,
+                       const TypeIdentifier& identifier,
+                       const ComponentEvent* event);
+
+    ////////////////////////////////////////////////////////////
     /// \brief Returns the logic context of EntityManager.
     ////////////////////////////////////////////////////////////
     nox::logic::IContext*
