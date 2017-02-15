@@ -10,7 +10,7 @@ enum class DataAccess
     INDEPENDENT,
 
     // Function reads from other components/systems.
-    READ,
+    READ_COMPONENT,
 
     // Function reads and changes other components/systems.
     // That are NOT thread safe.
