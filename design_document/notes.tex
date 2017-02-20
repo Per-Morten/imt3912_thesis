@@ -1,0 +1,159 @@
+
+\subsection{Entity Manager}
+\lstinputlisting[language=cpp, caption=entity\_manager.cpp]{../code_samples/entity_manager.cpp}
+    \subsubsection{How do we organize caching of read dependencies?, yes, maybe}
+    \subsubsection{We do not have to deal with order dependencies. No}
+    \subsubsection{How do we deal with components deactivating?, just swap with the back and increment generation?}
+        \subsubsection{Maybe we then need individual generations per component "space", not per type}
+
+\subsection{Standard Components}
+    \subsubsection{Child Component}
+    \subsubsection{Parent Component?}
+
+\subsection{Actor Events}
+    \subsubsection{Children being attached can be events}
+    \subsubsection{Components being attached can be events?}
+
+\subsection{Factory}
+
+\subsection{}
+
+In EntityMananger allow all steps to be called from the outside.
+
+Write more on OperationTypes
+
+    // Lifecycle:                                   States:
+    //                                              Raw memory 
+    // constructor -> (optionally initialize) ->    Hibernate 
+    // onAwake ->                                   Inactive
+    // onActivate ->                                Simulated
+    // onDeactivate ->                              Inactive
+    // onHibernate ->                               Hibernate
+    // destructor ->                                Raw memory
+
+    // State changes are async and are requested through the ECS.
+    // Activation, Deactivation are async
+
+Magnus - PMS log on actor system:
+Du, slik jeg forstod event systemet deres, så var det ikke noen crossover mellom actor events og vanlige events?
+Altså, actors og components hører kun på actor events right? Eller hører de på engine events også?
+
+Hovedsaklig actor events, men det er ingenting som hindrer dem i å lytte på andre events. Mulig det i praksis bare er actor events.
+Aight. Men sender dere andre ting enn actor events ut av components?
+
+SceneNodeEvent f.eks.
+Så ja.
+Men det ligger i application laget right, så de vet ikke noe om actors og components?
+
+Nei, logic. Men selve eventsa bryr seg ikke om actors.
+Vel, actor eventsa bryr seg om actors, men det gjør ikke "component" eventsa?
+jeg mener application eventsa.
+Bare prøver å finne ut hvordan man kan interface mot dette her når vi effektivt ikke har noen actor 😛
+
+Altså. Det finnes ikke application events. Events er bare i logic. Actor events bryr seg så klart om actors, men andre events gjør det ikke. Tror ikke det eksisterer events som ikke er actor events som har noe direkte med actors å  gjøre. Spørs hva du mener med "actor events" og "component events".
+Ah right, jeg som har missforstått litt da.
+Greit, da er det muligheter for at det blir et større skille mellom actor events og vanlige events i systemet vårt 😛
+Det burde gå fint, så lenge components også kan sende ut vanlige events, og motta events fra andre systemer retta spesifikt mot dem.
+Jaja, det skal vi klare å få på plass på et eller annet vis 😛
+Hehe, good 😀
+
+Det andre jeg da lurer på er
+Jeg ser at det virker som om dere queuer events i actor systemet også sånn i world.
+Er det da events til andre komponenter, og når queuer dere fremfor direkte funksjonskall?
+
+Jupp, slike events blir sendt til alle components under actoren.
+Tror de sendes direkte da, altså ingen queue. Om du ser på Actor::broadcastComponentEvent, tror jeg
+Vi bruker events fremfor funksjonskall når vi ikke vil lage sterke knytninger mellom comonents. Slik at du f.eks. kan ha en mer generell hendelse som kan håndteres på ulike måter basert på hvilke components den har.
+Men, actors gjør det direkte funksjonskallet for deg right?
+for deg mener jeg. I allefall slik som jeg ser det nå.
+Ja, stemmer.
+
+Men, det er ikke noen order dependencies når dere gjør event handlingen, og det er ingenting i veien for at den er async?
+
+Er usikker på det. Men om det er order dependencies så vil jeg tro koden kan skrives om.
+Det er sånn jeg tolker det fordi dere bruker jo unordered map, så dere har jo ingen garantier.
+
+Men det er bare for å hente components. Updaten og broadcastinga f.eks. skjer med en vector. Men det er heller ingen garanti for hvilken rekkefølge actors ligger der.
+Alright, så annet enn med child-actors så er det egentlig ikke noen order dependencies i update loops? I allefall ikke harde?
+
+Nope.
+Slik jeg forstår motoren deres, så lar dere også hver eneste oppdatering gjøre seg helt ferdig right? Det er ikke sånn at dere stopper med å prosessere events fordi dere starter å få dårlig tid eller noe liksom?
+
+Nei, stemmer.
+Awesome, du har akkurat gjort min jobb litt lettere 😛, tror jeg.
+
+Er det normalt at componenter sender beskjeder til andre komponenter som ikke tilhører samme actor?
+Og, har dere da en sånn mottaker id?
+14:54
+
+Ikke særlig normalt, men mulig at vi har gjort det. Kommer ikke på noen tilfeller.
+Ingen konkret mottaker ID, men Actor* som sendes med indentifiserer ofte hvem som skal motta den.
+Aight, men ikke noen måte å indikere sender?
+
+Må lage en ny event klasse som arver og har en ekstra peker eller ID. Har gjort det noen ganger for spesifike events.
+I spillkode.
+Ah, alright.
+Hva exakt er det dere bruker OnDestroy til? Brukes det fremfor en destructor, eller er det noen ganger dere ønsker å "destroye" et objekt uten å deallocatere det minnet?
+
+Det siste. Det er en state hvor Actoren og staten dens holdes i minnet, men på en måte kobles ut fra verden. Den kan så lages om igjen med samme staten. I motsetning så er inactive Actors fortsatt en del av verden, så de har f.eks. koblinger til andre Actors, lydsystem, grafikk, etc.
+Så, disabled actors får fortsatt updaten sin kjør eller?
+
+Nei, de har koblinger men er fryst.
+Så de kan motta events for å bli reaktivert liksom?
+
+Kan det, men vi fjerner ofte listeners når de deaktiveres. Det er ikke nødvendig da.
+Så hva er da egentlig forskjell på en destroyed component og en inactive component? Virker litt vagt?
+
+Sett fra enginen sin side: ingentig. Det spørs helt hvordan du implementerer funksjonene i componentsa. Poenget er at activate/deactivate er mye lettere transitions enn create/destroy, så om de ikke skal være inaktive lenge, så bør de bare deaktiveres, men om de skal være inaktive lenge så kan de destroyes for å spare minne og noe CPU. F.eks. så vil en inaktiv ActorPhysics ha en Box2D body, men som er insktiv. Om den er destroyed så fjernes hele Box2D bodien.
+
+Lurer også på om destroyed Actors fjernes fra update vectoren. Usikker.
+Hmm, jeg får litt inntrykk av at den faktisk blir fjernet effektivt sånn egentlig?
+Eller tar jeg feil?
+Men ok, så en destroyed actor er egentlig bare en actor som er inaktiv over lengre tid?
+
+Den sletter de ikke, så verdiene til variablene bevares.
+Så hvordan går dere da frem for å faktisk slette en component?
+
+Den kan slettes etter destroy på vanlig måte. Altså unique_ptr'en fjernes.
+Men, når dere destroyer en component, så kan den bringes tilbake til live igjen, med alle variablene den hadde.
+
+Ja, navna forvirrer kanskje. Destroy og sletting er forskjellig ting. Når en Actor er destroyed, så  er den i minnet fortsatt. Så kan den slettes fra minnet. Destroyed er det samme før created. Altså når du lager en Actor med en unique_ptr så er den destroyed. Så kjører du create for å create den. Det er nesten likt som i Android med onCreate og onDestroy. Den kan fortsatt være i minnet selv om den er destroyed.
+
+"det samme som før created"*
+Alright, så det burde kanskje heller vært beskrevet på følgende måte: 
+Rått minne -> OnCreate -> OnActivate -> OnDeactivate -> Hibernate -> Rått minne
+Eller, det kan beskrives på følgende måte*
+
+Ja, men hibernate burde være onDestroy (slik det er nå), eller så burde onCreate være onWake elns..
+Den er grei, da henger jeg med.
+Men, dersom du ønsker å slette noe (ikke bare destroy, men slette), så må du fortsatt si ifra til world da?
+
+Ja.
+Er en funksjon der du må kalle. Husker ikke navnet.
+Alright, men da er det fortsatt manuell memory management å fjerne components som er destroyed, det jeg lurte på 🙂
+"manuell"
+
+Ja.
+Alright, awesome, dere ønsker fortsatt å ha den lifssyklusen?
+
+Jeg tror det er lurt, eller har du andre meninger?
+Dersom dere ikke har noen spesielle ønsker så beholder vi den bare, ville bare ha litt klarhet i logikken 🙂
+Nei, er ikke noe galt med den, var bare dersom dere hadde noen andre tanker kunne vi sikkert tittet litt rundt.
+
+OK, cool.
+Bra vi fikk klarhet 😛
+Men, alt av aktivering og deaktivering og destroying etc, det skjer async? Potensielt også gjennom events?
+
+Nei, det skjer direkte gjennom funksjonskall.
+Kan det skje async gjennom events?
+:P
+
+Tja, om en component deaktiverer en Actor i et event callback. Det er ingen events som spesifikt deaktiverer en Actor.
+Fordi ja, currently så ser det faktisk ut som at actors egentlig ikke kommer til å eksistere, kun components som deler id.
+Men, grunnen til at jeg lurer på om det kan gjøres async, er at det vil gjøre det ganske mye lettere å parallelisere og batche updates.
+
+Fordi ja, currently så ser det faktisk ut som at actors egentlig ikke kommer til å eksistere, kun components som deler id.
+Men, grunnen til at jeg lurer på om det kan gjøres async, er at det vil gjøre det ganske mye lettere å parallelisere og batche updates.
+
+Det burde gå fint. Ser ikke noe problem.
+Alright nice. Da starter faktisk mange av de forskjellige brikkene å falle på plass tror jeg.
