@@ -1,0 +1,26 @@
+\section{Multi-threading}
+\subsection{Update}
+The main part of the ECS that is going to be multi-threaded is the EntityManager step functions.
+The strategy of the threading implementation will be a fork-and-join\cite{wikipedia_fork_and_join}, 
+where the different Operations that are run on components will be run in parallel based on their DataAccess value.
+
+\subsection{User Responsibilities}
+The new ECS is as much as possible an opt-out system. By default the system should always assume "the worst" and go for the least performing but safest methods. 
+As soon as the user starts opting out of these safety features, 
+it is their responsibility to ensure that they are using the system correctly, and are following the guidelines of the documentation.
+
+\subsection{Dependencies}
+While the DataAccess values INDEPENDENT and READ\_MODIFY\_WRITE has quite obvious implementations of the threading model, 
+the same cannot be said for the READ\_COMPONENT value. 
+The system has to ensure that a component never sees a torn read, i.e. an object that is halfway through its update function.
+There are some ways of solving this.
+
+\ptparagraph{Direct Acyclic Graph}
+One way could be to try and order the functions based on their listed dependencies, and create a DAG. 
+However problems will arise in the case of cyclic dependencies within the components dependencies. 
+One way of solving that could be to try and mark some of the dependent component as READ\_MODIFY\_WRITE, and continue trying to create a DAG. I.e. Try to remove the components that have cyclic dependencies.
+
+\ptparagraph{State Caching}
+Another perhaps easier way is to cache the current state of the components that are dependencies, in this case, when a Operation does a read, it would read from the cached representation of a component, while the proper component is getting updated.
+
+However, the exact solution to this will be decided on when we start implementing.
