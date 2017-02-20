@@ -1,0 +1,152 @@
+\documentclass[hidelinks]{article}
+\setlength\parindent{0pt}
+
+\usepackage{tabularx}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE NOX ECS 2: Sprint Plan 2 \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+
+\section{Rationale}
+The original scope of the assignment has grown to a larger extent, as a result of this a decision has been made to re-scope and re-plan the project.
+
+
+\section{Goal}
+While the old project goal was to implement two different ECS's with different strategies, we will now only implement one.
+However moving over to only implementing one ECS allows us to do better testing
+of our implementations, as well as allowing us to try some new ideas to improve performance like lock-free algorithms.
+
+\section{Sprints}
+The following sections contains the new sprints. The names of the sprints are kept the same, so the Gant chart in the original project plan can still be used.
+After each sprint we will have a review of the sprint that has just passed, and after each second sprint we do a re-evaluation of our forward plan.
+
+Sprint 11 is now gone, as it will be used for writing on the thesis instead.
+
+The writing of the thesis is supposed to be done in a continuous manner, however since it will depend on the outline, 
+direct tasks related to the thesis are not mentioned after sprint 4.
+
+
+\subsection{Sprint 4}
+\textbf{Time: 20.02-24.02}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                          & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{ECS}:                 &                        \\
+  IComponent                    & Low                    \\
+  OperationTypes                & Low                    \\
+  MetaInformation               & Low                    \\ 
+  SmartHandle                   & Med                    \\
+  
+  \textbf{EntityManager}:       &                        \\
+  Assign Components             & High                   \\
+  Get Components                & High                   \\
+
+  \textbf{Logging}:             &                        \\
+  Thread-safe Logging           & Med                    \\
+
+  \textbf{Test Cases}:          &                        \\
+  Compilation Time              & N/A                    \\
+  Fast Spawning                 & N/A                    \\
+  Numerous Unique Components    & N/A                    \\
+  Memory Usage                  & N/A                    \\
+  Multi-threading Support       & N/A                    \\
+
+  \textbf{Thesis}:              &                        \\
+  Outline Thesis                & N/A                    \\
+  Write about test results      & N/A                    \\
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 5}
+\textbf{Time: 27.02-03.03}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                              & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{ECS}:                     &                        \\
+  Event System (Inheritance based)  & High                   \\
+    
+  \textbf{EntityManager}:           &                        \\
+  Lifecycle                         & High                   \\
+    
+  \textbf{Test Cases}:              &                        \\
+  Compilation time                  &  N/A                   \\    
+  Fast Spawning                     &  N/A                   \\
+  Numerous Unique Components        &  N/A                   \\            
+  Memory Usage                      &  N/A                   \\
+  Multi-threading support           &  N/A                   \\        
+    
+    \textbf{Thesis}:                &                        \\
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 6}
+\textbf{Time: 06.03-10.03}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                              & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{Multi-threading}:         &                        \\
+  Thread Pool                       & High                   \\
+  Thread Safe Queue                 & High                   \\
+  
+  \textbf{Dependency Problem}:      &                        \\ 
+  State Caching                     & High                   \\
+
+  \textbf{Thesis}:                  &                        \\
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 7}
+\textbf{Time: 13.03-17.03}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                              & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{Memory Efficiency}:       &                        \\
+  Block Based Allocator             & High                   \\
+  
+  \textbf{Dependency Problem}:      &                        \\ 
+  Direct Acyclic Graph (DAG)        & High                   \\
+
+  \textbf{Thesis}:                  &                        \\
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 8}
+\textbf{Time: 20.03-24.03}\\
+Used as buffer to catch up before sprint 9 and 10.
+
+\subsection{Sprint 9}
+\textbf{Time: 27.03-31.03}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                                & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{Lock Free Multi-threading}: &                        \\
+  Block Allocator                     & Very High              \\
+  Queue                               & Very High              \\
+  
+  \textbf{Event System}:              &                        \\ 
+  No Inheritance Based Implementation & High                   \\
+
+  \textbf{Thesis}:                    &                        \\
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 10}
+\textbf{Time: 03.04-07.04}\\
+Used as a buffer or for additional tasks, like for example a test on Android devices.
+
+\end{document}
