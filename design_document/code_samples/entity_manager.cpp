@@ -75,12 +75,24 @@ public:
     ///
     /// \param id the entity to assign the component to.
     /// \param identifier of the type that will be added.
-    ///
-    /// \return Handle to the newly created component.
     ////////////////////////////////////////////////////////////
-    SmartHandle<IComponent>
+    void
     assignComponent(const EntityId& id,
                     const TypeIdentifier& identifier);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Assigns a component to the given entity,
+    ///        and initializes it with the given value.
+    /// 
+    /// \param id the entity to assign the component to.
+    /// \param identifier of the type that will be added.
+    /// \param value Json value to initialize the component
+    ///              with.
+    ////////////////////////////////////////////////////////////
+    void
+    assignComponent(const EntityId& id,
+                    const TypeIdentifier& identifier,
+                    const Json::Value& value);
 
     ////////////////////////////////////////////////////////////
     /// \brief Gets a handle to the specified components 
@@ -131,7 +143,7 @@ public:
     /// \param deltaTime time since last update.
     ////////////////////////////////////////////////////////////
     void
-    updateAll(const nox::Duration& deltaTime);
+    step(const nox::Duration& deltaTime);
 
     ////////////////////////////////////////////////////////////
     /// \brief Applies a function to an entire range,
