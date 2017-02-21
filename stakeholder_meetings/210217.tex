@@ -1,0 +1,146 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{center}
+\subsection*{Stakeholder meeting 21.02.17}
+\end{center}
+
+\bigskip
+
+
+\subsubsection*{Intention of the meeting}
+Discuss the design document.\\
+Discuss test case document.
+
+\subsubsection*{Questions to the stakeholder}
+\begin{itemize}
+    \item 
+    Can we create some custom assert macros?
+
+    \item
+    Are any debug macros wanted within the ECS?
+
+    \item
+    What sort of tests are wanted, where are they wanted?
+
+\end{itemize}
+
+
+\subsubsection*{Answers to our questions}
+\begin{itemize}
+    \item
+    Yes, create a NOX\_ASSERT forwarding to stdout.
+    
+    \item 
+    It's ok, do whats needed.
+    
+    \item 
+    General unit tests.\\
+    Go for as much coverage as we want.
+
+\end{itemize}
+
+\subsubsection*{Feedback on design document}
+Generally good, however some comments.
+\begin{itemize}
+    \item
+    IComponent:
+    \begin{itemize}
+        \item
+        Do not prefix with I, as an interface does not contain member data.
+
+        \item
+        Components can be only movable.
+    \end{itemize}
+
+    \item
+    OperationTypes:
+    \begin{itemize}
+        \item
+        Elaborate on wrapping lambdas, and rethink the description "opt-in type safety" as it is not really type safety.
+
+        \item
+        In general rethink how to explain the flexibility and opt-out solutions.
+    \end{itemize}
+
+    \item
+    LogicEvent:
+    \begin{itemize}
+        \item
+        Fix typo: in LogicEventOperation are use when components must respond to types (events).
+
+        \item
+        Rethink elaboration on LogicEventOperation.
+    \end{itemize}
+
+    \item
+    TypeIdentifier:
+    \begin{itemize}
+        \item
+        Think of doing a runtime check to ensure no collisions among the type identifiers.
+
+        \item
+        Would be nice to have a way of allowing checking for typo's during compile time when talking about type identifiers.
+    \end{itemize}
+
+    SmartHandle:
+    \begin{itemize}
+        \item
+        Think of explaining the generations a bit better.
+    \end{itemize}
+
+    Lifecycle:
+    \begin{itemize}
+        \item
+        Elaborate on the raw memory stage, explain properly that this is pooled memory, and that raw memory is either before operator new, or after operator delete.
+
+        \item
+        Rename inactive to awake.
+    \end{itemize}
+
+    Update Cycle:
+    \begin{itemize}
+        \item
+        Distribute logic events before the update.
+
+        \item
+        Distribute events as long as events are sent. I.e. allow OnEvent functions to post new events.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Feedback on Test case document}
+Generally good, however some comments.
+\begin{itemize}
+    \item
+    Make sure to use newest stable version of all the compilers.
+
+    \item
+    Ensure to that none of the busy waits are optimized away.
+
+    Complete Compilation:
+    \begin{itemize}
+        \item
+        All code that is pushed to the gitlabrepo is run on a server, meaning that compilation time is actually worth testing.
+        
+        \item
+        All build folders are deleted, including cmake stuff (however we don't have to care about cmake stuff).
+
+        \item
+        Ensure that cmake caching is disabled when running the compilation tests.\\
+        CMake caching is a global caching system, just deleting the files in the build folder wont remove it.
+
+        \item
+        Only look at single core compilation, as it just scales anyway when extra cores are added.
+
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Other information from our stakeholder}
+All operations can be declared in the Component Base class.
+Implementing the entityID assignment is done through constructor, base classes either inherit constructor or supply their own, sending the id up to the base.
+
+\subsubsection*{Own thoughts}
+Do we need special operations allowing for moving and swapping?
+
+\end{document}
