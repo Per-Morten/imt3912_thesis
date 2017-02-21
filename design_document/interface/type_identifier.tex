@@ -7,3 +7,6 @@ The integer based TypeIdentifier exists to allow for type identification without
 memory allocation, for example by using enums to identify components instead of strings.
 The value function will return the identifier's underlying value, i.e. the hashed value if it was created with a string, 
 or the original integer given by the user.
+
+To ensure that no collisions happens the program can be set to run a collision test,
+checking that no collisions has happened on the type identifier.
