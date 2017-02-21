@@ -1,9 +1,9 @@
 \subsection{Update Cycle}
 The update cycle goes through several different steps. The following section elaborates a bit on those steps. The steps are executed in the following sequence.
 \begin{enumerate}
+    \item Distribute Logic Events
     \item Update
     \item Distribute Component Events
-    \item Distribute Logic Events
     \item Deactivate Requested Components
     \item Hibernate Requested Components
     \item Remove Requested Components
@@ -12,17 +12,24 @@ The update cycle goes through several different steps. The following section ela
     \item Activate Requested Components
 \end{enumerate}
 
+The user is allowed to call each of these functions in the desired order, 
+or call a "handle all" type function which will go through all of the steps in the sequence above.
+
+\ptparagraph{Distribute of Logic Events}
+The distribution of logic events is the first step that will be run.
+In this step the EntityManager will loop through each component and distribute logic events coming from other parts of the NOX Engine. 
+Components are allowed to respond to these events by broadcasting new ones, 
+and this step will not finish until there are no more events.
+This means that it is also the users responsibility to ensure that they don't
+end up in a event cycle.
+
 \ptparagraph{Update}
-The update step is the first one that will be run. In this step, the EntityManager will loop through each component, 
+After the distribution of logic events is finished the update step will start. In this step, the EntityManager will loop through each component,
 and call the update function specified by that component type's MetaInformation.
 The order in which components are updated is unspecified. So the users cannot rely on any ordering of the update functions.
 
 \ptparagraph{Distribute Component Events}
 After the update loop has been run the EntityManager starts distributing the different component events that has been queued during the update function.
-
-\ptparagraph{Distribute of Logic Events}
-After the distribution of the component events is finished, 
-the EntityManager will move over to distributing the logic events that has come from other parts of the nox engine.
 
 \ptparagraph{Deactivate Requested Components}
 If any components are requested to be deactivated, the EntityManager will go through them and call their respective deactivate function.
