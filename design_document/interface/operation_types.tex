@@ -5,8 +5,12 @@ OperationTypes are just function pointers, that accepts Components as arguments.
 Using function pointers instead of virtual functions allows us to loose
 the vtable variable that is silently introduced into each instance,
 it should also help with cache usage, as we always do the same operation on a range of types.
-It also allows us to do certain "opt-in" type safety features,
-like wrapping lambdas around operations and casting to the correct type before calling specified functions.
+
+By default the MetaInformation structure and createMetaInformation functions 
+create wrappers for all the operation types, ensuring safe casting and execution of component member functions.
+However if the user wants more control, they can themselves create the MetaInformation structures and opt-out of the safety features given by default in relations to the OperationTypes.
+
+The responsibilities outlined in relation to OperationTypes are only applicable if the user is not using the default behavior of the ECS, i.e. the user has opted out.
 
 \ptparagraph{RangedOperation}
 RangedOperations are given a range of objects to work on, "first" and "last".
@@ -20,7 +24,7 @@ SingularOperations are simple pointers to functions that only take an IComponent
 As with the RangedOperation, it is the function implementors responsibility to cast the parameter to the correct type.
 
 \ptparagraph{LogicEventOperation}
-LogicEventOperations are used when components must respond to types coming from the rest of the engine.\\
+LogicEventOperations are used when components must respond to events coming from the rest of the engine.\\
 Since interest of components are often registered on a component type basis,
 this function will be applied to the entire range of a component type.
 
