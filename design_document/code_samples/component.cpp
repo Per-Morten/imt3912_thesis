@@ -1,4 +1,4 @@
-struct IComponent
+struct Component
 {
     ////////////////////////////////////////////////////////////
     /// \brief Used to uniquely identify the entity that 

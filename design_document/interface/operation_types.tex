@@ -1,7 +1,7 @@
 \subsection{OperationTypes}
 Interface: Figure~\ref{lst:operation_types}\\\noindent
 "Replacing" virtual functions are OperationTypes.
-OperationTypes are just function pointers, that accepts IComponents as arguments.
+OperationTypes are just function pointers, that accepts Components as arguments.
 Using function pointers instead of virtual functions allows us to loose
 the vtable variable that is silently introduced into each instance,
 it should also help with cache usage, as we always do the same operation on a range of types.
