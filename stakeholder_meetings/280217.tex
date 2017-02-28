@@ -1,0 +1,111 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{center}
+\subsection*{Stakeholder meeting 28.02.17}
+\end{center}
+
+\bigskip
+
+
+\subsubsection*{Intention of the meeting}
+Reporting on progress and clarify questions.
+
+
+\subsubsection*{Questions to the stakeholder}
+\begin{itemize}
+    \item 
+    Tools used when developing code, what sort of analysis are done? valgrind, cppcheck?
+
+    \item
+    Exception safety in ComponentCollection?
+
+    \item
+    Are runtime check for collisions really needed, what shall we do if we fail?
+    
+    \item 
+    Standards in relation to creating library like interfaces, do we want to replicate the std interfaces?
+    
+    \item 
+    Update ListenerManager to get the event types that are listened to.
+    
+    \item 
+    Transporting the EntityManager, do we want pointers inn all the component functions, 
+    or should they just have a pointer to the EntityManager.
+
+    \item
+    Should all functions be declared in the base component class and just left empty?\\
+    They can still be nulled out if desired.
+
+    \item
+    Are asserts for lifecycles and duplicate components wanted in the ComponentCollection?
+
+    \item
+    Building for android. (Is it a lot of work?)
+
+    \item
+    Easy ways of quiting the application, events?
+    
+    \item
+    Do you want a more different event system?\\
+    Item based ECS Event system?
+    \begin{itemize}
+        \item
+        Only trivial types?
+
+        \item
+        Can potentially do something akin to the meta information.
+    \end{itemize}
+
+\end{itemize}
+
+
+\subsubsection*{Answers to our questions}
+\begin{itemize}
+    \item
+    Nope, not continuously.
+
+    \item
+    Exception safety within ComponentCollection not needed.
+
+    \item
+    Just return a value indicating if there are any collisions.
+
+    \item
+    Follow nox standard, also when making "std" like facilities.
+
+    \item
+    Update ListenerManager to handle duplicate event types.
+    Push this up to the nox engine repo.
+
+    \item 
+    Add the EntityManager as reference within the Components.
+
+    \item
+    Yes, all functions shall be declared, but empty.
+
+    \item 
+    Yes, add assert for invalid lifecycle states within ComponentCollection.
+
+    \item
+    Building and testing for android might be a bit of work, however do ensure that it builds for android.
+
+    \item
+    Currently the logic can't really stop the program.
+    However our hack can still be used.
+
+    \item 
+    Sure. Its better to try and fail, than not trying.
+\end{itemize}
+
+
+\subsubsection*{New tasks from our stakeholder}
+Create entity wrapper, holding the id, pointer to EntityManager etc.\\
+Desired syntax:\\
+entity.assignComponent(TypeIdentifier);\\
+entity.hibernateComponent(TypeIdentifier); // Acts on component.\\
+entity.hibernate(); // Acts on entire entity.\\
+entity.getComponent();\\
+
+\end{document}
