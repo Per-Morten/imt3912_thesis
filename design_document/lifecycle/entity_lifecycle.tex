@@ -13,6 +13,10 @@ The transition from Raw Memory to a hibernation state is done through the constr
 
 There is an optional step between the constructor and going into hibernation, and that is initialization, which can be requested when assigning a component.
 
+Raw memory is not really a state in the life cycle per say, it is only here to clear up any confusion in relation to destroy within the existing NOX Actor system. 
+Raw memory is before a the operator new or after operator delete has been run on an object.
+The reason for this inclusion is that the new ECS will be pooling and re-using a lot of its memory.
+
 \ptparagraph{Hibernating}
 In the hibernating state, the object only holds its own variables in place, and is not part of the update loop.
 
