@@ -1,0 +1,51 @@
+Sprint05:                                                       Time Estimate:      Assignee:   Carryover:
+ECS:
+- Create MetaInformation convenience functions.                 1h                  PMS         X         
+- Write SmartHandle tests.                                      2h                  PMS         X
+- Create Memory Allocator Mock                                  1h                  PMS         X
+- Write Get Components Test.                                    1h                  PMS         X
+- Write Assign Component Test.                                  1h 30m              PMS         X 
+- Implement Json actor functionality in ECS.                    3h                  PMS         
+
+Event System:
+- Create Event Type.                                            3h                  PMS
+- Implement Event Allocator.                                    2h                  PMS
+- Write unit-test for events.                                   1h                  PMS
+
+Scripting:
+- Support subtasks in estimation script.                        2h                  PMS
+
+Logging:
+- Write Logger thread safety test.                              1h                  Trond       X
+
+Test Cases:
+- NOX: Create Compilation Time test.                            1h                  Trond       X
+- NOX: Run Compilation Time test.                               1h 30m              Trond       X
+- NOX: Run Fast Spawning test.                                  1h 30m              PMS         X (Trond)
+- NOX: Create Numerous Unique Components test.                  4h                  Trond       X
+- NOX: Run Numerous Unique Components test.                     1h 30m              Trond       X
+- NOX: Run Memory Usage test.                                   1h 30m              PMS         X (Trond)
+- NOX: Create Multi-threading support test.                     4h                  Trond       X
+- NOX: Run Multi-threading support test.                        1h 30m              Trond       X
+
+Test Cases:
+- ECS: Create Compilation Time test.                               30m              Trond
+- ECS: Run Compilation Time test.                               1h 30m              Trond
+- ECS: Create Fast Spawning test.                               3h                  Trond
+- ECS: Run Fast Spawning test.                                  1h 30m              Trond
+- ECS: Create Numerous Unique Components test.                  3h                  Trond
+- ECS: Run Numerous Unique Components test.                     1h 30m              Trond
+- ECS: Create Memory Usage test.                                1h                  Trond
+- ECS: Run Memory Usage test.                                   1h 30m              Trond
+
+Thesis:
+- Write thesis outline.                                         4h                  PMS        X
+- NOX: Write about Compilation time test.                       2h                  Trond      X   
+- NOX: Write about Fast Spawning test.                          2h                  PMS        X
+- NOX: Write about Numerous Unique Components test.             2h                  Trond      X
+- NOX: Write about Memory Usage test.                           2h                  PMS        X
+- NOX: Write about Multi-threading support test.                2h                  Trond      X
+
+Total Time:                                                                                 
+PMS:   28h 30m                                                  62h 30m
+Trond: 34h 
