@@ -1,0 +1,45 @@
+Sprint04:                                                       Time Estimate:                      Assignee:
+ECS:
+- Create IComponent struct.                                     30m                                 PMS
+- Create OperationTypes.                                        30m                                 PMS
+- Create MetaInformation struct.                                1h                                  PMS
+- Create MetaInformation convenience functions.                 1h                                  PMS
+- Create SmartHandle.                                           4h                                  PMS
+- Write SmartHandle tests.                                      3h                                  PMS
+
+EntityManager:
+- Create EntityManager Interface                                1h                                  PMS
+- Create Basic EntityManager behavior                           2h                                  PMS
+- Create Memory Allocator Mock                                  1h                                  PMS
+- Implement Get Components Function.                            1h 30m                              PMS
+- Write Get Components Test.                                    1h                                  PMS
+- Implement Assign Component Function.                          1h                                  PMS
+- Write Assign Component Test.                                  1h 30m                              PMS
+
+Logging:
+- Make Logger thread safe.                                      30m                                 Trond
+- Write Logger thread safety test.                              1h                                  Trond
+
+Test Cases:
+- Create Compilation Time test.                                 1h                                  Trond
+- Run Compilation Time test.                                    30m                                 Trond
+- Create Fast Spawning test.                                    3h                                  Trond
+- Run Fast Spawning test.                                       30m                                 Trond
+- Create Numerous Unique Components test.                       3h                                  Trond
+- Run Numerous Unique Components test.                          30m                                 Trond
+- Create Memory Usage test.                                     30m (Should be finished).           Trond
+- Run Memory Usage test.                                        30m                                 Trond
+- Create Multi-threading support test.                          3h                                  Trond
+- Run Multi-threading support test.                             30m                                 Trond
+
+Thesis:
+- Write thesis outline.                                         4h                                  PMS        
+- Write about Compilation time test.                            2h                                  Trond
+- Write about Fast Spawning test.                               2h                                  Trond
+- Write about Numerous Unique Components test.                  2h                                  Trond
+- Write about Memory Usage test.                                2h                                  Trond
+- Write about Multi-threading support test.                     2h                                  Trond
+
+Total Time:                                                     47h 30m                             
+PMS:   23h 
+Trond: 24h 30m
