@@ -21,7 +21,7 @@ In this step the EntityManager will loop through each component and distribute l
 Components are allowed to respond to these events by broadcasting new ones, 
 and this step will not finish until there are no more events.
 This means that it is also the users responsibility to ensure that they don't
-end up in a event cycle.
+end up in an event cycle.
 
 \ptparagraph{Update}
 After the distribution of logic events is finished the update step will start. In this step, the EntityManager will loop through each component,
