@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{center}
+\subsection*{Supervisor meeting 08.03.2017}
+\subsubsection*{With: Mariusz Nowostawski}
+\end{center}
+
+\bigskip
+
+
+\subsubsection*{Intention of the meeting}
+Update on progress.
+
+
+\subsubsection*{Questions to the supervisor}
+\begin{itemize}
+    \item 
+    Ok to just test on ubuntu?
+    
+    \item 
+    Feedback on design?
+\end{itemize}
+
+
+\subsubsection*{Answers to our questions}
+\begin{itemize}
+    \item 
+    If it is cleared with Suttung it is ok. 
+    We will still use more compilers.
+    
+    \item 
+    Design seems good.
+\end{itemize}
+
+
+\subsubsection*{New tasks from our supervisor}
+\begin{itemize}
+    \item \textbf{Isolate optimizations}\\
+    See if we can test all optimization in isolation, so we can demonstrate that the different optimizations are worth it on their own.
+
+    \item \textbf{Virtuals test}\\
+    Do one test with virtuals instead of function pointers.
+
+    \item \textbf{Lookup strategies}\\
+    Think about different strategies for looking up components. 
+    \begin{itemize}
+        \item
+        Lookup table/Big array.
+
+        \item
+        Hash table.
+
+        \item
+        Index Map.\\
+        Have a outer array outside of the collection that is sorted and has pointer into the collection.\\
+        The outer array is sorted so it can be binary searched.
+    \end{itemize}
+    
+    \item \textbf{Templates}\\
+    No need to create a separate test using templates, as we are only measuring build times in that case.\\
+    The test case would also be to artificial.
+
+    \item \textbf{Micro Benchmarks}\\
+    In general create as many micro benchmarks as possible, as this is what we will be writing about in the report.
+\end{itemize}
+
+\subsubsection*{Other information from our supervisor}
+Make sure to discuss the balance of the different aspects of flexibility vs performance vs complexity in the reports.
+
+\end{document}
