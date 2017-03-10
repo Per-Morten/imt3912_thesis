@@ -17,8 +17,8 @@ Logging:
 - Write Logger thread safety test.                              1h                  Trond       XX
 
 MultiThreading:
-- Create thread pool.                                           1d                  PMS         X
-- Create thread safe queue.                                     4h                  PMS         X
+- Create thread pool.                                           1d                  PMS         
+- Create thread safe queue.                                     4h                  PMS         
 
 Test Cases:
 - NOX: Run Compilation Time test.                               1h 30m              Trond       XX
