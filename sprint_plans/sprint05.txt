@@ -6,6 +6,8 @@ ECS:
 - Write Get Components Test.                                    1h                  PMS         X
 - Write Assign Component Test.                                  1h 30m              PMS         X 
 - Implement Json actor functionality in ECS.                    3h                  PMS         
+- Create Entity Wrapper                                         2h                  PMS
+- Create Lifecycle asserts                                      2h                  PMS
 
 Event System:
 - Create Event Type.                                            3h                  PMS
@@ -47,5 +49,5 @@ Thesis:
 - NOX: Write about Multi-threading support test.                2h                  Trond      X
 
 Total Time:                                                                                 
-PMS:   28h 30m                                                  62h 30m
+PMS:   32h 30m                                                  64h 30m
 Trond: 34h 
