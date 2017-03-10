@@ -1,0 +1,75 @@
+\section*{Mitigation Strategies}
+Bellow follows our strategies for mitigating the chances of the identified risks happening.
+And how we might deal with them if they would occur.
+
+\subsection*{Poor Performance}
+Performance problems will be mitigated through recurring profiling.
+Benchmarks should ideally be run quite often,
+and these benchmarks should guide further optimizations if needed.
+
+\subsection*{Incompatible Implementation}
+The implementation will first go through a design phase,
+before it is presented to Suttung. 
+This proposed design will be built on the research
+that have been conducted into the Suttung engine,
+as well as a relevant test case.
+Hopefully this will be enough to mitigate the changes
+of our implementation being incompatible with the NOX Engine.
+
+\subsection*{Multi-threaded Related Bugs}
+Reducing the risk of multi-threaded bugs is a difficult task, 
+however some general guidelines helps when developing multi-threaded code.
+We will have a focus on clear access patterns,
+and local scope when writing multi-threaded code.
+There might also be some libraries out there that
+allows us to build tests specifically aimed at
+multi-threaded code.
+
+\subsection*{Unrepresentative Test Case}
+The test case will be developed based on usage patterns
+observed in real life use of the NOX Engine.
+The plan is also to verify the case with Suttung.
+
+\subsection*{Lost Work}
+All of the source code will be uploaded to on-line repositories, 
+this will also apply to the thesis itself, as well as
+all other documents related to the project.
+The group members are encouraged to commit work to these repositories often,
+preferably after each discrete "unit of work".
+
+\subsection*{Internal Conflict}
+Both members of the group have worked together previously on project,
+which has gone quite well. 
+Because of this we have not added extra mitigation factors, 
+outside of the group rules.
+
+\subsection*{Problem Understanding the NOX Engine}
+The best way to mitigate this risk is to use more time with the engine.
+We will therefore write the test cases that we are
+going to use for comparisons in the NOX Engine first.
+Suttung will also give us access to one of their games which is built with the NOX Engine.
+This will give us some clearer examples to look at, and hopefully reduce the time 
+used to understand the engine.
+
+\subsection*{Missing Group Members}
+Missing group members is hard to mitigate, however 
+we will through daily meetings keep the other member
+up to date on what we are working on. 
+Hopefully this will lessen the impact if a group member
+does not show up one day.
+In addition group members are encouraged to work remotely when possible,
+if they for some reason cannot show up for work.
+
+\subsection*{Lack of Proper Measurement Tools}
+There are not that many performance measurement tools
+directed at C++ out there. 
+We have already found a few profilers with a high precision level. 
+However if we are not able to get the data we need out of these profilers,
+we might have to go to less precise measurement methods,
+like measuring frame rate.
+
+\subsection*{Wrongly Estimated Time}
+We have already mitigated the consequences of this risk a bit, by leaving the OOP
+implementation to have a low priority and not being critical.
+Planned regular meetings will also help reducing this risk, as it allows us to keep 
+track of how we use our time, and potentially scale back some features or tasks.
