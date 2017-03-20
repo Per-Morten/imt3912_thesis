@@ -1,0 +1,102 @@
+\documentclass[hidelinks]{article}
+\setlength\parindent{0pt}
+
+\usepackage{tabularx}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    {\scshape\LARGE NOX ECS 2: Scrum Plan 3 \par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+
+\section{Rationale}
+As a result of sickness, and miscalculation of time, we have again decided to re-scope and re-plan the different sprints.
+
+\section{Goal}
+The new goal remains much the same as the previous one, with the exception of removing state caching to deal with inter-thread dependencies.
+This approach is not possible, as components are move only types. 
+The Direct Acyclic Graph dependency solution has been renamed to Layered Execution, as we are not really doing a DAG structure.
+
+\section{Sprints}
+The following sections contains the new sprints. The names of the sprints are kept the same, so the Gant chart in the original project plan can still be used.
+After each sprint we will have a review of the sprint that has just passed, and after each second sprint we do a re-evaluation of our forward plan.
+
+Writing the thesis has not been done in a continuous manner, as we have been to busy implementing the system. 
+Writing the thesis will begin either after all dev sprints are finished, or start getting ahead of our goals.
+
+\subsection{Sprint 7}
+Did not happen as a result of sickness.
+
+\subsection{Sprint 8}
+\textbf{Time: 20.03-24.03}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                              & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{Memory Efficiency}:       &                        \\
+  Event Allocator                   & High                   \\
+  Event Argument Allocator          & High                   \\
+  
+  \textbf{Dependency Problem}:      &                        \\ 
+  Layered Execution                 & High                   \\
+
+  \textbf{Write Test Cases: NOX}:   & N/A                    \\
+  Compilation Time                                           \\
+
+  \textbf{Run Test Cases: NOX}:     &                        \\
+  Compilation Time                  & N/A                    \\
+  Fast Spawning                     & N/A                    \\
+  Numerous Unique Components        & N/A                    \\
+  Memory Usage                      & N/A                    \\
+  Multi-threading Support           & N/A                    \\
+
+  \textbf{ECS: Standard Components} &                        \\
+  Transform                         & Med                    \\
+  Graphics                          & Med                    \\
+  Physics                           & Med                    \\
+
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 9}
+\textbf{Time: 27.03-31.03}\\
+\begin{tabularx}{\textwidth}{l >{\centering\arraybackslash}X}
+\hline\noalign{\smallskip}
+  Task                                  & Testing Requirements   \\
+\hline\noalign{\smallskip}
+  \textbf{ECS: Standard Components}     &                        \\
+  Json Type Information                 & Med                    \\
+
+  \textbf{Write Test Cases: ECS}:       &                        \\
+  Compilation Time                      & N/A                    \\
+  Fast Spawning                         & N/A                    \\
+  Numerous Unique Components            & N/A                    \\
+  Memory Usage                          & N/A                    \\
+  Multi-threading Support               & N/A                    \\
+
+  \textbf{Run Test Cases: ECS}:         &                        \\
+  Compilation Time                      & N/A                    \\
+  Fast Spawning                         & N/A                    \\
+  Numerous Unique Components            & N/A                    \\
+  Memory Usage                          & N/A                    \\
+  Multi-threading Support               & N/A                    \\
+
+  \textbf{Lock Free Multi-threading}:   &                        \\
+  Block Allocator                       & Very High              \\
+  Queue                                 & Very High              \\
+\hline\noalign{\smallskip}
+\end{tabularx}
+
+\subsection{Sprint 10}
+\textbf{Time: 03.04-07.04}\\
+Used as a buffer to finish up, or starting early on thesis.
+
+\end{document}
