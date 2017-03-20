@@ -1,0 +1,67 @@
+Sprint08:                                                       Time Estimate:      Assignee:   Carryover:
+ECS: Standard Components                                        
+- Research                                                      2h 30m              Trond
+- Transform                                                     1h                  Trond
+- Sprite                                                        4h                  Trond
+- Physics                                                       1d                  Trond
+- Physics Research                                              1d                  Trond
+
+Multi-threading:
+- Dependency Program, Layered Execution.                        1d                  Trond
+- Dependency Research                                           4h                  Trond
+
+Memory Efficiency: 
+- Create Memory Allocator Mock                                  1h                  PMS         XXX
+- Implement Event Allocator.                                    4h                  PMS         XX
+- Event Allocator Prototyping/Research                          3h                  PMS
+- Implement Event Argument Allocator.                           1d                  PMS
+- Event Argument Allocator Prototyping/Research                 3h                  PMS
+
+Test Cases:
+- NOX: Write Compilation Time test.                             4h                  Trond       
+- Write run test script.                                        2h 30m              Trond
+- Run tests over night:
+    - NOX: Run Compilation Time test.                           N/A                 Trond       XXX
+    - NOX: Run Fast Spawning test.                              N/A                 Trond       XXX 
+    - NOX: Run Numerous Unique Components test.                 N/A                 Trond       XXX
+    - NOX: Run Memory Usage test.                               N/A                 Trond       XXX 
+    - NOX: Run Multi-threading support test.                    N/A                 Trond       XXX
+ 
+
+Total Time:                                                                                 
+PMS:   19h (The rest of the time is spent on items on hold)     61h
+Trond: 42h 
+
+Hold (To be done if time):
+- Write Get Components Test.                                    1h                  PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Write Assign Component Test.                                  1h 30m              PMS         XX 
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Write SmartHandle tests.                                      2h                  PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Create Lifecycle asserts                                      2h                  PMS         X
+    - Rationale: Other tasks have higher priority.
+- Write unit-test for events.                                   1h                  PMS         X
+    - Rationale: Other tasks have higher priority, also it will be used in the test cases, meaning that potential bugs can be uncovered there.
+- Support subtasks in estimation script.                        2h                  PMS         X
+    - Rationale: While this task is important, other tasks take more priority.
+
+Thesis:
+- Rationale: Read Sprints section in scrum_plan_v3
+- Write thesis outline.                                         4h                  PMS         XX
+- NOX: Write about Compilation time test.                       2h                  Trond       XX
+- NOX: Write about Fast Spawning test.                          2h                  PMS         XX
+- NOX: Write about Numerous Unique Components test.             2h                  Trond       XX
+- NOX: Write about Memory Usage test.                           2h                  PMS         XX
+- NOX: Write about Multi-threading support test.                2h                  Trond       XX
+
+Test Cases:
+- Rationale: Pushed to next sprint
+- ECS: Create Compilation Time test.                               30m              Trond       X
+- ECS: Run Compilation Time test.                               1h 30m              Trond       X
+- ECS: Create Fast Spawning test.                               3h                  Trond       X
+- ECS: Run Fast Spawning test.                                  1h 30m              Trond       X
+- ECS: Create Numerous Unique Components test.                  3h                  Trond       X
+- ECS: Run Numerous Unique Components test.                     1h 30m              Trond       X
+- ECS: Create Memory Usage test.                                1h                  Trond       X
+- ECS: Run Memory Usage test.                                   1h 30m              Trond       X
