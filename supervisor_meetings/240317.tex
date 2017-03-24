@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{center}
+\subsection*{Supervisor meeting 24.03.17}
+\end{center}
+
+\bigskip
+
+
+\subsubsection*{Intention of the meeting}
+Update supervisor on progress.
+
+\subsubsection*{New tasks from our supervisor}
+\begin{itemize}
+    \item
+    List in thesis that future work on the data access could be automated with a script or other tool.
+    
+    \item
+    Discuss all trade offs within the thesis.
+
+    \item
+    Motivate all our choices based on the current situation and environment.
+
+    \item 
+    Motivate all the trade offs based on the future.\\
+    Examples:
+    \begin{itemize}
+        \item
+        If modules are added to the C++ standards, build times might get so good that template meta programming is a better option.
+
+        \item
+        Transactional memory might remove the need for lock free programming.
+
+        \item
+        ARM v8 has a sequentially consistent memory model.\\
+        Relaxed atomics might not be necessary.
+    \end{itemize}
+
+    \item
+    Have a section in thesis that documents what we know we are loosing with our methods.\\
+    Examples:
+    \begin{itemize}
+        \item
+        A lot of as-if optimizations.
+
+        \item
+        Inline functions. 
+        
+        \item
+        "Type optimal" code based on template parameters.
+
+        \item
+        "Devirtualization".
+    \end{itemize}
+
+    \item
+    Discuss the lack of familiarity when working with our system, does it impact productivity?
+
+    \item
+    Document all the changes of working processes.
+\end{itemize}
+
+\end{document}
