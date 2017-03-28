@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{center}
+\section*{Scrum Retrospective}
+\subsection*{Sprint: 08}
+\subsection*{20.03.17 - 27.03.17}
+\end{center}
+\bigskip
+
+\subsection*{Time spent working on project}
+\begin{itemize}
+    \item
+    Per-Morten: 35h 
+
+    \item
+    Trond:      38h
+\end{itemize}
+
+\subsection*{What went wrong}
+\subsubsection*{General}
+\begin{itemize}
+    \item
+    Some none productive days.
+\end{itemize}
+
+\subsubsection*{Trond}
+\begin{itemize}
+    \item 
+    Some time was wasted trying to get certain tools to function properly.
+\end{itemize}
+
+\subsubsection*{Per-Morten}
+\begin{itemize}
+    \item
+    One day was entirely wasted as I was unable to focus.
+
+    \item
+    Some weird decisions in the Event class were made while I were still recovering from my sickness,
+    which lead to some reworking of the Event and EventSystem class.
+\end{itemize}
+
+\subsection*{What went right}
+\subsubsection*{General}
+\begin{itemize}
+    \item
+    Finally retiring some of the old tasks that were just carry over from earlier sprints.\\
+    This allowed us to refocus on the newer tasks without being burdened by the earlier tasks.\\
+    Mainly the tasks that were removed were the testing tasks, which will be implemented if we get ahead of schedule.
+\end{itemize}
+
+\subsubsection*{Trond}
+\begin{itemize}
+    \item 
+    Layered execution model worked out better than expected.
+\end{itemize}
+
+\subsubsection*{Per-Morten}
+\begin{itemize}
+    \item
+    The thread pool integration with the EntityManager went faster than expected.
+
+    \item
+    While it took some extra time, the linear allocators turned out quite fine.
+
+    \item
+    Because we put so many tasks on hold, I was able to start early on some tasks,
+    leading to the lock-free allocator being functionally done, it only needs its documentation updated.
+\end{itemize}
+
+
+\subsection*{What should we do differently}
+\subsubsection*{General}
+\begin{itemize}
+    \item
+    We should have put more tasks on hold earlier, 
+    or have a general rule that if a task has been carried over a certain number of times it should just be put on hold.
+\end{itemize}
+
+\subsubsection*{Trond}
+\begin{itemize}
+    \item 
+    Nothing outside the general.
+\end{itemize}
+
+\subsubsection*{Per-Morten}
+\begin{itemize}
+    \item
+    Think when a generalized solution is fine, rather than specialized one. 
+    Some on the decisions made around the EventSystem were unnecessary, 
+    leading to some unproductive and wasted time.
+\end{itemize}
+
+
+\end{document}
