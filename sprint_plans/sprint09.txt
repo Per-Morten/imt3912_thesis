@@ -1,0 +1,57 @@
+Sprint09:                                                       Time Estimate:      Assignee:   Carryover:
+ECS: Standard Components                                        
+- Merge transform into master (might need some integration)     1h                  PMS
+- Sprite                                                        4h                  Trond       X
+
+Lock-Free:
+- Implement Lock-Free Allocator                                 1d                  PMS
+- Implement Lock-Free Container (Queue/Stack like)              1d                  PMS
+
+Test Cases:
+- ECS: Create Compilation Time test.                            30m                 Trond       
+- ECS: Create Fast Spawning test.                               3h                  Trond       XXX
+- ECS: Create Numerous Unique Components test.                  3h                  Trond       XXX
+- ECS: Create Memory Usage test.                                1h                  Trond       XXX
+- ECS: Create Multi-threading support test.                     2h                  Trond       XXX
+
+- Run tests over night:
+    - ECS: Run Compilation Time test.                           N/A                 Trond       XXX
+    - ECS: Run Fast Spawning test.                              N/A                 Trond       XXX
+    - ECS: Run Numerous Unique Components test.                 N/A                 Trond       XXX
+    - ECS: Run Memory Usage test.                               N/A                 Trond       XXX
+    - ECS: Run Multi-threading support test.                    N/A                 Trond       XXX
+    - NOX: Run Compilation Time test.                           N/A                 Trond       XXXX
+    - NOX: Run Fast Spawning test.                              N/A                 Trond       XXXX
+    - NOX: Run Numerous Unique Components test.                 N/A                 Trond       XXXX
+    - NOX: Run Memory Usage test.                               N/A                 Trond       XXXX
+    - NOX: Run Multi-threading support test.                    N/A                 Trond       XXXX
+ 
+
+Total Time:                                                                                 
+PMS:   17h     (Rest of the time is spent on items on hold)     30h 30m
+Trond: 13h 30m (Rest of the time is spent on items on hold) 
+
+Hold (To be done if time):
+- Json Type Information
+    - Rationale: Not required for the thesis, will be implemented after the thesis is over, before delivering the product.
+- Write Get Components Test.                                    1h                  PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Write Assign Component Test.                                  1h 30m              PMS         XX 
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Write SmartHandle tests.                                      2h                  PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Create Lifecycle asserts                                      2h                  PMS         X
+    - Rationale: Other tasks have higher priority.
+- Write unit-test for events.                                   1h                  PMS         X
+    - Rationale: Other tasks have higher priority, also it will be used in the test cases, meaning that potential bugs can be uncovered there.
+- Support subtasks in estimation script.                        2h                  PMS         X
+    - Rationale: While this task is important, other tasks take more priority.
+
+Thesis:
+- Rationale: Read Sprints section in scrum_plan_v3
+- Write thesis outline.                                         4h                  PMS         XX
+- NOX: Write about Compilation time test.                       2h                  Trond       XX
+- NOX: Write about Fast Spawning test.                          2h                  PMS         XX
+- NOX: Write about Numerous Unique Components test.             2h                  Trond       XX
+- NOX: Write about Memory Usage test.                           2h                  PMS         XX
+- NOX: Write about Multi-threading support test.                2h                  Trond       XX
