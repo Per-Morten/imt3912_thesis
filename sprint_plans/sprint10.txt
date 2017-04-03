@@ -1,0 +1,61 @@
+Sprint10:                                                       Time Estimate:      Assignee:   Carryover:
+ECS:
+- Sprite                                                        4h                  Trond       XX
+- Optimization toggles.                                         4h                  PMS
+
+Test Cases:
+- ECS: Create Compilation Time test.                            30m                 Trond       X
+- ECS: Create Fast Spawning test.                               3h                  Trond       XXXX
+- ECS: Create Numerous Unique Components test.                  3h                  Trond       XXXX
+- ECS: Create Memory Usage test.                                1h                  Trond       XXXX
+- ECS: Create Multi-threading support test.                     2h                  Trond       XXXX
+
+- Run tests over night:
+    - ECS: Run Compilation Time test.                           N/A                 Trond       XXXX
+    - ECS: Run Fast Spawning test.                              N/A                 Trond       XXXX
+    - ECS: Run Numerous Unique Components test.                 N/A                 Trond       XXXX
+    - ECS: Run Memory Usage test.                               N/A                 Trond       XXXX
+    - ECS: Run Multi-threading support test.                    N/A                 Trond       XXXX
+    - NOX: Run Compilation Time test.                           N/A                 Trond       XXXXX
+    - NOX: Run Fast Spawning test.                              N/A                 Trond       XXXXX
+    - NOX: Run Numerous Unique Components test.                 N/A                 Trond       XXXXX
+    - NOX: Run Memory Usage test.                               N/A                 Trond       XXXXX
+    - NOX: Run Multi-threading support test.                    N/A                 Trond       XXXXX
+
+Thesis:
+- Write Thesis outline                                          6h                  PMS
+- Write Problem statement                                       4h                  PMS
+- Write General architecture                                    5h                  PMS
+- Write about tradeoffs                                         1d                  PMS
+- Write about test cases                                        1d                  Trond
+- Write about test case results                                 1d                  PMS & Trond
+
+
+Total Time:
+PMS:   27h     (Rest of the time is spent on items on hold)     52h 30m
+Trond: 25h 30m (Rest of the time is spent on items on hold)
+
+Hold (To be done if time):
+- Json Type Information
+    - Rationale: Not required for the thesis, will be implemented after the thesis is over, before delivering the product.
+- Write Get Components Test.                                    1h                  PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Write Assign Component Test.                                  1h 30m              PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Write SmartHandle tests.                                      2h                  PMS         XX
+    - Rationale: Components have been used for some time now, so any bugs should have already popped up, and other tasks have higher priority. Bugs will possibly show up in the test cases instead, and be fixed there.
+- Create Lifecycle asserts                                      2h                  PMS         X
+    - Rationale: Other tasks have higher priority.
+- Write unit-test for events.                                   1h                  PMS         X
+    - Rationale: Other tasks have higher priority, also it will be used in the test cases, meaning that potential bugs can be uncovered there.
+- Support subtasks in estimation script.                        2h                  PMS         X
+    - Rationale: While this task is important, other tasks take more priority.
+
+Thesis:
+- Rationale: Read Sprints section in scrum_plan_v3
+- Write thesis outline.                                         4h                  PMS         XX
+- NOX: Write about Compilation time test.                       2h                  Trond       XX
+- NOX: Write about Fast Spawning test.                          2h                  PMS         XX
+- NOX: Write about Numerous Unique Components test.             2h                  Trond       XX
+- NOX: Write about Memory Usage test.                           2h                  PMS         XX
+- NOX: Write about Multi-threading support test.                2h                  Trond       XX
