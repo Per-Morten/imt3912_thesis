@@ -268,3 +268,31 @@ Refer to the benchmark appendix.
 Try and test with Suttung, if we manage to test with suttung
 we should include their feedback here.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Discussion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Discussion}
+\label{chap:discussion}
+Discuss the findings we have both from the user testing and the benchmarks.
+Discuss in what cases this ecs should be used, where is it beneficial to use our approaches?
+Which features were worth implementing in terms of performance,
+and usage?
+Examples:
+\begin{itemize}
+    \item
+    Doing layered execution is a good idea when you do a lot of work in your algorithms, and they can be parallelized,
+    however if they can't be parallelized, then the synchronization within the thread pool will reduce performance over a single threaded program.
+\end{itemize}
+
+\section{Criticism}
+General criticism of our findings and testing techniques,
+i.e. what are the factors we can criticize.
+Examples:
+\begin{itemize}
+    \item
+    We never actually tested on mobile, however we did optimizations based on stuff we know about certain architectures.
+
+    \item
+    We don't necessarily have a proper "counter" test case, for example we haven't implemented our systems with templates, that might be faster.
+\end{itemize}
+
