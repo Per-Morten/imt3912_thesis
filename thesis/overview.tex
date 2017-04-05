@@ -51,3 +51,42 @@ How we organize ourselves, process etc will be put later in the document.
 \section{Terminology}
 A small section explaining what the different terms used within the report means.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Requirements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Requirements}
+\label{chap:requirements}
+
+\section{Templates}
+Explain why we don't want heavy template usage within our system.
+To avoid heavy compile times within our ecs.
+
+\section{Performance}
+Discuss quickly why performance is important for NOX.
+
+\subsection{Virtual Functions}
+Discuss how virtual often are implemented, and why that layer of indirection is not necessarily good for modern platforms.
+
+\subsection{Contiguous Memory}
+Discuss why contiguous memory is important on modern platforms.
+
+\subsection{Multi-threading}
+Discuss why nox would like multi-threading within the new ecs.
+
+\section{Memory Usage}
+Discuss how we wanted to keep the memory usage about the same.
+
+\section{Mobile Platform}
+Discuss how mobile platforms often aren't x86 architectures, and what that affects.
+Mention both memory models, as well as the use of memory.
+
+\section{Familiarity}
+Discuss the requirement from NOX of familiarity, that the new system should not in a great deal different
+than the one they already have.
+
+\section{Focus On Safety}
+Discuss how nox would prefer us to do stuff safely but performance pessimistic by default.
+
+\section{Final Problem Statement And Objective}
+Here we detail the actual problem statement and objective based on the requirements listed above.
+
