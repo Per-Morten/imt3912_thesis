@@ -226,3 +226,25 @@ Loose a lot of as-if optimizations.
 The OperationTypes are part of the reason why the MetaInformation and createMetaInformation needed to be implemented,
 as this was a clean way "hide" the functionality from the user unless they want to explicitly take part in it.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Implementation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Implementation}
+\label{chap:implementation}
+Discuss various interesting problems we faced, and how we solved them.
+
+Topics to address here:
+\begin{itemize}
+    \item
+    Lock-free data structures with relaxed atomics. Trying to expose as little functionality as possible to keep the implementation possible.
+
+    \item
+    Dealing with low level memory and language features were a challenge. A lot had to be limited.
+
+    \item
+    Layered execution algorithm.
+
+    \item
+    Trying to find an abstraction level that was as high as needed, but as low as possible.
+\end{itemize}
+
