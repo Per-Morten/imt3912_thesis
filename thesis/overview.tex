@@ -107,3 +107,122 @@ Describe the different testcases we have created. Each test case will have its o
 In each subsection we will argue for why the test is relevant, and also mention weaknesses.
 Also need to refer to our test case plan.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Technical
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Technical}
+\label{chap:technical}
+This chapter will probably be quite a substantial part of the thesis, as we need to motivate everything.
+Also refer to the technical specification and design document.
+
+\section{High Level Architecture}
+Discusses the architecture at a higher level, only mention the different components and how they are tied together,
+however we are not motivating the different low level choices.
+
+\subsection{Lifecycle}
+Why are we doing the lifecycle we chose, and how does it work?
+
+\subsection{Parallelism}
+Why did we chose the fork-and-join model, and why do we do the layering approach.
+Also how does the layering approach work.
+Mention the problems with parallelizing Entity Models.
+Look at the Game Engine Architecture book.
+
+\subsection{Event System}
+Why did we choose this event system, rather than the one that is used within NOX.
+
+\subsection{Choices}
+\todo{Find better title}
+Talk about what high level choices and restrictions we put down.
+Like how we only allow movable types, what motivated these choices?
+The only movable types was motivated by seeing their usage patterns, and how much they used unique\_ptr etc, which is only movable.
+However what was the consequence of this choice? We could not implement state caching.
+
+\section{Detailed Architecture}
+All different modules from the High Level Architecture will here be discussed in a specific format.
+These are the modules we are thinking of discussing, at they are where we take more "interesting decisions".
+Each detailed description can probably also refer to the implementation which we can include in the assignment.
+
+\begin{itemize}
+    \item
+    ComponentCollection
+
+    \item
+    EntityManager
+
+    \item
+    MetaInformation
+
+    \item
+    TypeIdentifier
+
+    \item
+    OperationTypes
+
+    \item
+    Component
+
+    \item
+    SmartHandle
+
+    \item
+    Execution Layers
+
+    \item
+    Allocators
+
+    \item
+    Thread Pool
+
+    \item
+    Event
+\end{itemize}
+
+Format:
+
+\subsection{Module}
+\subsubsection{Explanation}
+Explain at a more fine level how the module functions.
+
+\subsubsection{Motivation}
+Explain why we made the choices we made.
+
+\subsubsection{Alternatives}
+Quickly list up potential alternatives to this choice.
+
+\subsubsection{Pros}
+What are the benefits of this approach.
+
+\subsubsection{Cons}
+What do we loose with this approach.
+
+\subsubsection{Consequences}
+What; if any, were the consequences of this choice?
+
+\subsection{Short Example (Obviously more detailed actual thesis): OperationTypes}
+\subsubsection{Explanation}
+Function pointers to different parts of a components lifecycle.
+
+\subsubsection{Motivation}
+Allows the user to both work with a member function mindset,
+and the availability to work with a data oriented mindset, i.e. make use of patterns in the data that the user knows about.
+Also means that user can decide himself if he wants to work with member functions, or freestanding functions.
+
+\subsubsection{Alternatives}
+Could also have used regular std::function rather than the operation types,
+however std function does add some overhead that regular function pointers does not necessarily do. However that also means that we cant do lambda captures etc.
+
+\subsubsection{Pros}
+Can make the operation point at nullptr, i.e. remove the call to the function if it is not overloaded.
+Can write general freestanding functions that can be used on more component types, without the use of templates.
+Allows us to give the user a familiar interface, because everything look like normal inheritance unless they decide to opt-in to more performance by overloading functions with freestanding functions etc.
+
+\subsubsection{Cons}
+We loose de-virtualization. (However, we are kind of doing that ourselves, seeing as we always point to the "lowest" implementation of a function).
+We might loose inlining. (Having a container with a subclass type, allows the container to inline code etc.)
+Loose a lot of as-if optimizations.
+
+\subsubsection{Consequences}
+The OperationTypes are part of the reason why the MetaInformation and createMetaInformation needed to be implemented,
+as this was a clean way "hide" the functionality from the user unless they want to explicitly take part in it.
+
