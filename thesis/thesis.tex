@@ -2,6 +2,7 @@
 
 \usepackage{csvsimple}
 \usepackage{booktabs}
+\usepackage{import} % Used for import from folders.
 
 \newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts 
 \newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
@@ -37,6 +38,7 @@
 \input{inc/testing}
 \input{inc/discussion}
 \input{inc/conclusion}
+\subimport{inc/}{benchmarking.tex}
 
 \bibliographystyle{ntnuthesis/ntnubachelorthesis}
 \bibliography{inc/thesis}
