@@ -4,7 +4,7 @@
 \usepackage{booktabs}
 \usepackage{import} % Used for import from folders.
 
-\newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts 
+\newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
 \newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
 %\renewcommand{\com}[1]{} %remove starting % to remove supervisor comments
 % This will appear in text \com{Lecuters comment} and be visible unless you uncomment
@@ -22,7 +22,7 @@
 
 \subimport{inc/}{thesis_data.tex}
 
-\makefrontpages 
+\makefrontpages
 
 \subimport{inc/}{preface.tex}
 
@@ -46,9 +46,18 @@
 \bibliography{inc/thesis}
 
 \appendix %after this line all chapters will have leters instead of numbers
-%\input{projectplan}
-%\input{gantt}
-%\input{progressreviews}
-%\input{worklog}
+\chapter{Test Case Plan}
+\chapter{Design Document}
+\chapter{Technical Specification}
+\chapter{Project Plan}
+\chapter{Scrum Plans}
+\chapter{Daily Scrum Logs}
+\chapter{Stakeholder Meetings}
+\chapter{Supervisor Meetings}
+\chapter{Sprint Retrospectives}
+\chapter{Group Rules}
+\chapter{Benchmark Data}
+\chapter{Stakeholder Contract}
+\chapter{Code}
 
 \end{document}
