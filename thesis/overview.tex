@@ -31,14 +31,14 @@ Always pushing the envelope for graphics etc.
 Why does the game industry value flexible systems?
 Reuse existing stuff.
 
-\section{Entity Component Systems}
-High level overview over what entity component systems are, and why they are used in the games industry.
-
 \section{Introduction To Suttung}
 Introduction to Suttung, who is our stakeholder.
 
 \section{Introduction To NOX Engine}
 Short introduction to the NOX engine, which is what we will interface against.
+
+\section{Entity Component Systems}
+High level overview over what entity component systems are, and why they are used in the games industry.
 
 \section{High-Level Objective}
 Create an Entity Component System within Suttungs engine,
@@ -89,23 +89,6 @@ Discuss how nox would prefer us to do stuff safely but performance pessimistic b
 
 \section{Final Problem Statement And Objective}
 Here we detail the actual problem statement and objective based on the requirements listed above.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Measurements
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Measurements}
-\label{chap:measurements}
-Discuss how we will measure the requirements. (Of those who are measurable).
-
-\section{Identifying Metrics}
-Talk about which metrics we use, and why we choose those metrics.
-What are the problems with those metrics.
-- Examples: We can't control the entire environment, so counting CPU cycles might not be entirely correct because we might have context switched.
-
-\section{Test Cases}
-Describe the different testcases we have created. Each test case will have its own subsection.
-In each subsection we will argue for why the test is relevant, and also mention weaknesses.
-Also need to refer to our test case plan.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Technical
@@ -247,6 +230,23 @@ Topics to address here:
     \item
     Trying to find an abstraction level that was as high as needed, but as low as possible.
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Measurements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Measurements}
+\label{chap:measurements}
+Discuss how we will measure the requirements. (Of those who are measurable).
+
+\section{Identifying Metrics}
+Talk about which metrics we use, and why we choose those metrics.
+What are the problems with those metrics.
+- Examples: We can't control the entire environment, so counting CPU cycles might not be entirely correct because we might have context switched.
+
+\section{Test Cases}
+Describe the different testcases we have created. Each test case will have its own subsection.
+In each subsection we will argue for why the test is relevant, and also mention weaknesses.
+Also need to refer to our test case plan.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Benchmarking
