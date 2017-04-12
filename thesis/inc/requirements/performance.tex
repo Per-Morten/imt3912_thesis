@@ -15,6 +15,7 @@ Each instance of a derived object is given a hidden member variable, which is a 
 When a virtual function is invoked the virtual table pointer is used to look up which function that should be run.
 The virtual table pointer can be placed anywhere, but is usually either the first or last member of an object.
 Multiple inheritance is often implemented by adding more virtual tables and virtual table pointers.\cite{codersource_virtual_functions}
+\cite[31:12]{andrei_alexandrescu_quick_code_quickly}
 
 The introduction of a hidden member variable adds a certain space overhead for each instance of a polymorphic class.
 The exact space overhead of implementation is influenced by some factors.
@@ -50,3 +51,4 @@ As a result of this Suttung and the authors decided to try and find another mech
 \subsection{Multi-threading}
 To further improve performance Suttung has requested that the new ECS should be multi-threaded, allowing them to better utilize multi-core hardware.
 The multi-threading should preferably be something that happens in the background, so that the programmers don't have to worry much about synchronization.
+\todo{Write about contention problems?}
