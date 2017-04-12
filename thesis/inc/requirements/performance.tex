@@ -1,4 +1,6 @@
 \section{Performance}
+As stated earlier, \todo{State this earlier} performance is an important aspect within the games industry,
+as a result of this, certain restrictions and wishes were decided upon by between Suttung and the Authors.
 
 \subsection{Virtual Functions}
 Virtual functions is C++'s way of supporting dynamic function binding,allowing for run-time polymorphism.
@@ -43,5 +45,8 @@ In the original NOX Actor system, all the different components were know at comp
 As a result of this Suttung and the authors decided to try and find another mechanism for handling "polymorphic" behavior.
 
 \subsection{Contiguous Memory}
+\todo{Write this when I get access to the Game Engine Architecture book, should have info on this inside it.}
 
 \subsection{Multi-threading}
+To further improve performance Suttung has requested that the new ECS should be multi-threaded, allowing them to better utilize multi-core hardware.
+The multi-threading should preferably be something that happens in the background, so that the programmers don't have to worry much about synchronization.
