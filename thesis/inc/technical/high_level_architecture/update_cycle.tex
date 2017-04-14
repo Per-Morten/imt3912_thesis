@@ -1,0 +1,50 @@
+\subsection{Update Cycle}
+In addition to the lifecycle the new ECS also has an update cycle with specific steps.
+These steps are by default arranged in a specific sequence, but can to a certain degree
+be executed in other sequences if so desired,
+so long as the new sequence does not invalidate lifecycle requirements of a component.
+The rationale for having these steps is that it allows for batched updates,
+leading to more cache friendly data traversal and access patterns.
+The following sections describes the different stages in the update cycle,
+and are listed in their default order.
+
+\todo{Fix this so it does not look so hilariously ugly}
+\begin{description}
+    \item
+    [Distribute Logic Events]
+    Distributes all regular NOX Logic events to different components.
+    Allowing nox to continue using their event system for non component communication.
+
+    \item
+    [Update]
+    Goes through all components on a per type basis and calls their respective update function.
+    The order of which types are called is unspecified.
+
+    \item
+    [Distribute Entity Events]
+    Distributes all the different entity events to different components.
+
+    \item
+    [Deactivate Components]
+    Deactivates all requested components.
+
+    \item
+    [Hibernate Components]
+    Hibernates all requested components.
+
+    \item
+    [Remove Components]
+    Removes (i.e. calls destructor on) all requested components.
+
+    \item
+    [Create Components]
+    Creates (i.e. calls constructor on) all requested components.
+
+    \item
+    [Awake Components]
+    Awakes all requested components.
+
+    \item
+    [Activate Components]
+    Activates all requested components.
+\end{description}
