@@ -1,1 +1,27 @@
 \subsection{Parallelism}
+One of the goals behind the new NOX ECS was to avoid heavy synchronization within the parallel segments.
+The rationale being that heavy synchronization could be unnecessary, and also inefficient within the proposed system.
+
+\subsubsection{Threading Model}
+\todo{Argument for this choice}
+It was decided to go for a fork-and-join like threading model \todo{Add link},
+as this would allow for encapsulated threading behavior within the entity system.
+Users of the system would not need to worry about starting up new threads,
+and the program flow would to a larger extent appear to act as a familiar linear sequential system.
+
+\todo{Add picture of the fork-and-join model?}
+The threading model of choice also fit nicely with the previous decision of keeping component types
+grouped together.
+Each thread would be assigned a collection of components which could be processed in an isolated,
+homogeneous and contiguous manner, avoiding cache invalidation and synchronization problems.
+
+Heavy inter component dependencies could also be avoided by dividing dependent components
+into different layers of execution. \todo{Reference the layered execution in detailed architecture}
+This division would be based on known access patterns between the different component types,
+which is informed by a programmer.
+
+\subsubsection{Contention}
+The fork-and-join model with a layered execution would solve the problem of organizing and running components
+in a concurrent matter, however it did not solve the issue of communication with central systems, like the event system, or lifecycle requests.
+If these were protected with regular locks chances were high that there would be a lot of contention.
+It was therefore decided that
