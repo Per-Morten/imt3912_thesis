@@ -1,13 +1,131 @@
 \subsection{Operation Types}
-\todo{Remove this, only here to force pagebreak}
-\subsubsection{Explanation}
+\label{subsec:detailed_operation_types}
+Operation types are NOX ECS's way of handling overridable component behavior,
+they are different function pointers held within the meta information of a component type.
+The different operation types points is set to functions that should be called during the different steps
+of a components lifecycle during runtime.
+This functionality would normally be supported using virtual functions in C++.
+
+Additionally the operation types are used to support limited component construction, destruction,
+move construction and move assignment without directly needing to know the subject component type.
+Being able to construct, move construct or move assign a class without knowing it's type is a feature
+C++ in general does not support. \todo{Atleast that I know of, need to double check this}
 
 \subsubsection{Motivation}
+The main motivation behind the operation types structure was the requirements restriction on virtuals and templates. \todo{reference back to the requirement restriction on virtuals and templates}
+NOX ECS would need a way to keep track of overridable behavior of a component type, without the overhead of virtuals,
+and without directly knowing the component type.
+
+Additionally there was a desire to allow the users more flexibility when creating their lifecycle functions.
+This flexibility would include the ability to take advantage of known data patterns,
+or use generic non-member functions to implement component behavior.
+However by default the operation types would be "invisible" to the user of the ECS,
+allowing them to think in a regular member function object oriented mindset.
+
+\subsubsection{Explanation}
+As previously mentioned operation types are just pointers to functions that take in Component pointers,
+and potentially some other parameters.
+Functions implementing the operation types will cast the Component pointer parameter over to the derived type,
+and call the derived function.
+Allowing for overridable behavior without the per instance space overhead of a pointer to the virtual table.
+\todo{Add code example}
+
+This idea of having functions taking opaque types only to cast them over to the correct types is nothing new,
+this thinking was what allowed users to send in their own compare functions to C's qsort function. \todo{Link to cpp reference qsort interface}
+
+Additionally some of these operation types were created for operating on contiguous ranges of component types,
+allowing users to iterate over components and take advantage of known data patterns or caching of calculated values.
+
+Writing all these "conversion" functions out by hand would be way to tedious and error prone,
+and going against the "opt-in opt-out" philosophy of the NOX ECS.
+The user should normally not need to worry about correct casting or pointer iteration,
+but work with the mindset and semantics that they are used to, i.e. thinking with member functions.
+
+This problem was solved with the help of C++ templates.
+When the user is calling the create meta information for a specific component type,
+the component type is sent in as a template parameter.
+This allows us to create template instantiations of wrapper functions that does the standard conversions.
+\todo{Add code example with comments, clearly showing this}
+\todo{Shall we use proper camelcase etc for function names, like createMetaInformation? Also, do I need to explain further?}
 
 \subsubsection{Alternatives}
+The normal solutions for the problem of reusability and overridable behavior would be solved through template or virtual
+functionality in C++, however when heavy usage of both of these features are ruled out due to the requirements there are not that many obvious alternatives left,
+at least not without changing some of the other architectural choices that were made.
 
 \subsubsection{Pros}
+This solution does offer certain advantages over the potential alternatives of templates and virtual functions.
+
+\paragraph{Greater Customization Options}
+Regular virtual functions in C++ are implemented as member functions, requiring the user to couple functions with their data.
+Operation types work on free standing functions, which by default are wrappers that call member functions.
+However the user can if desired supply their own functions to the function pointers, for example pointers to template
+instantiations of functions allowing the user to write generic functions that can operate on different types of components,
+still optimized for their respective types.
+Keeping the operation types as pointers to free standing functions also means that there is not such a push towards
+coupling functions and data together, as member function syntax is not required.
+
+\paragraph{Contiguous Iteration}
+Some of the operation types are created to work on ranges of components, mainly the update and receive event operations.
+This decision was made to allow the users of the system to take advantage of potential known data patterns within the components,
+leading to more efficient code.
+The decision was also made to give a larger chance of the CPU keeping the pointer to the overridden function in cache,
+as all components that are sent into an operation will be of same type.
+
+\paragraph{Removal of Unused Functions}
+Regular virtual functions in C++ can be hard for the compiler to optimize away, the exception
+being if the type can be known during compile time. C++ does not offer any Just In Time compilation either,
+meaning that even calls to empty virtual functions can't be removed.
+This is possible with the operation types, as their are just regular function pointers, they can be checked for nullptr.
+This feature is offered by default within the NOX ECS, which is able to detect overriding of functions within a derived type,
+by using C++ template SFINAE functionality. \todo{Add SFINAE to terminology?}
+For example, if a user has not overridden the update function of the component base class, that component type is never scheduled
+for updates. The same applies to receiving events, as well as certain lifecycle function calls.
+
+\paragraph{No Virtual Pointer Space Overhead}
+While the operation types still incur some run-time overhead in terms of indirection,
+the per type space overhead of a virtual table pointer is gone.
+The meta information is stored together with the component collections of each respective component type.
 
 \subsubsection{Cons}
+While there are certain advantages to the operation types there are also some disadvantages.
+
+\paragraph{Burdens on Users}
+While the user does not need to worry about how the operation types works by default,
+some extra burdens are put on the programmers that wish to take advantage off the flexibility offered.
+
+\subparagraph{Casting}
+Because the ECS is unaware of the types it is directly working with, a certain level of type casting is required.
+Each operation type receives some component pointers that must be casted over to the correct type,
+and possibly iterated over. This is a lot of boilerplate, and it can be difficult to debug if it is done wrong.
+
+\subparagraph{Odd Syntax}
+Working only with operation types internally within the ECS means that one moves away from the regular syntax of C++,
+for example move assignment operators are replaced with function calls to the move assignment operation type.
+This is not visible to the end user, but is something possible maintainers will have to get used to when working with the ECS.
+
+\paragraph{Optimization Limitations}
+Since the operation types are replacements for certain functionality that is built into C++, the compiler is in
+unfamiliar territory, leading to potential lost optimization opportunities.
+For example certain types may be faster to copy than to move, however the ECS only support move constructors
+and move assignment operators.
+The decision to go with move only types is that it can be faster for types that are costly to copy,
+and also because of the existing use patterns that are used within the old nox actor system, where components
+also are move only types.
+Other optimizations opportunities are also limited, for example removal of destructor calls on trivial types.
+
+\paragraph{Levels of Indirection}
+Normal virtual functions in C++ normally have two levels of indirection, one for looking up the virtual table,
+and one for looking up a function that is pointed to within the virtual table.
+This cost can diminish over time if the user can ensure that objects with the same virtual function overloads
+are processed in an ordered sequence based on their types, allowing for virtual functions to be cached.
+The operation types offers the same levels of indirection, with a possibility of an extra indirection.
+The first indirection will be to find the meta information structure belonging to a component collection,
+then another layer of indirection to find the function that an operation type is pointing to.
+If the function pointed to is a default wrapper that calls a member function there might be another layer of indirection
+if the member function is not inlined by the compiler.
+However this function could then be kept in cache for the functions that are called on ranges of values.
 
 \subsubsection{Consequences}
+\todo{For future section: Might be able to template the entire thing when modules comes around,
+as it will improve build times.}
