@@ -3,6 +3,9 @@
 \usepackage{csvsimple}
 \usepackage{booktabs}
 \usepackage{import} % Used for import from folders.
+\import{../latex_utility/}{listing_cpp_syntax.tex}
+\import{../latex_utility/}{pt_commands.tex}
+
 
 \newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
 \newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
@@ -10,13 +13,17 @@
 % This will appear in text \com{Lecuters comment} and be visible unless you uncomment
 % the renewcommand line.
 
-\newcommand{\todo}[1]{{\color{green}#1}} % items to do
+\newcommand{\todo}[1]{{\color{cyan}\lbrack todo: #1\rbrack}\\} % items to do
 %\renewcommand{\todo}[1]{} %remove starting % to remove items to do
 
 \newcommand{\n}[1]{{\color{blue}#1}} % other comment
 %\renewcommand{\n}[1]{} %remove starting % to remove notes
 
 \newcommand{\dn}[1]{} % add the dn to a note to say that you have finished with it.
+
+% To use when just doing a regular section reference, if more custom wording is needed,
+% the footnote must be set up manually
+\newcommand{\secref}[1]{\footnote{See section \ref{#1}}}
 
 \begin{document}
 
@@ -29,6 +36,11 @@
 \tableofcontents
 \listoffigures
 \listoftables
+
+\todo{Make sure to mention that this might be sort of a hybrid between an ECS and just a component system,
+as there are actually logic tied to components, or atleast can be. It is closer to the Unity Approach really,
+need to be clear in the entity component system introduction what sort of ECS we are going for,
+and what separates them, mention how we might be doing a property centric object system}
 
 \subimport{inc/}{introduction.tex}
 \subimport{inc/}{requirements.tex}
