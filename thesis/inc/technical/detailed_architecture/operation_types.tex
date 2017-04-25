@@ -78,7 +78,7 @@ being if the type can be known during compile time. C++ does not offer any Just 
 meaning that even calls to empty virtual functions can't be removed.
 This is possible with the operation types, as their are just regular function pointers, they can be checked for nullptr.
 This feature is offered by default within the NOX ECS, which is able to detect overriding of functions within a derived type,
-by using C++ template SFINAE functionality. \todo{Add SFINAE to terminology?}
+by using C++ template SFINAE functionality. \todo{Add SFINAE to terminology? This can possibly also be done with \url{http://en.cppreference.com/w/cpp/experimental/is_detected}}
 For example, if a user has not overridden the update function of the component base class, that component type is never scheduled
 for updates. The same applies to receiving events, as well as certain lifecycle function calls.
 
