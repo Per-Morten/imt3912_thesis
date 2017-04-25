@@ -1,16 +1,16 @@
 \subsection{Meta Information}
 \label{subsec:detailed_meta_information}
-The meta information structure is at the heart of NOX ECS,
+The meta information structure is an important structure in NOX ECS,
 it contains all type information needed by the ECS to work without
 templates and virtual functions.
 Each component type has a meta information, containing information
-of the components size, type identifier\footnote{\ref{subsec:detailed_type_identifier}},
-operation types\footnote{\ref{subsec:detailed_operation_types}}, dependencies \todo{Add ref} etc.
+of the components size, type identifier\secref{subsec:detailed_type_identifier},
+operation types\secref{subsec:detailed_operation_types}, data access dependencies etc.
 All of this information allows NOX ECS to implement type ignorant generic functionality.
 
 \subsubsection{Explanation}
 Meta information is simply a struct holding data relevant to a type.
-It is stored together with a component collection\footnote{\ref{subsec:detailed_component_collection}},
+It is stored together with a component collection\secref{subsec:detailed_component_collection},
 which uses the information stored in the meta structure to decide what actions
 it should take on the components stored within itself.
 Meaning that the meta information both acts as a replacement for templates,
@@ -58,8 +58,3 @@ This is quite error prone and small mistakes can lead to hard to find bugs and p
 Just as with the operation types, this functionality is by default implemented in the language
 through other means. Reimplementing this functionality leads to the compiler being on unknown
 ground, with a lot of instructions being opaque at compile time.
-\todo{Find out which should come first, this or operation types, that decides who should reference each other}
-
-\subsubsection{Consequences}
-\todo{Sort of the same as operation types, the consequences section should perhaps be dropped,
-and rather use a longevity section, as everything is a bit more high level again.}
