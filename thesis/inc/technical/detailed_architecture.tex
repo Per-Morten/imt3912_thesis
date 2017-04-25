@@ -1,13 +1,53 @@
 \section{Detailed Architecture}
+The detailed architecture section will describe in greater detail the different structures that is used in
+NOX ECS, including motivations, advantages, disadvantages, alternatives and the longevity of the structure choices.
 
-\subimport{detailed_architecture/}{component_collection.tex}
+\todo{Section this differently, perhaps sections:
+ECS, (Everything in ECS folder except: Factory, component collection?)Mainly motivated by lack of virtuals and templates)
+Memory, (Includes component collection?, mainly motivated by contigious memory)
+Threading, (Including lock free allocator), motivated by contigious memory and threading.}
+
+% Basic stuff, building blocks
+\todo{Ask mariusz if these sections should actually be grouped in sections like the list below.
+    And have motivation on a per section basis, rather than per type basis.
+    for example many of the basic building blocks share the same motivations etc.
+    \begin{itemize}
+        \item Basic building blocks
+        \begin{itemize}
+            \item component
+            \item operation types
+            \item meta information
+            \item type identifier
+        \end{itemize}
+
+        \item Usage in ECS
+        \begin{itemize}
+            \item component collection
+            \item smart handle
+            \item entity manager
+            \item event
+        \end{itemize}
+
+        \item Misc
+        \begin{itemize}
+            \item execution layers
+            \item lock free allocator
+            \item thread pool
+        \end{itemize}
+    \end{itemize}
+}
+
 \subimport{detailed_architecture/}{component.tex}
+\subimport{detailed_architecture/}{operation_types.tex}
+\subimport{detailed_architecture/}{type_identifier.tex}
+\subimport{detailed_architecture/}{meta_information.tex}
+
+% Actual usage of building blocks, still ecs.
+\subimport{detailed_architecture/}{component_collection.tex}
 \subimport{detailed_architecture/}{entity_manager.tex}
 \subimport{detailed_architecture/}{event.tex}
+
+% Talk more on the misc, threading and memory.
 \subimport{detailed_architecture/}{execution_layers.tex}
 \subimport{detailed_architecture/}{lock_free_allocator.tex}
-\subimport{detailed_architecture/}{meta_information.tex}
-\subimport{detailed_architecture/}{operation_types.tex}
-\subimport{detailed_architecture/}{smart_handle.tex}
 \subimport{detailed_architecture/}{thread_pool.tex}
-\subimport{detailed_architecture/}{type_identifier.tex}
