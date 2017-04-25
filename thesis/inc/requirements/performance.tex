@@ -3,6 +3,8 @@ As stated earlier, \todo{State this earlier} performance is an important aspect 
 as a result of this, certain restrictions and wishes were decided upon by between Suttung and the Authors.
 
 \subsection{Virtual Functions}
+\label{subsec:requirements_performance_virtual_functions}
+\todo{Refer to Game Engine Architecture?}
 Virtual functions is C++'s way of supporting dynamic function binding,allowing for run-time polymorphism.
 With the help of virtual functions, objects derived from a base class can override base class functionality,
 even when derived's type is unknown at compile time.
@@ -35,7 +37,7 @@ as well as from situation to situation.
 The overhead can for example be influenced by whether or not the function is in the CPU's instruction cache,
 or whether or not a the CPU has done a branch miss-prediction, which can lead to pipeline flushes and stalls. \cite{scott_meyers_cpu_caches_and_why_you_care} \cite[Data Locality]{game_programming_patterns}
 As a result of virtual functions being invoked at runtime, the compiler might only see the invocation as an opaque function call,
-possibly disabling certain optimizations, like inlining, reordering, compile time calculations, or even removing empty function calls.
+possibly disabling certain optimizations, like inlining, reordering, compile time calculations, or even removing empty function calls. \todo{Do we need some godbolt examples here?}
 \todo{Clear this with Mariusz and others knowledgeable with C++; Tried this with godbolt, compiler could not remove empty function call. How to "cite" this?}
 These tradeoffs are known, and compilers can to a certain degree optimize away some of these issues.
 For example if a type is known at compile time, then a compiler might do devirtualization,
@@ -46,9 +48,12 @@ In the original NOX Actor system, all the different components were know at comp
 As a result of this Suttung and the authors decided to try and find another mechanism for handling "polymorphic" behavior.
 
 \subsection{Contiguous Memory}
+\label{subsec:requirements_performance_contiguous_memory}
+
 \todo{Write this when I get access to the Game Engine Architecture book, should have info on this inside it.}
 
 \subsection{Multi-threading}
+\label{subsec:requirements_performance_multi_threading}
 To further improve performance Suttung has requested that the new ECS should be multi-threaded, allowing them to better utilize multi-core hardware.
 The multi-threading should preferably be something that happens in the background, so that the programmers don't have to worry much about synchronization.
 \todo{Write about contention problems?}
