@@ -2,10 +2,10 @@
 \label{subsec:detailed_component_collection}
 The component collection is where all the different building blocks
 comes together.
-As the name suggests the component collection is responsible for containing
+It is responsible for containing
 a collection of a specific component type.
-The collection was design for fast contiguous processing of component groups internally within the ECS,
-while giving sufficient to external lookups on individual components.
+The collection was designed for fast contiguous processing of component groups internally within the ECS,
+while supporting external lookups on individual components.
 
 \subsubsection{Explanation}
 The component collection functions like a dynamically sized pool for components of a specific type.
@@ -23,11 +23,12 @@ The reasoning for using a contiguous memory buffer is to make better usage of ha
 
 \paragraph{Reallocation \& Growth Strategy}
 As mentioned the buffer is contiguous memory, which needs to be reallocated when new components are added.
-this can be a costly operation, but is mitigated by using a simple growth strategy.
+This can be a costly operation, but is mitigated by using a simple growth strategy.
 When a collection needs to reallocate it will expand the buffer size based it's growth factor.
 The new size of the collection is simply its old size multiplied with its growth factor.
-This leads to an amortized constant complexity when adding a new component to the collection,
+This leads to an amortized constant algorithmic complexity when adding a new component to the collection,
 however some extra overhead is required to keep the index map in a valid state.
+\todo{Ask mariusz if using the word amortized is to "complex"}
 
 \paragraph{Lifecycle Partitioning}
 \todo{Add Figure: component\_collection.png}
@@ -39,14 +40,13 @@ swapping it with the the first component in a partition and increment or decreme
 
 \paragraph{Index Mapping}
 Collections are often queried for their components, meaning that some form of lookup is needed.
-Several approaches could have been taken to solve this problem,
-the path taken in the collection was to add an indexing structure on top of the collection.
+The problem was solved by adding an indexing structure on top of the collection.
 A sorted vector containing entity ids and pointers to the different components is used,
 allowing for faster lookup through a binary search.
 
 \paragraph{Iterator Invalidation}
-When using contiguous memory iterator invalidation is often a problem, and this case is no different.
-After a reallocation any references to objects in the old memory location is invalidated,
+When using contiguous memory, iterator invalidation is often a problem, and this case is no different.
+After a reallocation any references to objects in the old memory location are invalidated,
 and accessing them could result in undefined behavior.
 This problem was solved with smart handles and generations.
 
@@ -78,19 +78,19 @@ The component collection is an important part of the NOX ECS, and several altern
 \paragraph{Unpartitioned}
 As stated earlier the components within a collection are partitioned based on their stages in the lifecycle,
 this means that a lot of memory movement and pointer upkeep is happening within the collection.
-An alternative could be to not partition the components, however that would mean that another way of storing
+An alternative could be to not partition the components. However that would mean that another way of storing
 lifecycle information would be needed, for example a state variable.
 It would also lead to worse branch prediction, as components would need to be queried about their state.
-However avoiding partitioning would also lead to less iterator invalidation, as moving memory around would
+Avoiding partitioning would also lead to less iterator invalidation, as moving memory around would
 only be needed to avoid fragmentation when removing a component.
 
 \paragraph{Semi Contiguous Memory}
 Requiring full contiguous memory might be a bit to extreme for the collection, as this leads to
 reallocation in several cases. Going for a semi contiguous approach akin to that of a standard C++ deque\footnote{\url{http://en.cppreference.com/w/cpp/container/deque}},
 or a linked list containing several contiguous memory segments.
-Such approach could lead to lower costs of reallocation, while still allowing for efficient use of caching mechanisms
+Such an approach could lead to lower costs of reallocation, while still allowing for efficient use of caching mechanisms
 when iterating.
-However searching, removal and partitioning could suffer from such an implementation.
+Searching, removal and partitioning could suffer from such an implementation.
 
 \paragraph{Partitioned \& Sorted}
 Currently the components are partitioned, but not sorted internally within the partitions.
@@ -106,7 +106,7 @@ The current smart handle implementation might be more complex than necessary, an
 A simpler solution could be to go for an external reference system like the one described by Reinalter\cite{molecular_matters_dod_external_references},
 where users are given an index and generation into a sparse array, which indexes into the regular component array.
 The main reason for not going with this approach was originally to not use extra space for the outer sparse arrays,
-however when the index map was introduced to allow for faster searching, that memory was needed anyway.
+however, when the index map was introduced to allow for faster searching, that memory was needed anyway.
 
 \subparagraph{Hashing}
 Doing lookups based on hashed values was also a possibility, however this would require an efficient hashing algorithm,
@@ -122,7 +122,7 @@ While there are some advantages to the collection there are also some disadvanta
 
 \paragraph{Memory Movement}
 As mentioned earlier there is a lot of memory movement overhead required for this structure to avoid fragmentation and
-maintain the partitioning. This can be quite expensive when working with types that are heavy to move.
+maintaining the partitioning. This can be quite expensive when working with types that are heavy to move.
 
 \paragraph{Frequent Iterator Invalidation}
 While the smart handles fixes the problem with stale references to components it is not cost free.
