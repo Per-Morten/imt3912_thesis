@@ -1,23 +1,22 @@
 \section{Performance}
-As stated earlier, \todo{State this earlier} performance is an important aspect within the games industry,
-as a result of this, certain restrictions and wishes were decided upon by between Suttung and the Authors.
+As stated earlier, performance is an important aspect within the games industry.
+As a result of this, certain restrictions and wishes were decided upon by between Suttung and the Authors.
 
 \subsection{Virtual Functions}
 \label{subsec:requirements_performance_virtual_functions}
 \todo{Refer to Game Engine Architecture?}
-Virtual functions is C++'s way of supporting dynamic function binding,allowing for run-time polymorphism.
+Virtual functions is C++'s way of supporting dynamic function binding, allowing for run-time polymorphism.
 With the help of virtual functions, objects derived from a base class can override base class functionality,
-even when derived's type is unknown at compile time.
-The implementation of virtual functions are not mandated by the C++ ISO Standard,
-however, many compilers choose the same tactic; creating a virtual table.\cite{wikipedia_virtual_method_table}
-\todo{Link to standard? (c++14 or c++17)?, Ask Mariusz if draft is ok, as the real thing costs money}
+even when the derived type is unknown at compile time.
+The implementation of virtual functions are not mandated by the C++ ISO Standard.
+However, many compilers choose the same tactic; creating a virtual table\cite{wikipedia_virtual_method_table}\cite[p. 140]{game_engine_architecture}.
 
-A virtual table can be viewed as a data structure containing function pointers to virtual functions that should be called in a derived class.
+A virtual table can be viewed as a data structure containing function pointers to virtual functions that will be called in a derived class.
 Each instance of a derived object is given a hidden member variable, which is a pointer to their class's respective virtual table.
 When a virtual function is invoked the virtual table pointer is used to look up which function that should be run.
 The virtual table pointer can be placed anywhere, but is usually either the first or last member of an object.
-Multiple inheritance is often implemented by adding more virtual tables and virtual table pointers.\cite{codersource_virtual_functions}
-\cite[31:12]{andrei_alexandrescu_quick_code_quickly}
+Multiple inheritance is often implemented by adding more virtual tables and virtual table pointers\cite{codersource_virtual_functions}
+\cite[31:12]{andrei_alexandrescu_quick_code_quickly}.
 
 The introduction of a hidden member variable adds a certain space overhead for each instance of a polymorphic class.
 The exact space overhead of implementation is influenced by some factors.
@@ -35,17 +34,17 @@ The exact space overhead of implementation is influenced by some factors.
 Invoking a virtual function also adds some overhead in terms of extra lookups, the severity varies between architectures,
 as well as from situation to situation.
 The overhead can for example be influenced by whether or not the function is in the CPU's instruction cache,
-or whether or not a the CPU has done a branch miss-prediction, which can lead to pipeline flushes and stalls. \cite{scott_meyers_cpu_caches_and_why_you_care} \cite[Data Locality]{game_programming_patterns}
+or whether or not the CPU has done a branch miss-prediction, which can lead to pipeline flushes and stalls\cite{scott_meyers_cpu_caches_and_why_you_care}\cite[Data Locality]{game_programming_patterns}.
 As a result of virtual functions being invoked at runtime, the compiler might only see the invocation as an opaque function call,
 possibly disabling certain optimizations, like inlining, reordering, compile time calculations, or even removing empty function calls. \todo{Do we need some godbolt examples here?}
 \todo{Clear this with Mariusz and others knowledgeable with C++; Tried this with godbolt, compiler could not remove empty function call. How to "cite" this?}
 These tradeoffs are known, and compilers can to a certain degree optimize away some of these issues.
 For example if a type is known at compile time, then a compiler might do devirtualization,
-meaning that it will not do a lookup through a virtual pointer table, but rather do a direct function call. \cite{lazarenko_devirtualization}
+meaning that it will not do a lookup through a virtual pointer table, but rather do a direct function call\cite{lazarenko_devirtualization}.
 
 Direct run-time polymorphism is rarely needed within the NOX engine, especially within the entity systems.
-In the original NOX Actor system, all the different components were know at compile time.
-As a result of this Suttung and the authors decided to try and find another mechanism for handling "polymorphic" behavior.
+In the original NOX Actor system, all the different components were known at compile time.
+As a result of this Suttung and the authors decided to try to find another mechanism for handling "polymorphic" behavior.
 
 \subsection{Contiguous Memory}
 \label{subsec:requirements_performance_contiguous_memory}
