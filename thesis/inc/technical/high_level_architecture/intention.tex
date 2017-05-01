@@ -1,4 +1,5 @@
 \subsection{Intention}
+\todo{Proper explain of opt-in and opt-out, do we need to explain them.}
 The intention of the new ECS was that it would be an "opt-in opt-out" system.
 The syntax and semantics would mirror the old system as much as possible by default,
 allowing for Suttung to remain productive while learning the new system.
@@ -6,11 +7,12 @@ Safety would also be "enabled" by default, users would not need to care about co
 nor race conditions.
 With cache friendly algorithms focusing on homogeneous treatment of contiguous data,
 the new system would still perform better than the old actor system without any further optimizations by the user.
-This would be the case by default, however the user would be given a choice to opt-out of these "features",
+This would be the case by default. However the user would be given a choice to opt-out of these "features",
 and opt-in to other systems for better performance.
 Examples include multi-threading support, and the possibilities of taking advantage of known patterns within the users data.
 However this would put a larger burden on the users of the system, as they might come in contact with unfamiliar syntax and ways of thinking,
 and think more carefully about their data access dependencies in a multi-threaded environment.
+
 \todo{Find out if more is needed here}
 \todo{Add note on the underlying thought of always working with a range of values,
 with this we can add a reference to DOD}
