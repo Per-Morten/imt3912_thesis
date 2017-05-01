@@ -1,8 +1,8 @@
 \subsection{Operation Types}
 \label{subsec:detailed_operation_types}
-Operation types are NOX ECS's way of handling overridable component behavior,
+Operation types are our way of handling overridable component behavior,
 they are different function pointers held within the meta information of a component type.
-The different operation types points is set to functions that should be called during the different steps
+The different operation types points to functions that should be called during the different steps
 of a components lifecycle during runtime.
 This functionality would normally be supported using virtual functions in C++.
 
@@ -27,11 +27,11 @@ As previously mentioned operation types are just pointers to functions that take
 and potentially some other parameters.
 Functions implementing the operation types will cast the Component pointer parameter over to the derived type,
 and call the derived function.
-Allowing for overridable behavior without the per instance space overhead of a pointer to the virtual table.
+This allows for overridable behavior without the per instance space overhead of a pointer to the virtual table.
 \todo{Add code example}
 
-This idea of having functions taking opaque types only to cast them over to the correct types is nothing new,
-this thinking was what allowed users to send in their own compare functions to C's qsort function. \todo{Link to cpp reference qsort interface}
+This idea of having functions taking opaque types only to cast them over to the correct types is nothing new.
+This line of thought was what allowed users to send in their own compare functions to C's qsort function\footnote{\url{http://en.cppreference.com/w/c/algorithm/qsort}}.
 
 Additionally some of these operation types were created for operating on contiguous ranges of component types,
 allowing users to iterate over components and take advantage of known data patterns or caching of calculated values.
@@ -48,13 +48,13 @@ This allows us to create template instantiations of wrapper functions that does 
 \todo{Add code example with comments, clearly showing this}
 \todo{Shall we use proper camelcase etc for function names, like createMetaInformation? Also, do I need to explain further?}
 
-\subsubsection{Alternatives}
-The normal solutions for the problem of reusability and overridable behavior would be solved through template or virtual
-functionality in C++, however when heavy usage of both of these features are ruled out due to the requirements there are not that many obvious alternatives left,
+\subsubsection{Alternatives To Operation Types}
+The normal solutions for the problem of reusability and overridable behavior would be template or virtual
+functionality in C++. However when heavy usage of both of these features are ruled out due to the requirements there are not that many obvious alternatives left,
 at least not without changing some of the other architectural choices that were made.
 
-\subsubsection{Pros}
-This solution does offer certain advantages over the potential alternatives of templates and virtual functions.
+\subsubsection{Pros of Operation Types}
+The operation types solution does offer certain advantages over the potential alternatives of templates and virtual functions.
 
 \paragraph{Greater Customization Options}
 Regular virtual functions in C++ are implemented as member functions, requiring the user to couple functions with their data.
@@ -73,7 +73,7 @@ The decision was also made to give a larger chance of the CPU keeping the pointe
 as all components that are sent into an operation will be of same type.
 
 \paragraph{Removal of Unused Functions}
-Regular virtual functions in C++ can be hard for the compiler to optimize away, the exception
+Regular virtual functions in C++ can be hard for the compiler to optimize away. The exception
 being if the type can be known during compile time. C++ does not offer any Just In Time compilation either,
 meaning that even calls to empty virtual functions can't be removed.
 This is possible with the operation types, as their are just regular function pointers, they can be checked for nullptr.
@@ -100,8 +100,8 @@ Each operation type receives some component pointers that must be casted over to
 and possibly iterated over. This is a lot of boilerplate, and it can be difficult to debug if it is done wrong.
 
 \subparagraph{Odd Syntax}
-Working only with operation types internally within the ECS means that one moves away from the regular syntax of C++,
-for example move assignment operators are replaced with function calls to the move assignment operation type.
+Working only with operation types internally within the ECS means that one moves away from the regular syntax of C++.
+For example move assignment operators are replaced with function calls to the move assignment operation type.
 This is not visible to the end user, but is something possible maintainers will have to get used to when working with the ECS.
 
 \paragraph{Optimization Limitations}
