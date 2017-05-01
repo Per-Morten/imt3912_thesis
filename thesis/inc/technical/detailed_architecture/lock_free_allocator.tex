@@ -8,7 +8,7 @@ however it was soon used for other systems as well, like the queuing mechanisms 
 \paragraph{Linear Allocators}
 As mentioned earlier the allocator is a linear allocator.
 This means that while the allocator supports allocations of many different sizes,
-however it only supports mass deallocation, i.e. freeing all memory at once,
+it only supports mass deallocation, i.e. freeing all memory at once,
 which cannot be done concurrently.
 This decision was intentionally made to keep the functionality of the allocator as simple
 as possible, to allow for a lock free implementation.
