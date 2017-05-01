@@ -3,27 +3,88 @@
 The lock free allocator is a linear allocator built with a linked list of memory blocks.
 It was introduced into the NOX ECS to support dynamic allocation mainly for the event system,
 however it was soon used for other systems as well, like the queuing mechanisms in the entity manager.
-\todo{Mention that this is for short lived memory}
 
 \subsubsection{Explanation}
-As mentioned earlier the allocator is a linear allocator,
-this means that while the allocator supports allocations of many different sizes,
-however it only supports mass deallocation, i.e. freeing all memory at once.
+\paragraph{Linear Allocators}
+As mentioned earlier the allocator is a linear allocator.
+This means that while the allocator supports allocations of many different sizes,
+however it only supports mass deallocation, i.e. freeing all memory at once,
+which cannot be done concurrently.
 This decision was intentionally made to keep the functionality of the allocator as simple
-as possible, to allow for the lock free implementation.
-Another rationale for the decision to go for a linear allocator was that the allocator
-is usually used for objects who has a short lifetime, like events or transition requests.
+as possible, to allow for a lock free implementation.
+Another rationale for the decision to go for a linear allocator was that this allocator
+is usually used for read only objects with a short lifetime, like events or transition requests.
 These objects only live for a single iteration of the update loop, and are all destroyed at
 the same location, meaning that the support for individual deallocation is not really needed.
 
-\paragraph{Compare and swap}
-\todo{Does this need to be explained}
+\paragraph{Linked List}
+The idea behind the allocator is pretty basic, it is simply a singly linked list consisting of
+memory blocks, with a pointer to the beginning of the list and a pointer to the first memory block
+with free memory available.
+These memory blocks consists of a pointer to the next block, a fixed size byte buffer
+and a variable to indicate the amount of memory used within the buffer.
+Of the two pointers in the linked list the only one of real importance is the pointer to the first
+memory block that is free. The pointer to the beginning of the list mainly exists to allow for proper
+cleanup of the list during destruction, and to reset the first free pointer when clearing the allocator.
+The allocator reuses the memory stored within the list after a clear operation, and therefore only
+allocates more memory if needed.
 
-\paragraph{Allocate}
-\lstinputlisting[language=cpp, caption=allocate, label=lst:allocate]{lock_free_allocate.py}
+\paragraph{Allocation - Single threaded}
+Allocating memory in a single threaded environment is a trivial matter,
+when an allocation is requested one simply checks if there is enough room within the first free memory block.
+If there is not enough room for an allocation, one either uses a previously allocated free block if possible,
+or allocate a new block and appending it to the list, as seen is listing \ref{lst:single_threaded_allocate}.
+before updating the blocks size and returning the memory to the caller.
+\lstinputlisting[language=cpp, caption=allocate single threaded, label=lst:single_threaded_allocate]{lock_free_allocator_code/single_threaded_allocate.py}
 
-\paragraph{Try Allocate}
-\lstinputlisting[language=cpp, caption=allocate, label=lst:try_allocate]{lock_free_try_allocate.py}
+\paragraph{Allocation - Lock Free}
+The lock free implementation of the allocation function is a bit more involved than the single threaded version,
+and requires more steps, detailed below. The memory ordering constraints placed on atomic operations is omitted both for the sake of brevity,
+and because they are not fundamental to the algorithm. The whole procedure with memory ordering constraints can be seen on the project repository.
+
+\subparagraph{Compare and Swap}
+The main idea behind the lock free implementation is that each thread that requests an allocation will do some
+speculative work, based on its view of the allocators state. When this work is done, the thread will try to publish
+its work to the other threads, which is possible only if its earlier view of the allocators state has not changed.
+This can be achieved through compare and swap functionality\footnote{Aka. CAS or compare\_exchange in C++11},
+which is a function that atomically an atomic value with an expected value, if these two values are equal,
+the atomic value is replaced with a desired value, otherwise the expected value is updated to the current value
+of the atomic object. The compare and swap boils down to an atomic execution of the code seen in listing \ref{lst:compare_and_swap}.
+The compare and swap functionality is vital for the algorithm, as it allows each thread to know not only the updated
+state of the allocator, but also whether or not they were the ones who updated it.
+\lstinputlisting[language=cpp, caption=compare and swap, label=lst:compare_and_swap]{lock_free_allocator_code/compare_and_swap.py}
+
+\subparagraph{Allocate}
+The allocation is split into two main steps; the main allocation step, and try allocate step.
+The main allocation step is the most complicated of these two, and deals with
+the possible problem of creating or reusing a memory block within the linked list.
+The function starts by trying to allocate into the memory block indicated by the
+first free pointer, returning the newly allocated memory if successful.
+In case of failure the function will try to change the first free pointer, to
+point to either a reusable memory block, or an entirely new block.
+In the latter situation the allocation of a new block must be noted, as it needs to be freed if it is not attached to the list.
+At this point the current thread will attempt to publish its change of the first
+free pointer, done through a compare and swap instruction.
+If the compare and swap instruction is successful then the new block is attached
+to the list, and the one tries to allocate into the newly attached block, returning on success.
+Allocation failure can possibly happen if some other threads have entirely filled up the newly attached block,
+in this case the whole allocation procedure will need to go back to start and retry the whole routine.
+This is also the case if the compare and swap instruction fails.
+The pseudo code for the algorithm can be seen in listing \ref{lst:allocate}.
+\lstinputlisting[language=cpp, caption=allocate, label=lst:allocate]{lock_free_allocator_code/lock_free_allocate.py}
+
+\subparagraph{Try Allocate}
+The try allocate function is a bit simpler than the previous step. The function tries to allocate
+a memory segment within the block provided as parameter.
+The function simply tries to reserve a piece of memory by increasing the number of bytes used within the block.
+If there is not enough room, the function will return a nullptr, indicating that an allocation was not possible within
+the suggested block.
+The increase of the number of bytes used within the block is done through a compare and swap function.
+If the current thread running the function is the one that is allowed to increase the number of bytes in the block,
+it returns newly reserved memory.
+In case where the current thread did not successfully change the number of bytes used variable, it will have to reload
+that variable, and retry the whole function. The pseudo code for this function can be seen in listing \ref{lst:try_allocate}
+\lstinputlisting[language=cpp, caption=allocate, label=lst:try_allocate]{lock_free_allocator_code/lock_free_try_allocate.py}
 
 \subsubsection{Motivation}
 There were many factors influencing the decision to create this allocator structure.
@@ -49,10 +110,9 @@ It was therefore decided that it would be better to go with an atomic lock-free 
 
 \paragraph{Performance on Weakly Ordered Systems}
 The other rationale for the lock-free structure is to increase performance on weakly ordered systems,
-like ARM architectures. \todo{Add ref, Preshing for example}
+like ARM architectures\cite{preshing_weak_vs_strong_memory_models}.
 Working with low level atomics in C++ allows for the specification of memory ordering constraints,
 which can be used to improve performance on the weakly ordered systems.
-\todo{Add some section explaining the lock free stuff properly?, or just do it in the explanation section?}
 
 \paragraph{Pointer Invalidation}
 Seeing as the allocator would be accessed from different threads concurrently it was important that
@@ -60,33 +120,74 @@ memory would not be reallocated, as this would destroy references to objects wit
 This is what motivated the linked list approach of the allocator, which allows for insertion of elements without
 the need for reallocation.
 
-\paragraph{Read Only Values}
-\todo{Rewrite/Rethink this paragraph}
-The allocator would mostly be used for read only like operations, like events within the event system.
-These events are usually just created, and sent through the event system, they are usually not modified after creation.
-
 \subsubsection{Alternatives}
 Probably best alternative solution would be to just give each thread their own allocator.
-This solution would remove the synchronization and protection requirements, as no data would need to be shared between threads.
-%Having one allocator per thread could also solve potential cache ping-ponging and false sharing issues.
-In hindsight this would possibly have been a better solution than the one chosen, it would at least have been easier to implement.
-\todo{Elaborate}
+This solution would ease the synchronization and protection requirements, as no data would need to be shared between threads,
+at least until the data needed to be processed by another procedure.
+Having one allocator per thread could also solve potential cache ping-ponging\footnote{Explained in p.\pageref{detailed_lock_free_ping_pong}}
+and false sharing issues, as these allocators
+would just need to be aligned in a way that would guarantee that false sharing would not take place.
+In hindsight this would possibly have been a better solution than the one chosen, it would probably been easier to implement as well.
 
-\subsubsection{Pros}
-No chances of deadlock,
-Wait free, (or just lock-free need to check)
-Reuses memory,
-should not need to context switch, except when allocating a new block.
+\subsubsection{Pros of Lock Free Allocator}
+While there are many cons with the lock free allocator, it does come with certain pros.
+
+\paragraph{Lock Impossibility}
+Because of the lack of exclusive ownership within the allocator the system is guaranteed to neither livelock or deadlock.
+Deadlocking should not really be possible with a locked implementation either, as the allocator is only locking at the lowest level.
+
+\paragraph{Guaranteed Progress}
+The lock free allocator guarantees system wide progress, meaning that even if one thread might have to redo their speculative work
+within the algorithm, another thread will make proper progress.
+
+\paragraph{Context Switch Minimization}
+The fact that the allocator reuses memory within the linked lists mean that a lot of context switching can be avoided.
+Currently the allocator will only context switch to allocate new memory when the allocator needs to request a new block,
+because it does not have any memory to reuse.
 
 \subsubsection{Cons}
-Code is hard to debug,
-May be allocating more than needed,
-Much simultaneous access to an allocator that needs to allocate a block will
-allocate and free a lot of extra blocks,
-Currently does not support shrinking functionality,
-Blocks are linked list based, meaning that some caching is lost,
-however it is needed to not invalidate pointers.
-Memory is fragmented, (Should not be such a big issue seeing as it is meant for single frame stuff)
-Meta-Data is stored together with the data, optimal for allocation and deallocation,
-not optimal for accessing the memory.
-Cache lines are possibly sent much back and forth between the different threads.
+While there are certain pros to this solution, there is a lot of cons.
+
+\paragraph{Maintainability}
+Lock free programming is quite challenging, even more so when working with non sequential consistent atomics.
+It also requires the understanding of some pretty advanced and low level topics, like compile time and run time instruction reordering.
+Lock free algorithms requires the programmer to think of all the different ways a programs execution can be interleaved between different threads.
+Hidden bugs might only be noticeable on certain architectures, or only in release builds.
+Printing out variables might cause bug to disappear, as the print statement creates a synchronization point.
+All of these points leads to code that is hard to maintain, which is not really desirable within a code base.
+
+\paragraph{Fragmentation}
+If a memory block cannot accommodate an allocation request of a certain size, then a new memory block will be allocated,
+and the first free pointer will be updated to this new block.
+There might still be a lot of memory free within the previous block, which could have been used for smaller allocations.
+However, with the current implementation of the allocator this memory is just discarded, leading to a lot of internal memory fragmentation.
+We would argue that this is not a huge problem, as the fragmentation is short lived, and the extra memory allocated to deal with the fragmentation
+will be reused next frame anyway.
+The memory could be better utilized by for example having a pointer to the first memory block with any free memory, and from that point look for
+the first memory block that could accommodate a specific allocation request. However, this would add extra overhead to the allocation function.
+
+\paragraph{No Shrinking Functionality}
+The current implementation of the allocator does not allow for any sort of shrinking functionality.
+This means that the allocator never actually deallocates any blocks from its linked list.
+A shrink to fit like functionality that would allow the allocator to have a minimum working set,
+that could dynamically expand and shrink to fit the need of the allocator would be desirable.
+The functionality need not be to complex, it could simply be to keep average number of needed memory blocks
+over a certain number of frames, and deallocate any memory blocks that is unneeded based on that average.
+
+\paragraph{Allocation Heavy During Startup}
+The implementation of the allocator will do a lot of heap allocation when new blocks needs to be added to the list of memory blocks.
+This is because each thread will be allocating a memory block, which they will try to add to the list.
+Often these allocations will be unused, which is the case when a thread is not allowed to update the first pointer, but allowed to allocate into it.
+However, this case does not happen particularly often, as the allocator quickly starts reusing its memory, and the situation will only occur when
+the linked list needs to be expanded.
+
+\phantomsection
+\paragraph{Cache Ping Pong}
+\label{detailed_lock_free_ping_pong}
+Williams\cite{williams_safety_off} describes cache ping pong as the situation where two processors
+are accessing either the same atomic variable, or a different variable on the same cache line.
+This results in the cache lines being shuffled back and forth between the processors, which is not great for performance.
+Our implementation of the lock free allocator falls into the trap of allowing cache ping pong.
+As several threads can operate on the same memory within a memory block, updating a memory block's number of used bytes, or
+potentially trying to update the first free memory block pointer.
+Currently no efforts are put in place to mitigate these issues, as we were not aware of this issue at the time of implementation.
