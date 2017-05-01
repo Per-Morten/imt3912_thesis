@@ -1,8 +1,8 @@
 \section{Templates}
 \label{sec:requirements_templates}
 \todo{Ask Mariusz how much is actually needed here}
-C++ has a infamous for it's long compile times, the reason for the long compile times is influenced by several factors.
-\cite{stack_overflow_why_does_cpp_compilation_take_so_long}
+C++ is infamous for it's long compile times. The reason for the long compile times is influenced by several factors
+\cite{stack_overflow_why_does_cpp_compilation_take_so_long}.
 Some of these factors include:
 \begin{itemize}
     \item
@@ -28,9 +28,8 @@ However this process of generating code for template instantiations only happens
 This means that the compiler will have to compile the same template instantiation of a class multiple times,
 these duplicate template instantiations are then removed during the linking phase.
 In addition to this, templates have to be written within header files,
-meaning that any change to that header file will lead to a recompilation of all files that includes that header file.
-\cite{dr_dobbs_cpp_compilation_speed}
+meaning that any change to that header file will lead to a recompilation of all files that includes that header file\cite{dr_dobbs_cpp_compilation_speed}.
 \todo{Could perhaps here mention how template meta programming also can lead to some positive things, with Vittorio Romeo's library as an example}
 
-Suttung expressed a wish avoid a heavy compile time increase, as rapid iteration is hampered by having to wait for a program to compile.
-We therefore decided together with Suttung to try and avoid heavy templated solutions to keep acceptable build times.
+Suttung expressed a wish to avoid heavy compile time increase, as rapid iteration is hampered by having to wait for a program to compile.
+We therefore decided together with Suttung to try to avoid heavy templated solutions to keep acceptable build times.
