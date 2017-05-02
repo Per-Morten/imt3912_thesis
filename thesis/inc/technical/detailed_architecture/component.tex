@@ -1,7 +1,9 @@
 \subsection{Component}
 \label{subsec:detailed_component}
 The component is a simple base class that all components must inherit from.
-\todo{Explain what we are solving}
+It is our solution to the problem of writing generic code without knowing different component
+types through templates.
+\todo{Explain what we are solving. Done?}
 
 \subsubsection{Explanation}
 The component exists to ensure that all components get a minimum set of needed
@@ -14,7 +16,7 @@ that allows for the generic behavior without direct type information.
 
 \subsubsection{Motivation}
 As with a lot of the building block structures within the ECS. The need for a base component
-were motivated out of the requirement for avoiding heavy template usage.
+were motivated out of the requirement for avoiding heavy template usage\reqref{req:templates}.
 The ECS would need a way to extract certain information related to components,
 like their id. The component could potentially need access to the entity manager\secref{subsec:detailed_entity_manager}
 to get a hold of other components, so making that a reference
@@ -30,6 +32,7 @@ It would also lead to even less coupling within the systems,
 as the components would not need to inherit from the component base class.
 However, going with this approach would require even more opaque type usage within the ECS,
 and more reinterpret casting for the user.
+Obviously this solution would become more relevant if the template requirement was lifted.
 
 \todo{More alternatives?}
 
