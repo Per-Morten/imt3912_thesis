@@ -21,7 +21,7 @@ which uses the template argument to create a meta information structure,
 containing type information, as well as wrappers for the different operation types.
 
 \subsubsection{Motivation}
-The meta information structure was mainly motivated by the requirement of avoiding heavy template and virtual functionality\footnote{Detailed in sections \ref{sec:requirements_templates} and \ref{subsec:requirements_performance_virtual_functions}}.
+The meta information structure was mainly motivated by the requirement of avoiding heavy template\reqref{req:templates} and virtual functionality\reqref{req:virtuals}.
 NOX ECS would need a way to store type information that could be used to write generic functionality, without templates,
 and without the need to recompile the generic functionality for each new type that was introduced in the ECS.
 
