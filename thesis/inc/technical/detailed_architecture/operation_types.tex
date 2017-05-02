@@ -12,7 +12,8 @@ Being able to construct, move construct or move assign a class without knowing i
 C++ in general does not support. \todo{Atleast that I know of, need to double check this}
 
 \subsubsection{Motivation}
-The main motivation behind the operation types structure was the requirements restriction on virtuals and templates. \todo{reference back to the requirement restriction on virtuals and templates}
+The main motivation behind the operation types structure was the requirements restriction on virtuals\reqref{req:virtuals}
+and templates\reqref{req:templates}.
 NOX ECS would need a way to keep track of overridable behavior of a component type, without the overhead of virtuals,
 and without directly knowing the component type.
 
@@ -85,9 +86,10 @@ for updates. The same applies to receiving events, as well as certain lifecycle 
 \paragraph{No Virtual Pointer Space Overhead}
 While the operation types still incur some run-time overhead in terms of indirection,
 the per type space overhead of a virtual table pointer is gone.
+\todo{This sentence seems rather weird}
 The meta information is stored together with the component collections of each respective component type.
 
-\subsubsection{Cons}
+\subsubsection{Cons Of Operation Types}
 While there are certain advantages to the operation types there are also some disadvantages.
 
 \paragraph{Burdens on Users}
