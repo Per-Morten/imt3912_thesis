@@ -1,0 +1,53 @@
+\documentclass[BSP,english,oneside]{ntnuthesis/ntnubachelorthesis}
+
+\usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage{import} % Used for import from folders.
+
+\newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
+\newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
+%\renewcommand{\com}[1]{} %remove starting % to remove supervisor comments
+% This will appear in text \com{Lecuters comment} and be visible unless you uncomment
+% the renewcommand line.
+
+\newcommand{\todo}[1]{{\color{green}#1}} % items to do
+%\renewcommand{\todo}[1]{} %remove starting % to remove items to do
+
+\newcommand{\n}[1]{{\color{blue}#1}} % other comment
+%\renewcommand{\n}[1]{} %remove starting % to remove notes
+
+\newcommand{\dn}[1]{} % add the dn to a note to say that you have finished with it.
+
+\begin{document}
+
+\input{inc/thesis_data}
+
+\makefrontpages
+
+\input{inc/preface}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{overview.tex}
+
+\bibliographystyle{ntnuthesis/ntnubachelorthesis}
+\bibliography{inc/thesis}
+
+\appendix %after this line all chapters will have leters instead of numbers
+\chapter{Test Case Plan}
+\chapter{Design Document}
+\chapter{Technical Specification}
+\chapter{Project Plan}
+\chapter{Scrum Plans}
+\chapter{Daily Scrum Logs}
+\chapter{Stakeholder Meetings}
+\chapter{Supervisor Meetings}
+\chapter{Sprint Retrospectives}
+\chapter{Group Rules}
+\chapter{Benchmark Data}
+\chapter{Stakeholder Contract}
+\chapter{Code}
+
+\end{document}

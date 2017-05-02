@@ -1,0 +1,398 @@
+High level overview of the document.
+Everything written here will obviously be explained further in the proper thesis, this is just to try and give a general skeleton.
+Section and chapter names might not be exactly the same either,
+however the flow will be like this outline.
+
+We have chosen to split the document a bit more to have a larger difference on what
+that is related to the benchmark results etc, and how we worked.
+Up until the process chapter, we are not really talking anything about how we worked and planned,
+but rather what we are researching and the results of our implementation.
+The process chapter is where we start talking about how we were doing planning,
+scrum models, changes during development etc etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+\label{chap:introduction}
+
+\section{Game Industry}
+Short high level description of the issues faced within the games industry: fast iteration cycles, performance.
+
+\subsection{Fast Iteration Cycles}
+Why does the game industry need fast iteration cycles?
+Flexible design, need to test ideas quick etc.
+
+\subsection{Performance}
+Why does the game industry value performance?
+Always pushing the envelope for graphics etc.
+
+\subsection{Flexibility}
+Why does the game industry value flexible systems?
+Reuse existing stuff.
+
+\section{Introduction To Suttung}
+Introduction to Suttung, who is our stakeholder.
+
+\section{Introduction To NOX Engine}
+Short introduction to the NOX engine, which is what we will interface against.
+
+\section{Entity Component Systems}
+High level overview over what entity component systems are, and why they are used in the games industry.
+
+\section{High-Level Objective}
+Create an Entity Component System within Suttungs engine,
+based on the requirements laid down by Suttung.
+
+\section{Organization}
+How is this document organized.
+How we organize ourselves, process etc will be put later in the document.
+
+\section{Terminology}
+A small section explaining what the different terms used within the report means.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Requirements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Requirements}
+\label{chap:requirements}
+
+\section{Templates}
+Explain why we don't want heavy template usage within our system.
+To avoid heavy compile times within our ecs.
+
+\section{Performance}
+Discuss quickly why performance is important for NOX.
+
+\subsection{Virtual Functions}
+Discuss how virtual often are implemented, and why that layer of indirection is not necessarily good for modern platforms.
+
+\subsection{Contiguous Memory}
+Discuss why contiguous memory is important on modern platforms.
+
+\subsection{Multi-threading}
+Discuss why nox would like multi-threading within the new ecs.
+
+\section{Memory Usage}
+Discuss how we wanted to keep the memory usage about the same.
+
+\section{Mobile Platform}
+Discuss how mobile platforms often aren't x86 architectures, and what that affects.
+Mention both memory models, as well as the use of memory.
+
+\section{Familiarity}
+Discuss the requirement from NOX of familiarity, that the new system should not in a great deal different
+than the one they already have.
+
+\section{Focus On Safety}
+Discuss how nox would prefer us to do stuff safely but performance pessimistic by default.
+
+\section{Final Problem Statement And Objective}
+Here we detail the actual problem statement and objective based on the requirements listed above.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Technical
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Technical}
+\label{chap:technical}
+This chapter will probably be quite a substantial part of the thesis, as we need to motivate everything.
+Also refer to the technical specification and design document.
+
+\section{High Level Architecture}
+Discusses the architecture at a higher level, only mention the different components and how they are tied together,
+however we are not motivating the different low level choices.
+
+\subsection{Lifecycle}
+Why are we doing the lifecycle we chose, and how does it work?
+
+\subsection{Parallelism}
+Why did we chose the fork-and-join model, and why do we do the layering approach.
+Also how does the layering approach work.
+Mention the problems with parallelizing Entity Models.
+Look at the Game Engine Architecture book.
+
+\subsection{Event System}
+Why did we choose this event system, rather than the one that is used within NOX.
+
+\subsection{Choices}
+\todo{Find better title}
+Talk about what high level choices and restrictions we put down.
+Like how we only allow movable types, what motivated these choices?
+The only movable types was motivated by seeing their usage patterns, and how much they used unique\_ptr etc, which is only movable.
+However what was the consequence of this choice? We could not implement state caching.
+
+\section{Detailed Architecture}
+All different modules from the High Level Architecture will here be discussed in a specific format.
+These are the modules we are thinking of discussing, at they are where we take more "interesting decisions".
+Each detailed description can probably also refer to the implementation which we can include in the assignment.
+
+\begin{itemize}
+    \item
+    ComponentCollection
+
+    \item
+    EntityManager
+
+    \item
+    MetaInformation
+
+    \item
+    TypeIdentifier
+
+    \item
+    OperationTypes
+
+    \item
+    Component
+
+    \item
+    SmartHandle
+
+    \item
+    Execution Layers
+
+    \item
+    Allocators
+
+    \item
+    Thread Pool
+
+    \item
+    Event
+\end{itemize}
+
+Format:
+
+\subsection{Module}
+\subsubsection{Explanation}
+Explain at a more fine level how the module functions.
+
+\subsubsection{Motivation}
+Explain why we made the choices we made.
+
+\subsubsection{Alternatives}
+Quickly list up potential alternatives to this choice.
+
+\subsubsection{Pros}
+What are the benefits of this approach.
+
+\subsubsection{Cons}
+What do we loose with this approach.
+
+\subsubsection{Consequences}
+What; if any, were the consequences of this choice?
+
+\subsection{Short Example (Obviously more detailed actual thesis): OperationTypes}
+\subsubsection{Explanation}
+Function pointers to different parts of a components lifecycle.
+
+\subsubsection{Motivation}
+Allows the user to both work with a member function mindset,
+and the availability to work with a data oriented mindset, i.e. make use of patterns in the data that the user knows about.
+Also means that user can decide himself if he wants to work with member functions, or freestanding functions.
+
+\subsubsection{Alternatives}
+Could also have used regular std::function rather than the operation types,
+however std function does add some overhead that regular function pointers does not necessarily do. However that also means that we cant do lambda captures etc.
+
+\subsubsection{Pros}
+Can make the operation point at nullptr, i.e. remove the call to the function if it is not overloaded.
+Can write general freestanding functions that can be used on more component types, without the use of templates.
+Allows us to give the user a familiar interface, because everything look like normal inheritance unless they decide to opt-in to more performance by overloading functions with freestanding functions etc.
+
+\subsubsection{Cons}
+We loose de-virtualization. (However, we are kind of doing that ourselves, seeing as we always point to the "lowest" implementation of a function).
+We might loose inlining. (Having a container with a subclass type, allows the container to inline code etc.)
+Loose a lot of as-if optimizations.
+
+\subsubsection{Consequences}
+The OperationTypes are part of the reason why the MetaInformation and createMetaInformation needed to be implemented,
+as this was a clean way "hide" the functionality from the user unless they want to explicitly take part in it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Implementation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Implementation}
+\label{chap:implementation}
+Discuss various interesting problems we faced, and how we solved them.
+
+Topics to address here:
+\begin{itemize}
+    \item
+    Lock-free data structures with relaxed atomics. Trying to expose as little functionality as possible to keep the implementation possible.
+
+    \item
+    Dealing with low level memory and language features were a challenge. A lot had to be limited.
+
+    \item
+    Layered execution algorithm.
+
+    \item
+    Trying to find an abstraction level that was as high as needed, but as low as possible.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Measurements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Measurements}
+\label{chap:measurements}
+Discuss how we will measure the requirements. (Of those who are measurable).
+
+\section{Identifying Metrics}
+Talk about which metrics we use, and why we choose those metrics.
+What are the problems with those metrics.
+- Examples: We can't control the entire environment, so counting CPU cycles might not be entirely correct because we might have context switched.
+
+\section{Test Cases}
+Describe the different testcases we have created. Each test case will have its own subsection.
+In each subsection we will argue for why the test is relevant, and also mention weaknesses.
+Also need to refer to our test case plan.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Benchmarking
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Benchmarking}
+\label{chap:benchmarking}
+Write about the results from the different benchmarks,
+discuss how and why we think we end up with the results we end up with.
+Show graphs, talk about the tests and why we think we ended up with those results.
+Refer to the benchmark appendix.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Testing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Testing}
+\label{chap:testing}
+
+\section{User Testing}
+Try and test with Suttung, if we manage to test with suttung
+we should include their feedback here.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Discussion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Discussion}
+\label{chap:discussion}
+Discuss the findings we have both from the user testing and the benchmarks.
+Discuss in what cases this ecs should be used, where is it beneficial to use our approaches?
+Which features were worth implementing in terms of performance,
+and usage?
+Examples:
+\begin{itemize}
+    \item
+    Doing layered execution is a good idea when you do a lot of work in your algorithms, and they can be parallelized,
+    however if they can't be parallelized, then the synchronization within the thread pool will reduce performance over a single threaded program.
+\end{itemize}
+
+\section{Criticism}
+General criticism of our findings and testing techniques,
+i.e. what are the factors we can criticize.
+Examples:
+\begin{itemize}
+    \item
+    We never actually tested on mobile, however we did optimizations based on stuff we know about certain architectures.
+
+    \item
+    We don't necessarily have a proper "counter" test case, for example we haven't implemented our systems with templates, that might be faster.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Future work
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Future Work}
+\label{chap:future_work}
+Discuss what sort of work that can be added in even after we are finished.
+Examples:
+\begin{itemize}
+    \item
+    Script that parses code files and finds different dependencies.
+    To avoid the error prone way of listing dependencies yourself.
+
+    \item
+    Layered execution could be adapted to also factor in read\_write, currently that is only treated as unknown.
+
+    \item
+    Tests should be run on mobile as well.
+
+    \item
+    Mention all the stuff that needs to be fixed before the product is integration ready.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Process
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Process}
+\label{chap:process}
+Discuss how we approached this problem.
+
+\section{Plan}
+Write up how we planed to approach this task.
+
+\subsection{Re-scoping}
+Discuss the different approaches we took to re-scoping,
+why was it needed and what became the new plan?
+
+\section{Scrum Process}
+How were our scrum process supposed to work.
+\subsection{Discussion}
+Why did we change our scrum process.
+
+\section{Roles}
+What roles were given internally within the group.
+
+\section{Tools}
+What tools did we use?
+
+\subsection{Discussion}
+What could we have done differently with our tools,
+why did we change tools?
+Jira -> bitbucket -> github. etc.
+Jira: To much overhead,
+Bitbucket: To little functionality,
+Github: Quite alright.
+
+Windows -> Ubuntu
+All tools were on Ubuntu.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Conclusion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+\section{Self Evaluation / Criticism}
+What could we have done differently?
+\begin{itemize}
+    \item
+    There was a clear distinction of work, Trond mostly worked with the benchmark tests.
+    while Per-Morten mostly dealt with actually developing the system.
+    Not necessarily the best work style.
+
+    \item
+    Some parts of the project could have been planned better.
+
+    \item
+    We should have adapted the processes to how we actually worked way sooner.
+
+    \item
+    Architecture was a bit loose, meaning that we were sort of coming up with some concepts as we went along. Talk about some of the positive and some of the negative features of this.
+    However it was based on prototypes.
+
+    \item
+    Should probably have used more time, we also started a bit "late".
+
+    \item
+    Did not work in a more test driven manner, in general tests quickly became a second priority,
+    as we were busy implementing the actual functionality.
+\end{itemize}
+
+\section{Difficulties}
+General difficulties we had when working with the project.
+Large project with a large codebase. Sometimes hard to move around in, and to integrate with their cmake system.
+
+Working with the low level memory was a pain to debug sometimes.
+
+\section{Learning Outcome}
+Uncertain if we should include this?
+However part of goals of the thesis was also to learn about certain topics,
+and we did get a better understanding of the way memory works, as well as the whole new topic of relaxed atomics.
