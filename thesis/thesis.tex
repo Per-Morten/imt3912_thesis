@@ -2,8 +2,9 @@
 
 \usepackage{csvsimple}
 \usepackage{booktabs}
+\usepackage{import} % Used for import from folders.
 
-\newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts 
+\newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
 \newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
 %\renewcommand{\com}[1]{} %remove starting % to remove supervisor comments
 % This will appear in text \com{Lecuters comment} and be visible unless you uncomment
@@ -19,34 +20,44 @@
 
 \begin{document}
 
-\input{inc/thesis_data}
+\subimport{inc/}{thesis_data.tex}
 
-\makefrontpages 
+\makefrontpages
 
-\input{inc/preface}
+\subimport{inc/}{preface.tex}
 
 \tableofcontents
 \listoffigures
 \listoftables
 
-\input{inc/introduction}
-\input{inc/requirements}
-\input{inc/technical}
-\input{inc/process}
-\input{inc/implementation}
-\input{inc/deployment}
-\input{inc/testing}
-\input{inc/discussion}
-\input{inc/conclusion}
+\subimport{inc/}{introduction.tex}
+\subimport{inc/}{requirements.tex}
+\subimport{inc/}{technical.tex}
+\subimport{inc/}{implementation.tex}
+\subimport{inc/}{measurements.tex}
+\subimport{inc/}{benchmarking.tex}
+\subimport{inc/}{testing.tex}
+\subimport{inc/}{discussion.tex}
+\subimport{inc/}{future_work.tex}
+\subimport{inc/}{process.tex}
+\subimport{inc/}{conclusion.tex}
 
 \bibliographystyle{ntnuthesis/ntnubachelorthesis}
 \bibliography{inc/thesis}
 
 \appendix %after this line all chapters will have leters instead of numbers
-%\input{projectplan}
-%\input{gantt}
-\input{inc/meetinglog}
-%\input{progressreviews}
-%\input{worklog}
+\chapter{Test Case Plan}
+\chapter{Design Document}
+\chapter{Technical Specification}
+\chapter{Project Plan}
+\chapter{Scrum Plans}
+\chapter{Daily Scrum Logs}
+\chapter{Stakeholder Meetings}
+\chapter{Supervisor Meetings}
+\chapter{Sprint Retrospectives}
+\chapter{Group Rules}
+\chapter{Benchmark Data}
+\chapter{Stakeholder Contract}
+\chapter{Code}
 
 \end{document}
