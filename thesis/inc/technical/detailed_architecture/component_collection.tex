@@ -1,9 +1,7 @@
 \subsection{Component Collection}
 \label{subsec:detailed_component_collection}
-The component collection is where all the different building blocks
-comes together.
-It is responsible for containing
-a collection of a specific component type.
+The component collection is where all the different building blocks comes together.
+It is responsible for containing a collection of a specific component type.
 The collection was designed for fast contiguous processing of component groups internally within the ECS,
 while supporting external lookups on individual components.
 
@@ -66,13 +64,13 @@ an invalidation has occurred and the handle will do a search for its component b
 if the generation is the same the component does not need to be searched for, and the pointer that the handle is currently holding is valid.
 
 \subsubsection{Motivation}
-The main motivation behind the component collection was a desire for contiguous memory, and avoiding unnecessary
+The main motivation behind the component collection was a desire for contiguous memory\reqref{req:contiguous_memory}, and avoiding unnecessary
 branching to check a components stage in the lifecycle.
-It was also desirable to be able to move memory around freely internally without having to worry greatly about
-iterator invalidation, this was the motivation behind the smart handles, generations and index mapping, which were loosely based
+It was also desirable to be able to move memory around internally freely, without having to worry greatly about
+iterator invalidation. This was the motivation behind the smart handles, generations and index mapping, which were loosely based
 on Reinalter\cite{molecular_matters_dod_external_references}'s external references functionality.
 
-\subsubsection{Alternatives}
+\subsubsection{Alternatives to Component Collection}
 The component collection is an important part of the NOX ECS, and several alternative solutions could have been used instead.
 
 \paragraph{Unpartitioned}
@@ -112,12 +110,12 @@ however, when the index map was introduced to allow for faster searching, that m
 Doing lookups based on hashed values was also a possibility, however this would require an efficient hashing algorithm,
 which again would require more development time.
 
-\subsubsection{Pros}
+\subsubsection{Pros of Component Collection}
 The main advantages of the component collection is the contiguous access to components.
 This together with the partitioning allows for efficient use of caching and branch prediction mechanisms.
 The collection also avoids memory fragmentation and allows for memory reuse.
 
-\subsubsection{Cons}
+\subsubsection{Cons of Component Collection}
 While there are some advantages to the collection there are also some disadvantages.
 
 \paragraph{Memory Movement}
