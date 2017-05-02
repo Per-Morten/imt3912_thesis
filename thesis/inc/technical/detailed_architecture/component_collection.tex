@@ -63,7 +63,7 @@ against its own. If the generation of the collection is newer than the generatio
 an invalidation has occurred and the handle will do a search for its component before returning its pointer,
 if the generation is the same the component does not need to be searched for, and the pointer that the handle is currently holding is valid.
 
-\subsubsection{Motivation}
+\subsubsection{Motivation for Component Collection}
 The main motivation behind the component collection was a desire for contiguous memory\reqref{req:contiguous_memory}, and avoiding unnecessary
 branching to check a components stage in the lifecycle.
 It was also desirable to be able to move memory around internally freely, without having to worry greatly about
