@@ -24,6 +24,10 @@
 % the footnote must be set up manually
 \newcommand{\secref}[1]{\footnote{See section \ref{#1}}}
 
+\newcounter{ptrequirements}
+\newcommand{\requirement}[2]{\begin{quote}\refstepcounter{ptrequirements}\textbf{Requirement \theptrequirements: #1 \label{#2}}\end{quote}}
+\newcommand{\reqref}[1]{\footnote{Described in requirement \ref{#1}.}}
+
 \begin{document}
 
 \subimport{inc/}{thesis_data.tex}
