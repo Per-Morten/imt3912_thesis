@@ -86,7 +86,7 @@ In case where the current thread did not successfully change the number of bytes
 that variable, and retry the whole function. The pseudo code for this function can be seen in listing \ref{lst:try_allocate}
 \lstinputlisting[language=cpp, caption=allocate, label=lst:try_allocate]{lock_free_allocator_code/lock_free_try_allocate.py}
 
-\subsubsection{Motivation}
+\subsubsection{Motivation of Lock-Free Allocator}
 There were many factors influencing the decision to create this allocator structure.
 
 \paragraph{Context Switch}
@@ -120,7 +120,7 @@ memory would not be reallocated, as this would destroy references to objects wit
 This is what motivated the linked list approach of the allocator, which allows for insertion of elements without
 the need for reallocation.
 
-\subsubsection{Alternatives}
+\subsubsection{Alternatives to Lock-Free Allocator}
 Probably best alternative solution would be to just give each thread their own allocator.
 This solution would ease the synchronization and protection requirements, as no data would need to be shared between threads,
 at least until the data needed to be processed by another procedure.
@@ -145,7 +145,7 @@ The fact that the allocator reuses memory within the linked lists mean that a lo
 Currently the allocator will only context switch to allocate new memory when the allocator needs to request a new block,
 because it does not have any memory to reuse.
 
-\subsubsection{Cons}
+\subsubsection{Cons of Lock-Free Allocator}
 While there are certain pros to this solution, there is a lot of cons.
 
 \paragraph{Maintainability}
