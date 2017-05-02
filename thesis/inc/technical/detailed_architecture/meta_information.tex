@@ -29,7 +29,7 @@ and without the need to recompile the generic functionality for each new type th
 Just like with operation types there are no clear alternatives here, other than
 the default functionality of the language through templates and virtual functions.
 
-\subsubsection{Pros}
+\subsubsection{Pros of Meta Information}
 \paragraph{Generic Code Without Templates}
 The main advantage of the meta information structure is how it allows one to implement
 generic functionality like containers without needing to recompile the structures.
@@ -39,7 +39,7 @@ meta information does not. Classes like component collection does not need recom
 but can just be linked in during the linking phase of the build.
 \todo{Are there more here?}
 
-\subsubsection{Cons}
+\subsubsection{Cons of Meta Information}
 Moving over to a Meta Information structure rather than templates do lead to certain difficulties.
 
 \paragraph{Error Prone Pointer Manipulation}
