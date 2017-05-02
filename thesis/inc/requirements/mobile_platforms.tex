@@ -9,3 +9,5 @@ Because of this, data layout and predictable memory access will be even more imp
 Additionally many of the popular mobile platforms run on weakly ordered systems, like ARM\cite{preshing_weak_vs_strong_memory_models}.
 Traditionally ARM has supplied a weak memory model, meaning that synchronization primitives that ensures sequentially consistent memory ordering
 might lead to a performance hit. \todo{Add link to atomic weapons talk by herb sutter, mentioning that later ARM architectures will be seq\_cst}
+
+\requirement{NOX ECS should efficiently support games built for mobile platforms}{req:mobile_platform}
