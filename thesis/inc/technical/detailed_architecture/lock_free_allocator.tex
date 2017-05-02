@@ -121,6 +121,7 @@ This is what motivated the linked list approach of the allocator, which allows f
 the need for reallocation.
 
 \subsubsection{Alternatives to Lock-Free Allocator}
+\label{subsubsec:lock_free_allocator_alternatives}
 Probably best alternative solution would be to just give each thread their own allocator.
 This solution would ease the synchronization and protection requirements, as no data would need to be shared between threads,
 at least until the data needed to be processed by another procedure.

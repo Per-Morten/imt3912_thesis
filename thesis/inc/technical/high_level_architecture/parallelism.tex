@@ -3,6 +3,7 @@ One of the goals behind the new NOX ECS was to avoid heavy synchronization withi
 The rationale being that heavy synchronization could be unnecessary, and also inefficient within the proposed system.
 
 \subsubsection{Threading Model}
+\label{subsubsec:high_level_threading_model}
 \todo{Argument for this choice}
 It was decided to go for a fork-and-join like threading model \todo{Add link},
 as this would allow for encapsulated threading behavior within the entity system.
