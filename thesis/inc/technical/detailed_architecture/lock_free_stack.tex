@@ -1,0 +1,21 @@
+\subsection{Lock-Free Stack}
+\label{subsec:detailed_lock_free_stack}
+\todo{Write this properly, does not need to be long, but should be written}
+\todo{What is below is just general notes}
+
+\subsubsection{Explanation}
+Simple stack, taken from cppreference, \todo{Remember to add source!}
+
+\subsubsection{Motivation}
+Wanted a way to "queue" events, but did not necessarily need queue functionality,
+as we always process all events, requests etc.
+
+\subsubsection{Alternatives}
+Could just have used a regular locked queue.
+
+\subsubsection{Pros}
+Fast, lock-free, allocates from lock-free allocator, reuses memory.
+
+\subsubsection{Cons}
+No queue functionality, so does not support being able to stop processing,
+and continue to iterate, before processing more.
