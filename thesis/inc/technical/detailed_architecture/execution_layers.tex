@@ -35,6 +35,7 @@ It would have been better to reduce the size of the layer to 3, and move the exc
 There will always be some time spent waiting on other threads to finish before moving onto the next layer, but following this rule will reduce this waiting.
 
 \paragraph{Component access levels}
+\label{subsec:detailed_component_access_levels}
 The information comes in the form of component access levels, which describes what kind of operations each components type does to other components.
 Each component type has a list of what components it reads from.
 Another list would be added if the read and write data access type had been implemented.
@@ -65,13 +66,10 @@ Another list would be added if the read and write data access type had been impl
 The algorithm itself that creates and sets up the execution layer structure goes through three stages: The data collection stage, layer creation stage, and parsing stage.
 
 \subparagraph{Data collection stage}
-Sets up all the data needed to run the algorithm.
-It gets the access levels to each component type, and which other components they have connections to.
-The starting phase of the algorithm starts with constructing and collecting the data that is need.
-This results in each component type having its own list of other components it has a read connection to.
-A read connection is when a component reads from or are read from.
+This stage consists of setting up all the data needed to run the algorithm.
+It gets the access levels to each component type, and which other components they have read connections to.
 It does not matter which one it is, it only matters that a read does not happen on the same layer.
-If the component type is any other than read only, certain actions will be taken.
+If the component type is any other than read only, certain actions will be taken, as mentioned in the component access levels\secref{subsec:detailed_component_access_levels} section above.
 In the case of having independent data access, the whole read list is simply emptied.
 Having either unknown or read and write will result in the component type having its own separate layer.
 
@@ -82,50 +80,56 @@ Having either unknown or read and write will result in the component type having
 The algorithm goes through all the component types and creates one and one layer.
 Each layer is created in the following steps.
 
-\begin{itemize}
+\begin{enumerate}
     \item Picking out the component with the most connections.
 
     \item Creating a list of remaining components which does not have a colliding connection with the current layer.
     
     \item Find the component in the list with the fewest additional new connections to the layer, and add it to the layer.
     
-    \item Repeat the two previous steps until there is no components left that can be placed in the list.
+    \item Repeat step 2-3 until there is no components left that can be placed in the list.
     
     \item Remove excess components in the layer, if it does not match up with the thread count.
     
-    \item Repeat all previous steps until all components are put into layers.
-\end{itemize}
+    \item Repeat step 1-5 until all components are put into layers.
+\end{enumerate}
 
 \subparagraph{Data parsing stage}
-Parse the data into a format that is used by the entityManager to perform the functions.
-This format change is favorable because the type identifiers used internally in the requires a look up for each
-
+Parse the data into a format that is used by the entity manager\todo{add ref to entity manager when that exists} to perform the functions.
+This format change is favorable because the type identifiers\secref{subsec:detailed_type_identifier} used internally in the algorithm would require a search through the list of component collections\secref{subsec:detailed_component_collection} every frame.
 
 \subsubsection{Motivation}
 Needs a way to run more component types concurrently than only the independent ones.
-
 
 \subsubsection{Alternatives}
 There are a few alternatives to the existing solution, and all of these are better ways of dealing with the task at hand.
 However, they all either require a lot more work, are hampered due to requirements, or were not prioritized.
 
 \paragraph{Caching}
+The solution of caching which involves keeping previous frame's data to work on for the next frame.
+There are advantages to this, and a downside.
+The positive ones are that running the components concurrently is no longer an issue, as the data being read from will not change during the reads.
+In addition to running all components concurrently, it would avoid the possibility of human error from manually defining the read list for each component.
+The bad side to caching is that you need double the amount of memory to save the previous frame.
 
 \paragraph{Saving execution layer structure}
-Saving the execution layer structure on file, rather than computing it on every run, at least have the option.
+Saving the execution layer structure on file, rather than computing it on every run.
+This should both be easy to implement, and completely remove the time to compute the structure when no new changes to the components have been made.
 
 \paragraph{Code analysis}
-Code analysis to automatically and reliably find dependencies.
+Code analysis to automatically and reliably find dependencies, removing the need for the programmer to manually specify the read lists and data access for components.
+However, implementing this is both very time consuming, and quite difficult.
+This is especially true for C++, which is one of the most challenging programming languages to implement such behavior.
+\todo{Ask pms for link to citation, i know he has talked about this}
 
 \subsubsection{Pros}
-Better utilization of the CPU cores/increased performance
-
+There is only one reason this feature was implemented, and that is to better utilize multi core CPU's for increased performance.
 
 \subsubsection{Cons}
 Adding the support for multi threading components in this manner leads to some certain disadvantages.
 
 \paragraph{Increased loading times}
-With the execution layers having the requirement to be computed every single time you start a program using it, the load times increases.
+With the execution layers having the requirement to be computed every single time you start a program using it, the load times increases by up to a few seconds with a couple hundred component types.
 
 \paragraph{More error prone} 
 When requiring the programmers to specify data access and the read list manually, it can lead to several bugs caused by human error.
