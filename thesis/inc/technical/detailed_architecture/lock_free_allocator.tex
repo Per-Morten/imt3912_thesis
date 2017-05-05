@@ -3,6 +3,7 @@
 The lock free allocator is a linear allocator built with a linked list of memory blocks.
 It was introduced into the NOX ECS to support dynamic allocation mainly for the event system,
 however it was soon used for other systems as well, like the queuing mechanisms in the entity manager.
+\todo{Add small note explaining that the clearing of the allocator cannot be done concurrently}
 
 \subsubsection{Explanation}
 \paragraph{Linear Allocators}
@@ -125,7 +126,7 @@ the need for reallocation.
 Probably best alternative solution would be to just give each thread their own allocator.
 This solution would ease the synchronization and protection requirements, as no data would need to be shared between threads,
 at least until the data needed to be processed by another procedure.
-Having one allocator per thread could also solve potential cache ping-ponging\footnote{Explained in p.\pageref{detailed_lock_free_ping_pong}}
+Having one allocator per thread could also solve potential cache ping-ponging\footnote{Explained in p.\pageref{par:detailed_lock_free_ping_pong}}
 and false sharing issues, as these allocators
 would just need to be aligned in a way that would guarantee that false sharing would not take place.
 In hindsight this would possibly have been a better solution than the one chosen, it would probably been easier to implement as well.
@@ -145,6 +146,12 @@ within the algorithm, another thread will make proper progress.
 The fact that the allocator reuses memory within the linked lists mean that a lot of context switching can be avoided.
 Currently the allocator will only context switch to allocate new memory when the allocator needs to request a new block,
 because it does not have any memory to reuse.
+
+\phantomsection
+\paragraph{No ABA Problem}
+\label{par:detailed_lock_free_allocator_aba}
+Having a single clear function, means that collections using the allocator does not need to worry about being given a reused
+piece of memory before having been cleared, which helps avoiding the ABA problem. \todo{Write shortly about the aba problem}
 
 \subsubsection{Cons of Lock-Free Allocator}
 While there are certain pros to this solution, there is a lot of cons.
@@ -184,7 +191,7 @@ the linked list needs to be expanded.
 
 \phantomsection
 \paragraph{Cache Ping Pong}
-\label{detailed_lock_free_ping_pong}
+\label{par:detailed_lock_free_ping_pong}
 Williams\cite{williams_safety_off} describes cache ping pong as the situation where two processors
 are accessing either the same atomic variable, or a different variable on the same cache line.
 This results in the cache lines being shuffled back and forth between the processors, which is not great for performance.
