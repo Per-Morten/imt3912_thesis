@@ -1,14 +1,132 @@
 \subsection{Execution Layers}
 \label{subsec:detailed_execution_layers}
-\todo{Remove this, only here to force pagebreak}
 \subsubsection{Explanation}
+The execution layers is a structure detailing which components collections can be run concurrently.
+The structure consist of one or more layers, where each layer has a set of component types.
+Each set of components can be run concurrently.
+When all the component types in one layer has been executed, the next layer can be worked on.
+\todo{Insert an example structure for the execution layers}
+
+\paragraph{Read list}
+\label{subsec:detailed_read_list}
+Each component type has its own read list that is defined by the programmer.
+The list contains all other components types that the component type in question reads from.
+The algorithm uses the read list to figure out how the layers should be structured.
+
+\paragraph{Important qualities of the structure}
+There are a few qualities that the structure both needs, and should have in order to perform better.
+
+\paragraph{No same layer read connections}
+It is important that no component types has connections to components in the same layer.
+This would cause issues if a component changes one of its own member variables, and another component reads from it.
+Allowing these same layer reads would start creating race conditions.
+\todo{insert example displaying this behavior}
+
+\paragraph{Per layer component count to thread count ratio}
+The number of component types in each layer should optimally be divisible by the amount of threads available.
+It is not desirable that we end up with there being a mismatch in the amount of component types available to work on, and how many threads we have available.
+If this mismatch happens, we end up with some threads doing nothing while waiting for the rest of the threads to finish their work.
+Having an amount of component types divisible by the amount of threads available will mitigate this to some extent.
+This is best shown via an example.
+If there are 5 component types in a layer, with each type requiring the same work load to finish.
+There are 3 worker threads running through all of the component types, where they first complete the first three component types.
+After those three are completed, there are only two left, meaning that one of the threads will have nothing to do while the rest works on the remaining components.
+It would have been better to reduce the size of the layer to 3, and move the excess components to other layers trying to have a component type count divisible by the thread count.
+There will always be some time spent waiting on other threads to finish before moving onto the next layer, but following this rule will reduce this waiting.
+
+\paragraph{Component access levels}
+The information comes in the form of component access levels, which describes what kind of operations each components type does to other components.
+Each component type has a list of what components it reads from.
+Another list would be added if the read and write data access type had been implemented.
+
+\begin{itemize}
+    \item unknown\\
+    All component types are marked as unknown by default, as per the opt-out policy.
+    This data access type states that there is nothing known about the components access patterns, meaning that the component type might as well be independent.
+    Every component type marked with unknown is therefore put into its own separate layer, as they are interpreted to be reading from all other components.
+    Unknown component types are treated like this because expecting the worst case scenario is the only way to ensure the program is run correctly.
+    
+    \item read and write\\
+    Is treated in the exact same manner as the unknown data access, but is also included for potential future use.
+    This is because the algorithm could be extended to take writes into account, instead of only dealing with reads.
+    If this was implemented, each component type would need an additional list for which components are written to, as the writes would have to be treated differently from reads.
+    Setting a component type to read and write will not affect how the algorithm treats it, compared to the unknown data access.
+
+    \item read only\\
+    A component can be marked read only, if it reads data from other components, but does not change data from others.
+
+    \item independent\\
+    If a component is marked as independent, it will ignore any read connections to other components that is specified for the component type.
+    However, if other components have a connection to the independent component, it can not be run concurrently with it.
+    A component with independent data access works the exact same way in the algorithm, except that it does not have any reads outwards to other components, but it may have reads towards itself from other components.
+\end{itemize}
+
+\paragraph{The algorithm}
+The algorithm itself that creates and sets up the execution layer structure goes through three stages: The data collection stage, layer creation stage, and parsing stage.
+
+\subparagraph{Data collection stage}
+Sets up all the data needed to run the algorithm.
+It gets the access levels to each component type, and which other components they have connections to.
+The starting phase of the algorithm starts with constructing and collecting the data that is need.
+This results in each component type having its own list of other components it has a read connection to.
+A read connection is when a component reads from or are read from.
+It does not matter which one it is, it only matters that a read does not happen on the same layer.
+If the component type is any other than read only, certain actions will be taken.
+In the case of having independent data access, the whole read list is simply emptied.
+Having either unknown or read and write will result in the component type having its own separate layer.
+
+\paragraph{Initialize data}
+\lstinputlisting[language=cpp, caption=initialize data, label=lst:initialize_data]{initialize_data.py}
+
+\subparagraph{Layer creation stage}
+The algorithm goes through all the component types and creates one and one layer.
+Each layer is created in the following steps.
+
+\begin{itemize}
+    \item Picking out the component with the most connections.
+
+    \item Creating a list of remaining components which does not have a colliding connection with the current layer.
+    
+    \item Find the component in the list with the fewest additional new connections to the layer, and add it to the layer.
+    
+    \item Repeat the two previous steps until there is no components left that can be placed in the list.
+    
+    \item Remove excess components in the layer, if it does not match up with the thread count.
+    
+    \item Repeat all previous steps until all components are put into layers.
+\end{itemize}
+
+\subparagraph{Data parsing stage}
+Parse the data into a format that is used by the entityManager to perform the functions.
+This format change is favorable because the type identifiers used internally in the requires a look up for each
+
 
 \subsubsection{Motivation}
+Needs a way to run more component types concurrently than only the independent ones.
+
 
 \subsubsection{Alternatives}
+There are a few alternatives to the existing solution, and all of these are better ways of dealing with the task at hand.
+However, they all either require a lot more work, are hampered due to requirements, or were not prioritized.
+
+\paragraph{Caching}
+
+\paragraph{Saving execution layer structure}
+Saving the execution layer structure on file, rather than computing it on every run, at least have the option.
+
+\paragraph{Code analysis}
+Code analysis to automatically and reliably find dependencies.
 
 \subsubsection{Pros}
+Better utilization of the CPU cores/increased performance
+
 
 \subsubsection{Cons}
+Adding the support for multi threading components in this manner leads to some certain disadvantages.
 
-\subsubsection{Consequences}
+\paragraph{Increased loading times}
+With the execution layers having the requirement to be computed every single time you start a program using it, the load times increases.
+
+\paragraph{More error prone} 
+When requiring the programmers to specify data access and the read list manually, it can lead to several bugs caused by human error.
+In addition, the fact that any part of the execution layers structure can vary based on small changes, meaning that even though an incorrect read list has been specified, a problem may not occur until later changes.
