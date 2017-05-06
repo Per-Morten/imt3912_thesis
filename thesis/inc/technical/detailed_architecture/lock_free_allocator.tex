@@ -3,7 +3,6 @@
 The lock free allocator is a linear allocator built with a linked list of memory blocks.
 It was introduced into the NOX ECS to support dynamic allocation mainly for the event system,
 however it was soon used for other systems as well, like the queuing mechanisms in the entity manager.
-\todo{Add small note explaining that the clearing of the allocator cannot be done concurrently}
 
 \subsubsection{Explanation}
 \paragraph{Linear Allocators}
@@ -87,6 +86,26 @@ In case where the current thread did not successfully change the number of bytes
 that variable, and retry the whole function. The pseudo code for this function can be seen in listing \ref{lst:try_allocate}
 \lstinputlisting[language=cpp, caption=allocate, label=lst:try_allocate]{lock_free_allocator_code/lock_free_try_allocate.py}
 
+\phantomsection
+\subparagraph{Circumventing the ABA Problem}
+\label{subpar:detailed_lock_free_allocator_aba}
+A challenging issue in the topic of lock free programming based on compare and swap functionality is the ABA problem.
+The ABA problem in lock free programming is a false positive situation in a compare and swap\cite{understanding_and_preventing_aba_problem}.
+The situation occurs when a thread \textit{t1} reads an expected value \textit{v} from memory,
+which will be used in a compare and swap instruction, but before
+the compare and swap instruction is executed \textit{t1} is interrupted.
+Another thread \textit{t2} is executed and does its work, changing the state \textit{v}.
+However, when \textit{t2} is finished with its work, the value of \textit{v} is the same as what \textit{t1} read.
+In this case, when \textit{t1} continues to run, it will be unaware of the modifications \textit{v} went through
+when \textit{t2} was executing, and perceive the state as unchanged.
+
+We knew when creating the allocator that it would be used by other lock free structures,
+like the stack\secref{subsec:detailed_lock_free_stack}, and those implementation would often use raw atomic pointers.
+The ABA problem would only arise if the collection is given a piece of memory
+it has seen before, while pushing or popping concurrently.
+Just disallowing the possibility of reusing memory in the concurrent setting was an easy way of circumventing that
+problem.
+
 \subsubsection{Motivation of Lock-Free Allocator}
 There were many factors influencing the decision to create this allocator structure.
 
@@ -121,6 +140,7 @@ memory would not be reallocated, as this would destroy references to objects wit
 This is what motivated the linked list approach of the allocator, which allows for insertion of elements without
 the need for reallocation.
 
+
 \subsubsection{Alternatives to Lock-Free Allocator}
 \label{subsubsec:lock_free_allocator_alternatives}
 Probably best alternative solution would be to just give each thread their own allocator.
@@ -147,11 +167,6 @@ The fact that the allocator reuses memory within the linked lists mean that a lo
 Currently the allocator will only context switch to allocate new memory when the allocator needs to request a new block,
 because it does not have any memory to reuse.
 
-\phantomsection
-\paragraph{No ABA Problem}
-\label{par:detailed_lock_free_allocator_aba}
-Having a single clear function, means that collections using the allocator does not need to worry about being given a reused
-piece of memory before having been cleared, which helps avoiding the ABA problem. \todo{Write shortly about the aba problem}
 
 \subsubsection{Cons of Lock-Free Allocator}
 While there are certain pros to this solution, there is a lot of cons.
