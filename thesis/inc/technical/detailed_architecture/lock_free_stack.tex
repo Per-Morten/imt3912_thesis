@@ -5,15 +5,14 @@ the new entity component system. Events and transition requests are all stored
 inn these stacks before being processed asynchronously, which also
 allows for thread safe interaction with the entity manager\secref{subsec:detailed_entity_manager}.
 
-\todo{Add note that this should be fixed, and can be fixed with the shared\_ptr atomics}
-
 \subsubsection{Explanation}
 The implementation of the lock free stack in pretty simple compared to the lock free allocator.
 The current implementation of the push function was directly copied from cppreference\cite{cppreference_atomic_compare_exchange},
 while the pop operation were implemented by us, however it is still pretty close to the push
 operation.
 Both of these functions rely on the same compare and swap functionality seen in listing \ref{lst:compare_and_swap}.
-The lock free stack was also built with a linear allocator in mind, as that allows it to avoid the ABA problem\footnote{Explained in p.\pageref{par:detailed_lock_free_allocator_aba}}.
+The lock free stack was also built with a linear allocator in mind, which allows it to avoid the ABA problem\footnote{Explained in p.\pageref{subpar:detailed_lock_free_allocator_aba}}.
+This is because there is no way the stack can be given a piece of memory it has seen before, because dynamic deallocation is not allowed.
 
 \paragraph{Push}
 As stated earlier the push implementation is from the online page cppreference\cite{cppreference_atomic_compare_exchange},
@@ -57,6 +56,11 @@ to process a collection. This lead to us using a stack rather than a queue, whic
 \subsubsection{Alternatives to Lock Free Stack}
 There were a couple alternatives to the lock free stack.
 
+\paragraph{Third Party Structure}
+There are several third party lock free queues, that could be used instead of creating our own
+container. However this would mean that the NOX Engine would need to take on another dependency,
+which is not desirable either.
+
 \paragraph{Locked Queue}
 A simple solution would be to simply use a regular std::queue, protected by a mutex,
 with minor tweaks to the interface to adapt it to a concurrent environment.
@@ -95,5 +99,6 @@ To avoid the ABA problem, the stack requires a linear allocator, which again req
 to be cleared.
 The clearing operation cannot be done in a concurrent setting, as this is not allowed by the allocator.
 This means that is up to the user of the stack to remember to clear it,
-after each complete "processing", in our case, after all events and transitions has been processed
-in one frame.
+after each complete "processing", in our case, after all events and transitions in one frame
+has been processed.
+This is something that should if possible be fixed in the future, as this level of exposition is not ideal.
