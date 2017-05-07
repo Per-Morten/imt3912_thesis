@@ -4,20 +4,25 @@ The rationale being that heavy synchronization could be unnecessary, and also in
 
 \subsubsection{Threading Model}
 \label{subsubsec:high_level_threading_model}
-\todo{Argument for this choice}
-It was decided to go for a fork-and-join like threading model \todo{Add link},
+The NOX ECS would need a good threading model that would allow efficient uses of multi-core
+architectures, while at the same time being relatively invisible to the programmers
+using the ecs.
+It was decided to go for a fork-and-join like threading model\cite[p. 369]{game_engine_architecture},
 as this would allow for encapsulated threading behavior within the entity system.
 Users of the system would not need to worry about starting up new threads,
 and the program flow would to a larger extent appear to act as a familiar linear sequential system.
+A user could simply call for instance the update function on a central manager, and be completely
+unaware of whether or not that function was taking advantage of possible parallelism.
 
 \todo{Add picture of the fork-and-join model?}
+
 The threading model of choice also fit nicely with the previous decision of keeping component types
 grouped together.
 Each thread would be assigned a collection of components which could be processed in an isolated,
 homogeneous and contiguous manner, avoiding cache invalidation and synchronization problems.
 
 Heavy inter component dependencies could also be avoided by dividing dependent components
-into different layers of execution. \todo{Reference the layered execution in detailed architecture}
+into different layers of execution\secref{subsec:detailed_execution_layers}.
 This division would be based on known access patterns between the different component types,
 which is provided by a programmer.
 
@@ -26,3 +31,9 @@ The fork-and-join model with a layered execution would solve the problem of orga
 in a concurrent matter. However it did not solve the issue of communication with central systems, like the event system, or lifecycle requests.
 If these were protected with regular locks chances were high that there would be a lot of contention.
 It was therefore decided that the implementation of these central systems should be lock free.
+
+\subsubsection{Asynchronous Code}
+Adding parallelism to the ECS does introduce the importance of asynchronous code.
+Many of the calls to the ECS would be processed asynchronously to better allow for batched
+processing, and this would be something the users of the ECS would need to take into account.
+
