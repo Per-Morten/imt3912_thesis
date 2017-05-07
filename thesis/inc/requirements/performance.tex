@@ -5,7 +5,6 @@ As a result of this, certain restrictions and wishes were decided upon by betwee
 
 \subsection{Virtual Functions}
 \label{subsec:requirements_performance_virtual_functions}
-\todo{Refer to Game Engine Architecture?}
 Virtual functions is C++'s way of supporting dynamic function binding, allowing for run-time polymorphism.
 With the help of virtual functions, objects derived from a base class can override base class functionality,
 even when the derived type is unknown at compile time.
@@ -52,9 +51,15 @@ leading to the following requirement.
 
 \subsection{Contiguous Memory}
 \label{subsec:requirements_performance_contiguous_memory}
+Modern day CPU architecture has a different set of problems in terms of optimization than in earlier history.
+A lot of focus has gone into making the CPU execute instructions faster, through parallelization, pipelining etc.
+Unfortunately memory access efficiency has not managed to keep up with the raw speed of the CPU.
+To compensate for inefficient memory access times, caching mechanisms and prefetching mechanisms are introduced\cite[p. 153]{game_engine_architecture}.
+Taking advantage of these caching mechanisms can lead to great boosts in performance, which is desirable for Suttung.
+However these mechanisms do require that for example memory layout is taken into consideration, with a preference
+to contiguous memory.
 
-\todo{Write this when I get access to the Game Engine Architecture book, should have info on this inside it.}
-\requirement{}{req:contiguous_memory}
+\requirement{NOX ECS should have a preference towards contiguous memory schemes, in order to better make use of modern caching mechanisms}{req:contiguous_memory}
 
 \subsection{Multi-threading}
 \label{subsec:requirements_performance_multi_threading}
