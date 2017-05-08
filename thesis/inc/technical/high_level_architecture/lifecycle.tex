@@ -11,6 +11,7 @@ and the addition of the raw memory stage, to clear up certain confusions with th
 Just as within the NOX Actor system, a component can go through different stages of a lifecycle during it's lifetime.
 The lifecycle allows the users to release unnecessary resources when a component is in a more inactive stage.
 The following sections describe each individual stage in the entity lifecycle.
+The lifecycle and its corresponding transitions can be seen in figure \ref{fig:lifecycle}.
 
 \subsubsection{Raw Memory Stage}
 Unlike the other parts of the lifecycle, raw memory is not a stage that a component can actually be in,
@@ -26,7 +27,7 @@ At this point nothing is know about the object, so a component that has been tur
 
 \subsubsection{Hibernation Stage}
 Hibernation is the first stage within the lifecycle where a component can be said to be valid.
-This stage is either directly after the constructor or after a user requested initialize function has been executed on a component.
+This stage is either directly after the constructor or after an user requested initialize function has been executed on a component.
 The stage is meant to be used when a component will be inactive for a longer period of time, similarly to "Stopped" in the Android Activity State\cite[Activity state and ejection from memory]{android_activity_lifecycle}.
 A component that is hibernating should only contain it's most basic resources, to not waste space or time within the program.
 
@@ -64,3 +65,11 @@ The system does not have enough information regarding the importance of objects,
 Implementing a lifecycle was done to allow the user of the system better control over resource usage, both in terms of memory
 and in terms of computation, as certain functions will not be called on objects based on their stage in the lifecycle.
 As a result of this components are not allowed to skip stages in the lifecycle, as that would invalidate invariants within the ECS.
+
+\begin{figure}[tbp]
+    \begin{center}
+    \includegraphics[scale=0.5]{images/lifecycle_horizontal.png}
+    \caption{Lifecycle}
+    \label{fig:lifecycle}
+    \end{center}
+\end{figure}
