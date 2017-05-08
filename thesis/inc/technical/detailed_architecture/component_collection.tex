@@ -47,7 +47,15 @@ swapping it with the the first component in a partition and increment or decreme
 Collections are often queried for their components, meaning that some form of lookup is needed.
 The problem was solved by adding an indexing structure on top of the collection.
 A sorted vector containing entity ids and pointers to the different components is used,
-allowing for faster lookup through a binary search.
+allowing for faster lookup through a binary search, as seen in figure \ref{fig:component_collection_index_map}.
+
+\begin{figure}[tbp]
+    \begin{center}
+    \includegraphics[scale=0.45]{images/component_collection_index_map.png}
+    \caption{Component Collection Index Map}
+    \label{fig:component_collection_index_map}
+    \end{center}
+\end{figure}
 
 \paragraph{Iterator Invalidation}
 When using contiguous memory, iterator invalidation is often a problem, and this case is no different.
