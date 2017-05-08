@@ -1,1 +1,65 @@
 \section{Identifying Metrics}
+
+\subsection{Main metrics used}
+A big focus in all of the tests.
+
+\todo{Add a marking/style for words like time/real/user to clarify the sentences. Maybe make those words bold, or have a different background color}
+
+\paragraph{Time}
+Measured the time spent for all the tests using the bash command time.
+\todo{Add link to man page of time or equivalent?}
+The time command outputs three different measurements, which are the following.
+
+\begin{itemize}
+    \item Real
+    \item User
+    \item Sys
+\end{itemize}
+
+\subparagraph{Real}measures the wall clock time, which details how long a test spent running from the start to the end of the call.
+There can be problems using this measurement, as one has little to no control on when the operative system context switches, and how different processes are scheduled.
+This problem can be mitigated to a large extent by running the tests with no other programs running at the same time, giving the tests full access to all the CPU's.
+
+\subparagraph{User}is the amount of CPU time spent in user-mode code within the program being timed.
+This means the total time of all CPU's have spent outside of the kernel.
+In contrast to the real measurement, user measurement is not affected by the operative system.
+This is because the other processes and time the processes spends blocked does not count towards the measurement.
+
+\subparagraph{Sys}is very similar to the User measurement, except that it counts the time spent in kernel-mode, so within the kernel, rather than user-mode.
+
+Adding the user and sys measurements will tell you exactly how much CPU time was spent on a process.
+Note that this is across all CPU's, meaning that if the tests are run on a system with multiple threads, the user + sys time could exceed the real time.
+Using the combined time of user and sys would work if all tests run in a single threaded environment.
+
+Real time is therefore the only viable option left, so all the precautions mentioned previously had to be carried out when performing the tests.
+
+\paragraph{Cycles}
+The cycle metric quantifies how many CPU ticks took place from start to finish for each test.
+Collecting data involves running assembly code with an instruction called Read Time-Stamp Counter\todo{Insert link properly https://www.aldeid.com/wiki/X86-assembly/Instructions/rdtsc}, or rdtsc for short.
+The instruction is used to determine how many CPU ticks have occurred since the processor was reset.
+Note that because the size of the number is limited to the register it is stored in, it will at some point overflow and reset back to 0.
+The time it takes for a CPU to overflow in this manner, will depend on if the CPU has 32 or 64 bit registers.
+How long each will take varies drastically.
+
+
+
+Since all moderns CPU's since \todo{insert citation of last cpu to have 32 bit register} some time has had 64 bit registers, it is same to assume that using a laptop bought two years ago also supports this.
+
+\paragraph{Memory}
+
+Cycles
+Memory
+
+Where each metric matter more or less for each test case.
+
+
+\subsection{Additional metrics}
+
+instruction fetches
+
+L1 cache data reads/writes misses and instruction fetch misses
+LL cache data reads/writes misses and instruction fetch misses
+
+How many conditional branches were executed, and how many of those were mispredicted.
+
+A few more data sets which uses previous data, like cycle estimation which is calculated based on instruction fetches and more
