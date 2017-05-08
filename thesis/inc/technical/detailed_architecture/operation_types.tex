@@ -24,7 +24,7 @@ However by default the operation types would be "invisible" to the user of the E
 allowing them to think in a regular member function object oriented mindset.
 
 \subsubsection{Explanation}
-As previously mentioned operation types are just pointers to functions that take in Component pointers,
+Operation types are pointers to functions that take in Component pointers,
 and potentially some other parameters.
 Functions implementing the operation types will cast the Component pointer parameter over to the derived type,
 and call the derived function.
@@ -37,12 +37,12 @@ This line of thought was what allowed users to send in their own compare functio
 Additionally some of these operation types were created for operating on contiguous ranges of component types,
 allowing users to iterate over components and take advantage of known data patterns or caching of calculated values.
 
-Writing all these "conversion" functions out by hand would be way to tedious and error prone,
+Writing all these "conversion" functions out by hand would be way too tedious and error prone,
 and going against the "opt-in opt-out" philosophy of the NOX ECS.
 The user should normally not need to worry about correct casting or pointer iteration,
 but work with the mindset and semantics that they are used to, i.e. thinking with member functions.
 
-This problem was solved with the help of C++ templates.
+This problem was solved with the help of C++ templates. \todo{Add comment explaining why this templating is legal.}
 When the user is calling the create meta information for a specific component type,
 the component type is sent in as a template parameter.
 This allows us to create template instantiations of wrapper functions that does the standard conversions.
@@ -60,7 +60,7 @@ The operation types solution does offer certain advantages over the potential al
 \paragraph{Greater Customization Options}
 Regular virtual functions in C++ are implemented as member functions, requiring the user to couple functions with their data.
 Operation types work on free standing functions, which by default are wrappers that call member functions.
-However the user can if desired supply their own functions to the function pointers, for example pointers to template
+However the user can if desired supply their own functions to the function pointers. For example pointers to template
 instantiations of functions allowing the user to write generic functions that can operate on different types of components,
 still optimized for their respective types.
 Keeping the operation types as pointers to free standing functions also means that there is not such a push towards
@@ -90,18 +90,18 @@ the per type space overhead of a virtual table pointer is gone.
 The meta information is stored together with the component collections of each respective component type.
 
 \subsubsection{Cons Of Operation Types}
-While there are certain advantages to the operation types there are also some disadvantages.
-
 \paragraph{Burdens on Users}
-While the user does not need to worry about how the operation types works by default,
+While the programmer does not need to worry about how the operation types works by default,
 some extra burdens are put on the programmers that wish to take advantage off the flexibility offered.
 
+\todo{Put this in enumerated list}
 \subparagraph{Casting}
 Because the ECS is unaware of the types it is directly working with, a certain level of type casting is required.
 Each operation type receives some component pointers that must be casted over to the correct type,
 and possibly iterated over. This is a lot of boilerplate, and it can be difficult to debug if it is done wrong.
+\todo{Add picture of this type of casting}
 
-\subparagraph{Odd Syntax}
+\subparagraph{Non-regular Syntax}
 Working only with operation types internally within the ECS means that one moves away from the regular syntax of C++.
 For example move assignment operators are replaced with function calls to the move assignment operation type.
 This is not visible to the end user, but is something possible maintainers will have to get used to when working with the ECS.
@@ -127,7 +127,3 @@ then another layer of indirection to find the function that an operation type is
 If the function pointed to is a default wrapper that calls a member function there might be another layer of indirection
 if the member function is not inlined by the compiler.
 However this function could then be kept in cache for the functions that are called on ranges of values.
-
-\subsubsection{Consequences}
-\todo{For future section: Might be able to template the entire thing when modules comes around,
-as it will improve build times.}

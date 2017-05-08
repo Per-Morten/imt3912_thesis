@@ -28,7 +28,8 @@ which is provided by a programmer.
 
 \subsubsection{Contention}
 The fork-and-join model with a layered execution would solve the problem of organizing and running components
-in a concurrent matter. However it did not solve the issue of communication with central systems, like the event system, or lifecycle requests.
+in a concurrent matter.
+However, it did not solve the issue of communication with central systems, like the event system, or lifecycle requests.
 If these were protected with regular locks chances were high that there would be a lot of contention.
 It was therefore decided that the implementation of these central systems should be lock free.
 
@@ -36,4 +37,3 @@ It was therefore decided that the implementation of these central systems should
 Adding parallelism to the ECS does introduce the importance of asynchronous code.
 Many of the calls to the ECS would be processed asynchronously to better allow for batched
 processing, and this would be something the users of the ECS would need to take into account.
-

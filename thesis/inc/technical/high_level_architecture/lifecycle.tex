@@ -12,23 +12,16 @@ Just as within the NOX Actor system, a component can go through different stages
 The lifecycle allows the users to release unnecessary resources when a component is in a more inactive stage.
 The following sections describe each individual stage in the entity lifecycle.
 
-\todo{Be consistent on using state vs stage, pick one!}
-\todo{Add state/stage to the headlines}
-
-\todo{Rethink if this should actually be here, at least clear up that it is here for historical reasons,
-because this is apparently confusing. Add section explaining that we are pooling memory,
-because currently this section does not make that much sense. Think the new addition should be enough?}
 \subsubsection{Raw Memory Stage}
 Unlike the other parts of the lifecycle, raw memory is not a stage that a component can actually be in,
 as this stage is before a constructor has been run on an object.
-The rationale for this stages inclusion is to clear up any confusion within the old NOX Actor system,
+The rationale for this stage is to clear up any confusion within the old NOX Actor system,
 in relation to what happens to an object that has been destroyed.
 Within the old NOX Actor system an object that had been destroyed could still be brought back to life,
 meaning that a destroyed object was per definition still alive.
 The destroyed stage were renamed to hibernation, and the raw memory stage was added.
 Since the NOX ECS is pooling and reusing its memory, it needs to be clear that when we discuss objects
-that has been destroyed or destructed, that object is destructed in the sense that it is now just raw memory.
-Raw memory is before the constructor and after the destructor has been run on a component.
+that has been destructed, that object is destructed in the sense that it is now just raw memory.
 At this point nothing is know about the object, so a component that has been turned into raw memory cant be rebuilt.
 
 \subsubsection{Hibernation Stage}

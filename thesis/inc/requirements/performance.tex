@@ -1,7 +1,7 @@
 
 \section{Performance}
 As stated earlier, performance is an important aspect within the games industry.
-As a result of this, certain restrictions and wishes were decided upon by between Suttung and the Authors.
+As a result of this, certain restrictions and wishes were decided upon between Suttung and the Authors.
 
 \subsection{Virtual Functions}
 \label{subsec:requirements_performance_virtual_functions}
@@ -47,7 +47,8 @@ In the original NOX Actor system, all the different components were known at com
 As a result of this Suttung and the authors decided to try to find another mechanism for handling "polymorphic" behavior,
 leading to the following requirement.
 
-\requirement{NOX ECS must efficiently provide functionality akin to virtual, for polymorphic types known at compile time.}{req:virtuals}
+\todo{Remove "efficiently", as this is hard to measure.}
+\requirement{NOX ECS shall efficiently provide functionality akin to virtual, for polymorphic types known at compile time.}{req:virtuals}
 
 \subsection{Contiguous Memory}
 \label{subsec:requirements_performance_contiguous_memory}
@@ -67,4 +68,5 @@ To further improve performance Suttung has requested that the new ECS should be 
 The multi-threading should preferably be something that happens in the background, so that the programmers don't have to worry much about synchronization.
 \todo{Write about contention problems?}
 
-\requirement{NOX ECS must supply easy solutions for writing code that can easily be parallelized, without large investments by the programmer}{req:multi_threading}
+\todo{Add requirement comment structure. Comment: without large investments by the programmer}
+\requirement{NOX ECS shall supply solutions for writing code that can be parallelized.}{req:multi_threading}

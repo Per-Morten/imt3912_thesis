@@ -26,7 +26,8 @@
 
 \newcounter{ptrequirements}
 \newcommand{\requirement}[2]{\begin{quote}\refstepcounter{ptrequirements}\textbf{Requirement \theptrequirements: #1 \label{#2}}\end{quote}}
-\newcommand{\reqref}[1]{\footnote{Described in requirement \ref{#1}.}}
+\newcommand{\reqref}[1]{\footnote{Requirement \ref{#1}.}}
+\newcommand{\reqcomment}[1]{\emph{Comment: #1}}
 
 \begin{document}
 
@@ -44,6 +45,8 @@
 as there are actually logic tied to components, or atleast can be. It is closer to the Unity Approach really,
 need to be clear in the entity component system introduction what sort of ECS we are going for,
 and what separates them, mention how we might be doing a property centric object system}
+
+\todo{Add note that user and programmer are the same thing!}
 
 \subimport{inc/}{introduction.tex}
 \subimport{inc/}{requirements.tex}
