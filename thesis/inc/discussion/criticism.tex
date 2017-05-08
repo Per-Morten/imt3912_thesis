@@ -1,1 +1,28 @@
 \section{Criticism}
+There are several aspects of these findings that can be criticized.
+
+\subsection{Mobile Testing}
+Testing on mobile was originally a planned, but this was never accomplished due to lack of time.
+This would have been a good way to check if the lock free structures with relaxed atomics actually
+gave an increased boost in performance.
+
+\subsection{Single Compiler}
+Again due to time constraints we did not have time to run our tests on different compilers.
+This means that we did not get to inspect how different compilers might optimize our code differently.
+
+\subsection{Single Platform}
+We originally planned to test on both Windows and Ubuntu, while also testing on both our computers to
+try with different hardware. However, time only allowed us to test on Ubuntu, and with only one computer.
+We are uncertain as to how much difference it would actually be if we also tested on other computers.
+
+\subsection{Counter Test Cases}
+Due to lack of time we did not have the option to write different systems to test.
+For example it would have been interesting to create a template based entity component system,
+to measure against.
+
+\subsection{No User Tests}
+We had originally planned to have user tests together with Suttung.
+The idea was to arrange a game jam with Suttung over a weekend,
+and do tests with them to gather feedback on the new system.
+Unfortunately neither we nor Suttung were able to dedicate the time to this when the system
+was in a testable state.
