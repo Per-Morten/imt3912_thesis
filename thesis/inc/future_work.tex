@@ -1,2 +1,49 @@
 \chapter{Future Work}
 \label{chap:future_work}
+Unfortunately the development of the NOX ECS did not get as far as we originally hoped.
+The following sections details areas that we would like to improve upon.
+
+\section{Code Improvements}
+\subsection{Remaining Features}
+\subsubsection{Lifecycle Queries}
+Currently there are still some features missing from the NOX ECS, like being able to query
+components for their lifecycle stage, which was possible in the original Actor model.
+Implementing this functionality should be trivial.
+
+\subsubsection{JSON Integration}
+The factory functionality for loading and creating entities through JSON objects
+is not equivalent to the functionality found in the factory of the NOX Actor system.
+This needs to be added before the NOX ECS can be properly used by Suttung.
+This functionality also include proper serialization with JSON objects, which
+is currently not supported in NOX ECS.
+
+\subsubsection{Alternative Implementations}
+A lot of the implementations covered in the detailed architecture section mentioned alternative
+implementations. Some of these alternative solutions should be pursued in the search for
+better performance and cleaner implementations. For example, the external references functionality
+mentioned in the component collection.
+
+\subsection{Safety}
+A requirement from Suttung was a focus on safety, and encouraging correct use of API's.
+This requirement was not considered as much as it should have been, and is something that
+should be improved upon in the future.
+For example, the type identifier is not particularly user friendly, and mechanisms should
+be put in place to ensure correct usage of this class.
+
+\section{Benchmarking}
+\subsection{Mobile Tests}
+Mobile benchmarking tests were not performed with the NOX ECS,
+the benchmarks should be run on a mobile platform to give information about performance.
+
+\subsection{Multiple Compiler Tests}
+Currently the benchmark tests were only run on GCC. However, the run test scripts are also
+set up for allowing tests to run on Clang, they were just not run because of our lack of time.
+The benchmark test should also be run on Clang, to check if we get the same results.
+Additionally, the benchmark tests should also be run on other compilers for different platforms,
+like Microsoft Windows.
+
+\subsection{Template Tests}
+While a lot of the individual optimizations have been tested, like using virtual functions rather than
+operation types. However, we did not have time to create a template based entity component system.
+Having such an example would allow us to see what gains we could get out of using templates.
+
