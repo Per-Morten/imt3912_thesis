@@ -29,12 +29,19 @@ however some extra overhead is required to keep the index map in a valid state.
 \todo{Ask mariusz if using the word amortized is to "complex"}
 
 \paragraph{Lifecycle Partitioning}
-\todo{Add Figure: component\_collection.png}
 The components in the collection is further grouped together and partitioned based on their stage
-in the entity lifecycle\secref{subsec:high_level_lifecycle}.
+in the entity lifecycle\secref{subsec:high_level_lifecycle} as seen in figure \ref{fig:component_collection_partitioning}.
 Pointers are used to indicate where the different partitions in the collection begin.
 Transitioning components to other stages in the lifecycle therefore means to find the component,
 swapping it with the the first component in a partition and increment or decrement the partition pointer.
+
+\begin{figure}[tbp]
+    \begin{center}
+    \includegraphics[scale=0.45]{images/component_collection_partitioning.png}
+    \caption{Component Collection Lifecycle Partitioning}
+    \label{fig:component_collection_partitioning}
+    \end{center}
+\end{figure}
 
 \paragraph{Index Mapping}
 Collections are often queried for their components, meaning that some form of lookup is needed.
