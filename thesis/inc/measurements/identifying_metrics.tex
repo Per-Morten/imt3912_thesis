@@ -39,7 +39,7 @@ Collecting data involves running assembly code with an instruction called Read T
 The instruction is used to determine how many CPU ticks have occurred since the processor was reset.
 Note that because the size of the number is limited to the register it is stored in, it will at some point overflow and reset back to 0.
 The time it takes for a CPU to overflow in this manner, will depend on if the CPU has 32 or 64 bit registers.
-How long each amount of bits will take before overflowing varies drasticaly between the two.
+How long each amount of bits will take before overflowing varies drastically between the two.
 The duration can be calculated with this formula, where x is the duration in seconds, h is the tick rate of the CPU, and b is the highest number representable with the registers bit count.
 
 \begin{equation}
@@ -63,8 +63,8 @@ Assume you have a CPU with 2 GHz tick rate, then the time for each will take.
 \noindent It is clear that a 32 bit register would not be sufficient, as it would overflow in only two seconds.
 This makes it likely to overflow in a lot of tests, even if they don't last a full 2 seconds.
 In contrast, a 64 bit register has a much longer duration of approximately 292 years, which makes it highly unlikely that any tests are affected by a potential overflow.
-In addition, even if a test was affected, the number an overflow like this would produce is extremly large, to such an extent that it would be easily visible in any graph using the faulty data.
-If this occured, the single test affected could easily be run a second time.
+In addition, even if a test was affected, the number an overflow like this would produce is extremely large, to such an extent that it would be easily visible in any graph using the faulty data.
+If this occurred, the single test affected could easily be run a second time.
 
 \smallskip
 
@@ -81,12 +81,11 @@ Massif takes snapshots of the processes heap each time a allocation or deallocat
 The snapshots can come two different forms, normal and detailed.
 Normal only displays basic information with the time, total bytes consumed, and a few other data points.
 Detailed displays in addition to the data normal has, also collects the stack trace of every single allocation point in the program into a single tree, which gives a full picture on how and why all the heap memory was allocated.
-There is also a peak snapshot, at which point the heap consumtion was at its greatest.
+There is also a peak snapshot, at which point the heap consumption was at its greatest.
 
-\\
-\noindent Below is an example of the part of a massif output, where row 10 to 13 are normal snapshots, and the row 14 is a detailed one. 
+Below is an example of the part of a massif output, where row 10 to 13 are normal snapshots, and the row 14 is a detailed one. 
 
-\begin{lstlisting}[basicstyle=\footnotesize, caption=Massif output example, label=lst:allocate]
+\begin{lstlisting}[basicstyle=\footnotesize, caption=Massif output example, label=lst:massif_output]
 --------------------------------------------------------------------------------
  n        time(B)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
 --------------------------------------------------------------------------------
