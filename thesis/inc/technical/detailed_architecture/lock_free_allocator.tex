@@ -208,7 +208,7 @@ the linked list needs to be expanded.
 \paragraph{Cache Ping Pong}
 \label{par:detailed_lock_free_ping_pong}
 Williams\cite{williams_safety_off} describes cache ping pong as the situation where two processors
-are accessing either the same atomic variable, or a different variable on the same cache line.
+are accessing either the same atomic variable, or a different atomic variable on the same cache line.
 This results in the cache lines being shuffled back and forth between the processors, which is not great for performance.
 Our implementation of the lock free allocator falls into the trap of allowing cache ping pong.
 As several threads can operate on the same memory within a memory block, updating a memory block's number of used bytes, or
