@@ -1,11 +1,12 @@
 \section{Identifying Metrics}
 
-\subsection{Main metrics used}
-A big focus in all of the tests.
+\subsection{Main metrics}
+There were a couple of metrics that were important in all the test cases.
+This data is the one 
 
 \todo{Add a marking/style for words like time/real/user to clarify the sentences. Maybe make those words bold, or have a different background color}
 
-\paragraph{Time}
+\subsection{Time}
 Measured the time spent for all the tests using the bash command time.
 \todo{Add link to man page of time or equivalent?}
 The time command outputs three different measurements, which are the following.
@@ -16,50 +17,116 @@ The time command outputs three different measurements, which are the following.
     \item Sys
 \end{itemize}
 
-\subparagraph{Real}measures the wall clock time, which details how long a test spent running from the start to the end of the call.
+\paragraph{Real}measures the wall clock time, which details how long a test spent running from the start to the end of the call.
 There can be problems using this measurement, as one has little to no control on when the operative system context switches, and how different processes are scheduled.
 This problem can be mitigated to a large extent by running the tests with no other programs running at the same time, giving the tests full access to all the CPU's.
 
-\subparagraph{User}is the amount of CPU time spent in user-mode code within the program being timed.
+\paragraph{User}is the amount of CPU time spent in user-mode code within the program being timed.
 This means the total time of all CPU's have spent outside of the kernel.
 In contrast to the real measurement, user measurement is not affected by the operative system.
 This is because the other processes and time the processes spends blocked does not count towards the measurement.
 
-\subparagraph{Sys}is very similar to the User measurement, except that it counts the time spent in kernel-mode, so within the kernel, rather than user-mode.
-
+\paragraph{Sys}is very similar to the User measurement, except that it counts the time spent in kernel-mode, so within the kernel, rather than user-mode.
 Adding the user and sys measurements will tell you exactly how much CPU time was spent on a process.
 Note that this is across all CPU's, meaning that if the tests are run on a system with multiple threads, the user + sys time could exceed the real time.
 Using the combined time of user and sys would work if all tests run in a single threaded environment.
-
 Real time is therefore the only viable option left, so all the precautions mentioned previously had to be carried out when performing the tests.
 
-\paragraph{Cycles}
+\subsection{Cycles}
 The cycle metric quantifies how many CPU ticks took place from start to finish for each test.
-Collecting data involves running assembly code with an instruction called Read Time-Stamp Counter\todo{Insert link properly https://www.aldeid.com/wiki/X86-assembly/Instructions/rdtsc}, or rdtsc for short.
+Collecting data involves running assembly code with an instruction called Read Time-Stamp Counter 
+\todo{Insert link properly https://www.aldeid.com/wiki/X86-assembly/Instructions/rdtsc}, or rdtsc for short.
 The instruction is used to determine how many CPU ticks have occurred since the processor was reset.
 Note that because the size of the number is limited to the register it is stored in, it will at some point overflow and reset back to 0.
 The time it takes for a CPU to overflow in this manner, will depend on if the CPU has 32 or 64 bit registers.
-How long each will take varies drastically.
+How long each amount of bits will take before overflowing varies drasticaly between the two.
+The duration can be calculated with this formula, where x is the duration in seconds, h is the tick rate of the CPU, and b is the highest number representable with the registers bit count.
 
+\begin{equation}
+x = \frac{b}{h}
+\end{equation}
 
+\bigskip
 
-Since all moderns CPU's since \todo{insert citation of last cpu to have 32 bit register} some time has had 64 bit registers, it is same to assume that using a laptop bought two years ago also supports this.
+Assume you have a CPU with 2 GHz tick rate, then the time for each will take.
 
-\paragraph{Memory}
+\begin{equation}
+32b = \frac{2^{32}}{2 \times 10^{9}Hz} = 2.15s
+\end{equation}
 
-Cycles
-Memory
+\begin{equation}
+64b = \frac{2^{64}}{2 \times 10^{9}Hz} = 9223372036.85s \approx 292 \text{years}
+\end{equation}
 
-Where each metric matter more or less for each test case.
+\bigskip
 
+\noindent It is clear that a 32 bit register would not be sufficient, as it would overflow in only two seconds.
+This makes it likely to overflow in a lot of tests, even if they don't last a full 2 seconds.
+In contrast, a 64 bit register has a much longer duration of approximately 292 years, which makes it highly unlikely that any tests are affected by a potential overflow.
+In addition, even if a test was affected, the number an overflow like this would produce is extremly large, to such an extent that it would be easily visible in any graph using the faulty data.
+If this occured, the single test affected could easily be run a second time.
 
-\subsection{Additional metrics}
+\smallskip
 
-instruction fetches
+Because all moderns CPU's since \todo{insert citation of last cpu to have 32 bit register} has had 64 bit registers, it is safe to assume that using a laptop bought two years ago also supports this.
 
-L1 cache data reads/writes misses and instruction fetch misses
-LL cache data reads/writes misses and instruction fetch misses
+\smallskip
 
-How many conditional branches were executed, and how many of those were mispredicted.
+Counting cycles will give a very consistent metric in addition to measuring real time.
+This will strengthen the validity of the time, by having another metric to further confirm the results.
 
-A few more data sets which uses previous data, like cycle estimation which is calculated based on instruction fetches and more
+\subsection{Memory}
+The memory is measured with the heap profiler Massif, which is a part of a tool suite called Valgrind.
+Massif takes snapshots of the processes heap each time a allocation or deallocation happens, but reduces this frequency if the process runs for a prolonged duration.
+The snapshots can come two different forms, normal and detailed.
+Normal only displays basic information with the time, total bytes consumed, and a few other data points.
+Detailed displays in addition to the data normal has, also collects the stack trace of every single allocation point in the program into a single tree, which gives a full picture on how and why all the heap memory was allocated.
+There is also a peak snapshot, at which point the heap consumtion was at its greatest.
+
+\\
+\noindent Below is an example of the part of a massif output, where row 10 to 13 are normal snapshots, and the row 14 is a detailed one. 
+
+\begin{lstlisting}[basicstyle=\footnotesize, caption=Massif output example, label=lst:allocate]
+--------------------------------------------------------------------------------
+ n        time(B)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+10         10,080           10,080           10,000            80            0
+11         12,088           12,088           12,000            88            0
+12         16,096           16,096           16,000            96            0
+13         20,104           20,104           20,000           104            0
+14         20,104           20,104           20,000           104            0
+99.48% (20,000B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->49.74% (10,000B) 0x804841A: main (example.c:20)
+| 
+->39.79% (8,000B) 0x80483C2: g (example.c:5)
+| ->19.90% (4,000B) 0x80483E2: f (example.c:11)
+| | ->19.90% (4,000B) 0x8048431: main (example.c:23)
+| |   
+| ->19.90% (4,000B) 0x8048436: main (example.c:25)
+|   
+->09.95% (2,000B) 0x80483DA: f (example.c:10)
+->09.95% (2,000B) 0x8048431: main (example.c:23)
+\end{lstlisting}
+\todo{Example taken from http://valgrind.org/docs/manual/ms-manual.html, how to add this properly?}
+
+\subsection{Callgrind}
+Additional data points are gathered from Callgrind, which is another profiling tool in the Valgrind tool suite.
+Callgrind records the call history in a program's run as a call graph.
+The data collected consists of the following.
+
+\begin{itemize}
+	\item Instructions executed
+	\item Memory reads
+	\item Memory writes
+	\item first and last level instruction cache read misses
+	\item first and last level data cache read misses
+	\item first and last level data cache write misses
+	\item Conditional branches executed
+	\item Conditional branches mispredicted
+	\item Indirect branches executed
+	\item Indirect branches mispredicted
+\end{itemize}
+
+In addition to these, there are data points which are based on the above mentioned ones.
+The last level cache is referencing the CPU's lowest cache level, so it will depend on the architecture of each different CPU's cache.
+These data points are not used as extensively as the three mentioned above, but are for tests that need further inspection and requires greater detail.
