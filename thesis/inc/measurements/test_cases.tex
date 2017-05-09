@@ -6,37 +6,97 @@ The results of each test is supposed to give an idea as to how well the ECS syst
 
 \subsection{Changes}
 In the original test case plan\todo{Add reference here} there were a couple of requirements and goals that were not achieved or changed.
+
+\subsection{Compiler}
 These include the fact that only the GCC compiler was used, instead of three which also included Clang and MSVC to be used in the test cases.
 The decision to leave those two compilers out was mainly due to time constraints, as the time it took to run all the tests was already taking a couple of days with only GCC.
-
-\subsection{Data}
-
 
 
 
 \subsection{Tools}
 
 
-
-
 \subsection{Profiler}
+Valgrind
+- massif
+- cachegrind
+- callgrind
+
 
 \subsection{Platforms}
+Linux
+no windows or mobile
+
 
 \subsection{Trivial Component}
 
+
+
 \subsection{Different Test Optimizations}
+All 14?
+holy crap
+
+
+
+format for each one
+
+Why do we have this test
+Lacks/faults with the test
+How the test works
+Changes from the original plan
 
 
 \subsection{Compilation Test}
 
+\paragraph{Reason}
+The reason there was a need for a compilation test, was because the time spent compiling the engine was of importance for Sutting.
+It was desirable for the time spent compiling would not increase by a significant amount with the addition of the ECS.
+
+\paragraph{Flaws}
+There is one major flaw with this test, and it is that it can't be performed without heavy restructuring of the code base.
+The ECS is tightly coupled with the Nox Engine in the sense that a significant amount of the original code is still used in the ECS.
+This means that if you compile the ECS, you also have to compile the Nox Engine.
+However, it would be very difficult and time consuming to extract exactly the code needed for the ECS to avoid this problem.
+A way around this could be to first compile the Nox Engine and the ECS.
+Then measure and compare the compilation duration for the nox tests and ecs tests.
+Unfortunately for reasons unknown, it is not possible to partly compile the project in this manner.
+
+\paragraph{Method}
+The test would be performed by first clearing all old build files by simply erasing the build directory.
+Then the compilation is run in conjunction with the bash shell command time to measure the duration.
+
 \subsection{Fast Spawning}
+\paragraph{Reason}
+The fast spawning test was created in order to see if the ECS could improve on the lacking performance Nox Engine has when spawning a lot of actors at once.
+
+\paragraph{Flaws}
+As a result of the physics module not being implemented in the ECS, the physics components never got any testing in the ECS, and therefore the nox version was never compared against.
+The reason for leaving out the physics component is that the whole physics module in the Nox Engine is so tightly coupled with it, that refactoring it for the ECS was not prioritized.
+
+\paragraph{Method}
+\paragraph{Changes}
 
 \subsection{Numerous Unique Components}
+\paragraph{Reason}
+\paragraph{Flaws}
+\paragraph{Method}
+\paragraph{Changes}
 
 \subsection{Memory Usage}
+\paragraph{Reason}
+\paragraph{Flaws}
+\paragraph{Method}
+\paragraph{Changes}
 
 \subsection{Multi Threading Support}
+\paragraph{Reason}
+\paragraph{Flaws}
+\paragraph{Method}
+\paragraph{Changes}
 
 \subsection{Thread Safe Logging}
+\paragraph{Reason}
+\paragraph{Flaws}
+\paragraph{Method}
+\paragraph{Changes}
 
