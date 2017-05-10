@@ -24,26 +24,20 @@ Valgrind
 
 
 \subsection{Platforms}
-Linux
-no windows or mobile
+The plan was to run all the tests both on windows and linux, and if there was additional time, also run it on mobile which is an important platform for Suttong.
+There were unfortunately not enough time to make sure the tests run properly on windows, and actually running them on windows.
 
 
 \subsection{Trivial Component}
-
+The trivial component is meant to serve the function of a component that does some work, which also involves using the event system.
+It is used for the numerous unique component and multi thread support test cases.
+Each trivial component will in every update call, potentially send an event based on its waiting duration, and that wait for as long as the wait duration lasts.
+The wait simulates work, and the messages sent is the use of the event system that is wanted in the tests.
 
 
 \subsection{Different Test Optimizations}
 All 14?
 holy crap
-
-
-
-format for each one
-
-Why do we have this test
-Lacks/faults with the test
-How the test works
-Changes from the original plan
 
 
 \subsection{Compilation Test}
@@ -74,29 +68,66 @@ As a result of the physics module not being implemented in the ECS, the physics 
 The reason for leaving out the physics component is that the whole physics module in the Nox Engine is so tightly coupled with it, that refactoring it for the ECS was not prioritized.
 
 \paragraph{Method}
-\paragraph{Changes}
+The fast spawning test case is performed by spawning a set amount of actors as fast as possible, and then deleting them all.
+This spawn and delete can happen two different amount of times, once or ten times depending on the test.
+The different amounts of actors in the tests are as defined by this function.
 
-\subsection{Numerous Unique Components}
+\begin{equation}
+x = \sum_{n=8}^{16} 2^{n}
+\end{equation}
+
+This results in a sequence of actor counts going from 256, and increasing with an exponential growth until it reaches 32768.
+
+\paragraph{Changes}
+The test case was executed as described in the plan to a large degree, except that there were no tests involving empty actors, as it is of no interest to compare between the Nox Engine and ECS when there is no actual entity object in the ECS to take up memory, which there are in the Nox Engine.
+
+\subsection{Numerous Unique Components and Multi Threading Support}
 \paragraph{Reason}
+This test case was created because the ECS needed to support both a large amount of different component types at once, and have efficient multi threading.
+It puts pressure both on how many component types the system can handle, but also the event system as every component sends a large amount of events.
+
 \paragraph{Flaws}
+The fact that the numerous unique components and multi threading support are combined makes it harder to s
+
 \paragraph{Method}
 \paragraph{Changes}
 
 \subsection{Memory Usage}
 \paragraph{Reason}
-\paragraph{Flaws}
-\paragraph{Method}
-\paragraph{Changes}
+This case is used to measure how much memory each system uses with either sprite or transform components.
 
-\subsection{Multi Threading Support}
-\paragraph{Reason}
 \paragraph{Flaws}
+There is a problem with measuring and comparing the amount of memory the different components are using, when each systems does not give the same amount of functionality.
+However, even though the ECS does not support all features available in the Nox Engine, it still uses a considerable less amount of memory.
+It does this to a degree where it most likely won't catch up to the Nox Engine even when including the missing features.
+
 \paragraph{Method}
+The method for performing this test involves creating a set amount of actors with the same numbers mentioned in the fast spawning section above.
+These actors will either be transform or sprite actors depending on the test.
+The test will run for a minimum of one second, and then quit.
+
 \paragraph{Changes}
+All of the cases mentioned in the test case plan were not done.
+Instead there were two cases that were tested, with sprite actors and transform actors.
+The cases in the plan were abandoned either for not fitting with the ECS, namely the empty actors case, or being too time consuming which was the case for the deep scenegraph.
 
 \subsection{Thread Safe Logging}
 \paragraph{Reason}
-\paragraph{Flaws}
-\paragraph{Method}
-\paragraph{Changes}
+Needed a way to ensure the attempt at making the old logging system thread safe does what it is supposed to.
 
+\paragraph{Flaws}
+No apparent flaws in the test case.
+This can mostly be contributed to the fact that the problem at hand was not very difficult.
+The addition of a mutex in the logging system made it thread safe, and the way to ensure it was, also provides a strong case.
+
+\paragraph{Method}
+Each thread in the test will constantly print out the letter a through z for a given amount of time.
+If the logger was not thread safe, there would be a inconsistency where the letter a starts again too early, because a thread has been cut off in the middle of printing.
+After the program has run for a sufficient amount of time, the output is checked to see if any such previously mentioned errors has occurred.
+If there is no such errors, the logger can be considered thread safe.
+
+\paragraph{Changes}
+This test was done drastically different, due to it becoming apparent how much easier it can be performed.
+First off, there is no need for a ton of components doing this work of sending messages to put stress on the logging system, a couple of threads sending messages are more than fine.
+In addition, instead of using a regex check to see if every line is correct, the test was simply ran once with a single thread so no races could occur.
+After that the actual test was run, and the result of the single and multi threaded tests were checked to be equal, and if they were the test was a success.
