@@ -36,9 +36,60 @@ The wait simulates work, and the messages sent is the use of the event system th
 
 
 \subsection{Different Test Optimizations}
-All 14?
-holy crap
+While not all the different optimizations that were done lent themselves perfect to testing, we
+wanted to test some of them in isolation.
+These tests were enabled by macros, where the ECS was running with its normal settings on
+every case, except the one that was being tested.
+This would allow us to see whether or not an optimization was worth the cost of implementation.
 
+\subsubsection{Atomic Sequential Consistency}
+The testing was done on a strongly ordered architecture, but we were still interested
+in seeing whether or not there were any benefits to using relaxed atomics
+on this architecture.
+
+\subsubsection{Numeric Type Identifiers}
+The type identifier system offers two different ways to identify types, using
+hashed strings, or using numeric values.
+We wanted to inspect the differences in performance of using strings, vs
+using numeric types. We therefore added a macro which would turn
+all the string values into strings, which would be hashed.
+
+\subsubsection{Allocators}
+Currently we have implemented 3 different allocators, the lock free allocator,
+a locked linear allocator, and a heap allocator.
+All three of these will be tested for the event arguments, while the
+linear allocator and lock free allocator will be tested with the lock free stack.
+The reason for only using the two allocators on the stack is that it requires
+a linear allocator to avoid the ABA problem\footnote{Explained in p.\pageref{subpar:detailed_lock_free_allocator_aba}}.
+
+\subsubsection{Locked vs Lock Free}
+We used quite some time when implementing the lock free stack, and allocator.
+As a result we wanted to see if these implementations were worth the time,
+and added in tests were we would use the lock free stack or the locked queue
+for handling events and lifecycle transitions.
+We additionally added in a test case for using the lock free stack or locked queue
+in the thread pool.
+
+\subsubsection{Collection}
+We will also test some alternatives within the component collection.
+
+\paragraph{Virtual Usage}
+In one of the tests the collections will function as normally, but
+components will be using virtual functions, rather than the function pointers
+from the meta information.
+
+\paragraph{Unique Pointers}
+The other case will be a more simple implementation of the collection,
+in this case all the components will be allocated on the heap, and managed
+using std::unique\_ptrs.
+Virtual functions will also be used, rather than the meta information,
+as we are not working with contiguous ranges. Additionally no partitioning is done.
+
+\subsection{Execution Layers}
+By default the ECS uses the execution layers for all the places it makes sense,
+mainly the update step and distribution of events.
+We wanted to test how much boost we would get from the execution layers,
+and have therefore run tests where the different layered models were turned off.
 
 \subsection{Compilation Test}
 
