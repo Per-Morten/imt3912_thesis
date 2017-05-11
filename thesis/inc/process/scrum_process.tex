@@ -1,1 +1,49 @@
 \section{Scrum Process}
+We followed a scrum like process throughout the development of the project.
+Scrum meetings were held each day, in which we both used 5-15 minutes to update each
+other on the previous workdays progress, our current plans for the day, and potential
+problems we had identified that could harm our progress.
+This was done to ensure that both members had a proper understanding of what the other
+member was doing.
+Sprint retrospectives were done biweekly, however these meetings were dropped when
+we started working on thesis and finishing the project in parallel.
+The retrospectives can be found in appendix \todo{Add ref}.
+After each finished sprint, the next sprint was planned, and we would start setting
+up the tasks/issues for the new sprint.
+The tasks were prioritized mostly based on what was needed, however we were both
+ready to re-prioritize tasks if needed.
+Tasks were also tracked through github's project board, with a simple scheme of: "todo",
+"under development", "review ready", and "done".
+The issue tracking system essentially became the project backlog of the project, and
+each milestone became a sprint backlog.
+
+\section{Development Workflow}
+\subsection{Branching Strategies}
+Throughout the project we followed a issue branching git workflow.
+Here we would create a new branch in git for each issue/task we were working with,
+when a task was finished we would make a pull request to parent branch, usually master.
+The pull request would be reviewed by the team member, any comments from the reviewer
+would need to be justified, or fixed before the branch was merged.
+This allowed us to isolate our work in a relatively clean matter, but
+it did lead to smaller problems when certain branches started depending on each other,
+which caused some minor problems.
+The branches were named according to the issues, and all commits were tied to the issues
+with the use of the issue tracker.
+Additionally, we did not allow for fast forward merges to parent branch, as we wanted
+keep a more accurate development history.
+
+\subsection{Commits}
+We employed a commit message format scheme to ensure a certain quality of the commit messages.
+The format forced us to tie our commits to different issues, and give a short description of the commit.
+If a commit needed more explanation the extra field below the header was used,
+allowing a for a more detailed description of the commit, and potential references to other issues.
+The message would start with a reference or potentially fix to the relevant issue,
+followed by the commit header and a new line.
+No matching was done for the explanatory body.
+The regex was placed in a git hook which would launch when running the git commit command, the regex can be seen in listing~\ref{lst:commit_msg_regex}.
+The commit style was inspired by an Internet article on semantic commits\footnote{\url{http://karma-runner.github.io/0.10/dev/git-commit-msg.html}}.
+
+\begin{lstlisting}[xleftmargin=18.0ex, caption=Commit message regex, captionpos=b, label=lst:commit_msg_regex]
+^(fix|ref) #[0-9]+: [A-Z].+[\n]$
+\end{lstlisting}
+
