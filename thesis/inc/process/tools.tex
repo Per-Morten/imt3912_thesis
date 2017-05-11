@@ -14,12 +14,12 @@ for doing code review on pull requests.
 
 \subsection{Development Environment}
 Originally we planned to implement the NOX ECS on Windows, using Microsoft Visual Studio as our coding environment.
-However after seeing some of the tools the Linux platforms had to offer especially in terms of code profiling,
+However, after seeing some of the tools the Linux platforms had to offer especially in terms of code profiling,
 we decided to move over to Ubuntu.
 We stayed in Ubuntu for the whole project, coding in Sublime Text, and building with the CMake build tools.
-However, we did hop over to Windows time to time to solve certain issues, which required more sophisticated debugging tools.
+Windows was used from time to time to solve issues, which required more sophisticated debugging tools.
 
 \subsection{Fault Detection}
 There were several times during the development of this project that we would run into bugs like memory corruption etc,
 especially when implementing the component collection.
-In these cases valgrind was used to ensure program correctness, and was a helpful tool in the debugging process.
+In these cases valgrind's memcheck was used to ensure program correctness, and was a helpful tool in the debugging process.
