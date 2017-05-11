@@ -144,3 +144,9 @@ removal or transitions happen.
 The partitioning also adds overhead to transitions in situations where a component is not relying on the lifecycle.
 While it is possible to avoid the call to a lifecycle function that is not overloaded, it is still required
 that a component is transitioned in the proper lifecycle order to maintain the partition structure of the collection.
+
+\paragraph{Search Overhead}
+Having the index map solution does incur time overhead for searching, which can be noticeable when working with
+large numbers of components at one time. However, there are room for small optimizations here and there,
+for example when adding components, the chance is high that the new component will have an id which is larger
+than the other components, meaning that the binary search can be avoided in a lot of cases.
