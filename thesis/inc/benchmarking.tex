@@ -1,2 +1,117 @@
 \chapter{Benchmarking}
 \label{chap:benchmarking}
+This chapter will discuss the various findings of the benchmark tests.
+
+\section{Numerous Unique Components}
+\subsection{NOX ECS versus NOX Actor}
+\begin{figure}[htbp]
+\centering
+\begin{gnuplot}[terminal=pdf,terminaloptions=color]
+set logscale x 2
+set logscale y 2
+set key below
+#set format y "2^{%L}"
+set format y "%8.2fs"
+set grid
+set title "Numerous, Time"
+plot "benchmark_results/200_actors/ecs_no_opt_numerous_gcc_components_200_time.csv" using 1:2 with lines title "ecs", "benchmark_results/200_actors/nox_numerous_gcc_components_200_time.csv" using 1:2 with lines title "nox actor"
+
+\end{gnuplot}
+\label{fig:benchmarking_numerous_unique_200_time}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{gnuplot}[terminal=pdf,terminaloptions=color]
+set logscale x 2
+set logscale y 2
+set key below
+#set format y "2^{%L}"
+set format y "%8.2fs"
+set grid
+set title "Numerous, Time"
+plot "benchmark_results/20_actors/ecs_no_opt_numerous_gcc_components_20_time.csv" using 1:2 with lines title "ecs", "benchmark_results/20_actors/nox_numerous_gcc_components_20_time.csv" using 1:2 with lines title "nox actor"
+
+\end{gnuplot}
+\label{fig:benchmarking_numerous_unique_20_time}
+\end{figure}
+The numerous unique components test
+
+\begin{itemize}
+    \item
+    We are faster, in certain situations. Explain.
+
+    \item
+    Ref to discussion on the event system not being used in an optimal manner.
+
+    \item
+    The layered execution model algorithm is probably dragging us down (confirm this with small test).
+
+    \item
+    Finding algorithms (which comes into play with lots of components).
+
+    \item
+    Get Argument in event. (trashing cache?)
+
+    \item
+    Number of directed events
+
+    \item
+    A lot of time is used on NOX's string. (Ref to our own internal test).
+
+    \item
+    Can see that when NOX Actor finally gets slower, it gets a lot slower fast.
+\end{itemize}
+
+
+\subsection{NOX ECS Internal optimizations}
+
+\section{Fast Spawning}
+\subsection{Timing}
+The results from the fast spawning tests seen in figure \todo{Add ref and image},
+the ecs outperforms the old actor systems, however the difference between the two
+starts shrinking when more components are added.
+Further inspection with kcachegrind indicate that it is the search results in the poorer performance.
+This is quite logical, as the number maximum entities increase, the more time is needed
+to search through the index map, to ensure that the index map stays correct.
+Additionally the ecs gets no particular bonus from the threading performance, or lock-free structures
+in this example, as it does not make use of any of the concurrent algorithms.
+
+\subsubsection{Optimization Toggles}
+\todo{Add gnuplot graf here? in that case, only the unique\_ptr and the regular ecs, seeing as there is no real difference for the other two.}
+The additional data showing the different optimization toggles does not show any wildly different behavior
+between the different optimizations. The only real difference is for the test using unique pointers,
+which consistently is a bit slower than the other versions.
+After inspecting the profiler we blame the fact that we are consistently allocating from the heap,
+and the memory is not contiguous, which shows up in the number of read cache misses in the unique pointer
+component collections find function.
+
+\section{Memory Usage}
+\todo{Add graph from massif, it can be done through printing to pdf, just do 2 pictures and put them next to each other}
+\subsection{Peaks}
+In general the current implementation of NOX ECS uses less memory at its peaks than what the NOX Actor system does.
+These numbers are not entirely accurate, as NOX ECS does not have all the same functionality the NOX Actor system does.
+However, we theorize that NOX ECS will still use less memory at its peaks than the NOX Actor system, even when
+all the extra functionality is implemented within NOX ECS.
+This is based on how NOX Actors are filled with a lot of variables that are not necessarily needed,
+creating one instance of an actor without components allocates 472 bytes\footnote{Measured with GCC 5.4.0, 64bit platform, the size can vary based on platform and compiler}.
+These variables includes unordered maps to child actors and components, vectors containing child actors and components,
+a pointer to parent actors, two different mutexes, etc.
+In the NOX Actor system users must still pay for this overhead, even if the functionality is not used.
+This is not the case within the NOX ECS.
+while some space overhead is present within each component, we have tried to keep this overhead to a minimum.
+For instance the user does not pay any extra space overhead when not having children.
+The concept of having children is done through components within the NOX ECS, meaning that entities without children
+don't create that component.
+
+\subsection{Memory Retainment}
+The biggest difference when it comes to memory usage is how memory is retained.
+NOX Actor system consistently frees its memory when deleting actors, meaning that it uses less memory relatively to its peaks.
+This is not a surprise as the NOX ECS was design to retain memory for reuse, meaning that when all the components are deleted
+it will still retain the memory used to hold components.
+Note that the actor system still using about 2.5 times more memory than NOX ECS.
+
+\subsubsection{Optimization Toggles}
+The different optimizations of the NOX ECS shows a general consistency throughout.
+The main difference is when using NOX ECS with a locked queue, which uses less memory than the implementation using the lock-free stack.
+This is not entirely surprising as the lock free allocator speculatively allocates a new memory block when it tries to allocate.

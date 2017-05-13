@@ -4,10 +4,21 @@
 \usepackage{booktabs}
 \usepackage{import} % Used for import from folders.
 \usepackage{mathtools}
+\usepackage[miktex]{gnuplottex}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[miktex]{gnuplottex}
+\usepackage{graphicx}
+
+\usepackage[binary-units=true]{siunitx}
+\DeclareSIUnit\year{yr}
+
 \import{../latex_utility/}{listing_cpp_syntax.tex}
 \import{../latex_utility/}{pt_commands.tex}
 
-\newcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
+%\renewcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
 \newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
 %\renewcommand{\com}[1]{} %remove starting % to remove supervisor comments
 % This will appear in text \com{Lecuters comment} and be visible unless you uncomment
@@ -29,6 +40,9 @@
 \newcommand{\requirement}[2]{\begin{quote}\refstepcounter{ptrequirements}\textbf{Requirement \theptrequirements: #1 \label{#2}}\end{quote}}
 \newcommand{\reqref}[1]{\footnote{Requirement \ref{#1}.}}
 \newcommand{\reqcomment}[1]{\emph{Comment: #1}}
+
+\def \gnuplotterminal {pdf}
+%\newcommand{}{pdf}
 
 \begin{document}
 
@@ -58,20 +72,41 @@
 \bibliographystyle{ntnuthesis/ntnubachelorthesis}
 \bibliography{inc/thesis}
 
+\todo{Add issue tracking and estimation section to process}
+\todo{Download newest version of thesis template}
+
+
 \appendix %after this line all chapters will have leters instead of numbers
-\chapter{Test Case Plan}
-\chapter{Design Document}
-\chapter{Technical Specification}
-\chapter{Project Plan}
-\chapter{Scrum Plans}
-\chapter{Daily Scrum Logs}
-\chapter{Stakeholder Meetings}
-\chapter{Supervisor Meetings}
-\chapter{Sprint Retrospectives}
-\chapter{Group Rules}
-\chapter{Benchmark Data}
-\chapter{Stakeholder Contract}
-\chapter{Code}
+%\chapter{Test Case Plan}
+%\chapter{Design Document}
+%\chapter{Technical Specification}
+%\chapter{Project Plan}
+%\chapter{Scrum Plans}
+%\chapter{Daily Scrum Logs}
+%\chapter{Stakeholder Meetings}
+%\chapter{Supervisor Meetings}
+%\chapter{Sprint Retrospectives}
+%\chapter{Group Rules}
+%\chapter{Benchmark Data}
+%\chapter{Stakeholder Contract}
+%\chapter{Code}
+
+
+Justify that we are doing just one test properly.
+
+
+Do the rest of the tests before the presentation.
+When in doubt do citations.
+Ok that the test is not representative for our best case.
+
+The optimization toggles are their own tests, and having them be different is ok.'
+
+
+Write:
+Should have timed right before update has started, so we didnt get the execution layer overhead, etc.
+
+Uniqueptr test case not entirely correct, as it will also update entities that are hibernating etc,
+however it is not relevant for that test case, as we don't have any deactivate components.
 
 \end{document}
 

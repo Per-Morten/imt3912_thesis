@@ -46,7 +46,7 @@ Another list would be added if the read and write data access type had been impl
     This data access type states that there is nothing known about the components access patterns, meaning that the component type might as well be independent.
     Every component type marked with unknown is therefore put into its own separate layer, as they are interpreted to be reading from all other components.
     Unknown component types are treated like this because expecting the worst case scenario is the only way to ensure the program is run correctly.
-    
+
     \item read and write\\
     Is treated in the exact same manner as the unknown data access, but is also included for potential future use.
     This is because the algorithm could be extended to take writes into account, instead of only dealing with reads.
@@ -69,7 +69,7 @@ The algorithm itself that creates and sets up the execution layer structure goes
 This stage consists of setting up all the data needed to run the algorithm.
 It gets the access levels to each component type, and which other components they have read connections to.
 It does not matter which one it is, it only matters that a read does not happen on the same layer.
-If the component type is any other than read only, certain actions will be taken, as mentioned in the component access levels\secref{subsec:detailed_component_access_levels} section above.
+If the component type is any other than read only, certain actions will be taken, as mentioned in the component access levels\secref{subsec:detailed_component_access_levels} section.
 In the case of having independent data access, the whole read list is simply emptied.
 Having either unknown or read and write will result in the component type having its own separate layer.
 
@@ -84,13 +84,13 @@ Each layer is created in the following steps.
     \item Picking out the component with the most connections.
 
     \item Creating a list of remaining components which does not have a colliding connection with the current layer.
-    
+
     \item Find the component in the list with the fewest additional new connections to the layer, and add it to the layer.
-    
+
     \item Repeat step 2-3 until there is no components left that can be placed in the list.
-    
+
     \item Remove excess components in the layer, if it does not match up with the thread count.
-    
+
     \item Repeat step 1-5 until all components are put into layers.
 \end{enumerate}
 
@@ -131,6 +131,6 @@ Adding the support for multi threading components in this manner leads to some c
 \paragraph{Increased loading times}
 With the execution layers having the requirement to be computed every single time you start a program using it, the load times increases by up to a few seconds with a couple hundred component types.
 
-\paragraph{More error prone} 
+\paragraph{More error prone}
 When requiring the programmers to specify data access and the read list manually, it can lead to several bugs caused by human error.
 In addition, the fact that any part of the execution layers structure can vary based on small changes, meaning that even though an incorrect read list has been specified, a problem may not occur until later changes.

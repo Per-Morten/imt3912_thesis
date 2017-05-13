@@ -1,61 +1,118 @@
 \section{Test Cases}
 
 \subsection{Purpose}
-The purpose of the tests are to measure and quantify the different types of optimizations and choices that has been made to the ECS.
-The results of each test is supposed to give an idea as to how well the ECS system compares to the original nox engine in a couple of different cases.
-
-\subsection{Changes}
-In the original test case plan\todo{Add reference here} there were a couple of requirements and goals that were not achieved or changed.
+The tests purpose is to measure the quality of the different optimizations and choices made within the ECS.
+For each test the results are supposed to give and indication to the performance differences between NOX ECS and the NOX Actor system.
+Additionally, internal tests are used to compare the performance of the different optimizations within the NOX ECS implementation.
 
 \subsection{Compiler}
-These include the fact that only the GCC compiler was used, instead of three which also included Clang and MSVC to be used in the test cases.
-The decision to leave those two compilers out was mainly due to time constraints, as the time it took to run all the tests was already taking a couple of days with only GCC.
-
-
-
-\subsection{Tools}
-
-
-\subsection{Profiler}
-Valgrind
-- massif
-- cachegrind
-- callgrind
-
+We only compiled the test cases with GCC, instead of the original plan, which also included Clang and MSVC.
+This decision was motivated by the time constraints, after discovering how long the tests took.
 
 \subsection{Platforms}
-The plan was to run all the tests both on windows and linux, and if there was additional time, also run it on mobile which is an important platform for Suttong.
-There were unfortunately not enough time to make sure the tests run properly on windows, and actually running them on windows.
+The original plan was to run the tests on both Windows and Linux, with additional time,
+tests would also be run on a mobile platform\reqref{req:mobile_platform}.
+Due to time constraints, the tests were not run on Windows.
 
+\subsection{Testing Platform}
+\subsubsection{Hardware}
+All test cases were run on a two year old "Lenovo Y70-70 Touch 80DU", a selection of the different hardware components are listed in
+table \ref{tab:hardware_info}. A more detailed version can be seen in appendix \todo{Insert appendix ref}.
 
-\subsection{Trivial Component}
-The trivial component is meant to serve the function of a component that does some work, which also involves using the event system.
-It is used for the numerous unique component and multi thread support test cases.
-Each trivial component will in every update call, potentially send an event based on its waiting duration, and that wait for as long as the wait duration lasts.
-The wait simulates work, and the messages sent is the use of the event system that is wanted in the tests.
+\begin{table}
+\begin{center}
+\begin{tabular}[label=tab:hardware_info]{ l | r }
+    Components & Info \\
+    \hline
+    CPU & Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz \\
+    Cores & 4 \\
+    Threads & 8 \\
+    Architecture & x86\_64 \\
+    System Memory & \SI{16}{\giga\byte} \\
+\end{tabular}
+\caption{Hardware info}
+\label{tab:hardware_info}
+\end{center}
+\end{table}
 
+\subsubsection{Precautions}
+Measuring performance on modern architectures is quite difficult, the complexity of modern operating systems and hardware means
+it is harder for us to take control to ensure that our tests are run in isolation.
+Operating systems can context switch out the test, to run other tasks that needs to be done.
+The hardware can apply cpu frequency scaling, to avoid wasting unnecessary power.
+We were not able to turn off these features, however, we tried to mitigate their impact.
+
+\paragraph{Program Isolation}
+When performing tests the computer would not have any other user programs running in the background.
+Additionally wifi was turned off, and all IO devices were disconnect from the computer.
+To avoid running out of power, or activating different power saving measures, the charger was still connected
+throughout the tests.
+
+\paragraph{CPU power control}
+\todo{Find a good source for explanation, possibly: https://www.quora.com/What-is-CPU-throttling, or talk with mariusz}
+CPU frequency scaling is the situation where the frequency of the cpu is adjusted to fit the current computational needs,
+in order to save power.
+We want deterministic platforms when running our tests, hence we used the cpupower\footnote{\url{https://linux.die.net/man/1/cpupower}}
+to better control the frequency of the CPU. To avoid issues with overheating, the frequency was set to \SI{2}{\giga\hertz},
+which we considered a moderate amount.
+
+\subsubsection{Mock Behavior}
+\todo{Think of better title}
+The different tests would need a way to mock behavior relevant to the test case.
+These mocks were motivated by the lack of time to not create a proper realistic scenario.
+
+\paragraph{Trivial Component}
+\label{par:test_cases_trivial_component}
+To mock processing within a component the trivial component was created.
+The trivial component is a simple component structure which will do some work in the form of busy waiting,
+and sending events to other trivial components.
+The component will wait a certain time period to simulate computation, and potentially send an event
+based on its waiting duration.
+Other components will receive the event and print out a message describing the sender and receiver of the event.
+
+\paragraph{Memory Usage}
+While we needed to mock processing within the tests, we had enough components to make a realistic memory test.
+Here we would use the NOX ECS implementation of the sprite component, which would be measured against
+the NOX Actor implementation of the sprite component.
 
 \subsection{Different Test Optimizations}
-While not all the different optimizations that were done lent themselves perfect to testing, we
-wanted to test some of them in isolation.
-These tests were enabled by macros, where the ECS was running with its normal settings on
-every case, except the one that was being tested.
-This would allow us to see whether or not an optimization was worth the cost of implementation.
+In addition to testing the system as a whole against the NOX Actor system, we wanted
+to test some of the optimizations and choices in isolation.
+This lead to the creation of some optimization toggles.
+These would be used to turn off or change implementation of certain behaviors within
+the system.
+When one of the optimizations were toggled the rest of the system was running with
+default behavior, i.e. no two toggles were enabled at the same time.
+Running without any toggles indicates default behavior.
+\begin{itemize}
+    \item NOX\_ECS\_COMPONENT\_VIRTUAL
+    \item NOX\_ECS\_COMPONENT\_UNIQUE\_PTR\_VIRTUAL
+    \item NOX\_USE\_STRING\_TYPE\_ID
+    \item NOX\_ENTITYMANAGER\_USE\_LOCKED\_QUEUE
+    \item NOX\_ENTITYMANAGER\_POOL\_USE\_LOCK\_FREE\_STACK
+    \item NOX\_ECS\_LAYERED\_EXECUTION\_UPDATE
+    \item NOX\_ECS\_LAYERED\_EXECUTION\_ENTITY\_EVENTS
+    \item NOX\_EVENT\_USE\_LINEAR\_ALLOCATOR
+    \item NOX\_EVENT\_USE\_HEAP\_ALLOCATOR
+    \item NOX\_ATOMIC\_USE\_SEQ\_CST
+    \item NOX\_LOCKFREESTACK\_USE\_LINEAR\_ALLOCATOR
+\end{itemize}
+These concepts of these toggles are explained further in the following subsections.
 
 \subsubsection{Atomic Sequential Consistency}
-The testing was done on a strongly ordered architecture, but we were still interested
-in seeing whether or not there were any benefits to using relaxed atomics
-on this architecture.
+The NOX ECS uses relaxed atomics for its lock free implementations, we wanted to test
+whether or not these were worth the implementation cost.
+The tests were run on a strongly ordered architecture\cite{preshing_weak_vs_strong_memory_models}, where the
+full potential of these relaxations are not shown. However, we still wanted to see
+if we would gain any benefit using relaxed atomics versus sequentially consistent atomics.
 
 \subsubsection{Numeric Type Identifiers}
 The type identifier system offers two different ways to identify types, using
 hashed strings, or using numeric values.
-We wanted to inspect the differences in performance of using strings, vs
-using numeric types. We therefore added a macro which would turn
-all the string values into strings, which would be hashed.
+We wanted to inspect the performance difference between these to approaches.
 
 \subsubsection{Allocators}
-Currently we have implemented 3 different allocators, the lock free allocator,
+We have implemented 3 different allocators, the lock free allocator,
 a locked linear allocator, and a heap allocator.
 All three of these will be tested for the event arguments, while the
 linear allocator and lock free allocator will be tested with the lock free stack.
@@ -63,122 +120,145 @@ The reason for only using the two allocators on the stack is that it requires
 a linear allocator to avoid the ABA problem\footnote{Explained in p.\pageref{subpar:detailed_lock_free_allocator_aba}}.
 
 \subsubsection{Locked vs Lock Free}
-We used quite some time when implementing the lock free stack, and allocator.
-As a result we wanted to see if these implementations were worth the time,
-and added in tests were we would use the lock free stack or the locked queue
-for handling events and lifecycle transitions.
-We additionally added in a test case for using the lock free stack or locked queue
-in the thread pool.
+We wanted to see the difference in performance regarding the lock free containers
+and more primitive locked containers.
+Therefore, the cases where lifecycle transitions and event processing
+would be handled with locked containers.
+We also added a test for using a lock free stack with the thread pool.
 
 \subsubsection{Collection}
-We will also test some alternatives within the component collection.
+Alternative implementations of the component collection was tested,
+mainly to give more information on memory optimizations and the virtual
+replacements.
 
 \paragraph{Virtual Usage}
-In one of the tests the collections will function as normally, but
-components will be using virtual functions, rather than the function pointers
-from the meta information.
+In one of the tests the collections will function normally, but
+components will be using virtual functions, rather than the operation types
+from the meta information structure.
 
 \paragraph{Unique Pointers}
-The other case will be a more simple implementation of the collection,
-in this case all the components will be allocated on the heap, and managed
+The other case will be a simpler implementation of the collection.
+In this case all the components will be allocated on the heap, and managed
 using std::unique\_ptrs.
 Virtual functions will also be used, rather than the meta information,
-as we are not working with contiguous ranges. Additionally no partitioning is done.
+as we are not working with contiguous ranges.
+Additionally no partitioning is done with the components.
 
-\subsection{Execution Layers}
-By default the ECS uses the execution layers for all the places it makes sense,
-mainly the update step and distribution of events.
-We wanted to test how much boost we would get from the execution layers,
-and have therefore run tests where the different layered models were turned off.
+\subsubsection{Execution Layers}
+By default the ECS uses the execution layers on frequently called functions,
+which include the update step and the distribution of events.
+We wanted to see the difference in performance when toggling this,
+and therefore ran tests for each function where the execution layers were disabled.
+
+\subsection{Dropped Tests}
+Certain tests will not be covered in the thesis, either because they were not executed, or not relevant.
+These include the multi-threading support and thread safe logging test.
+The multi-threading test were rendered irrelevant because it is already covered by the numerous unique components test.
+The thread safe logging test was removed because it did not contribute to the overall theme of the thesis.
+\todo{Is this ok justification?}
 
 \subsection{Compilation Test}
+\subsubsection{Rationale}
+Suttung requested that the compilation times should not significantly increase\reqref{req:templates},
+we therefore added a test that would ensure that that this requirement was met.
 
-\paragraph{Reason}
-The reason there was a need for a compilation test, was because the time spent compiling the engine was of importance for Sutting.
-It was desirable for the time spent compiling would not increase by a significant amount with the addition of the ECS.
-
-\paragraph{Flaws}
+\subsubsection{Flaws}
 There is one major flaw with this test, and it is that it can't be performed without heavy restructuring of the code base.
 The ECS is tightly coupled with the Nox Engine in the sense that a significant amount of the original code is still used in the ECS.
 This means that if you compile the ECS, you also have to compile the Nox Engine.
 However, it would be very difficult and time consuming to extract exactly the code needed for the ECS to avoid this problem.
 A way around this could be to first compile the Nox Engine and the ECS.
 Then measure and compare the compilation duration for the nox tests and ecs tests.
-Unfortunately for reasons unknown, it is not possible to partly compile the project in this manner.
+Unfortunately we were unable to find a way to partially compile the project in this manner.
 
-\paragraph{Method}
-The test would be performed by first clearing all old build files by simply erasing the build directory.
+\subsubsection{Method}
+The test would be performed by first clearing all old build files by erasing the build directory.
 Then the compilation is run in conjunction with the bash shell command time to measure the duration.
 
 \subsection{Fast Spawning}
-\paragraph{Reason}
-The fast spawning test was created in order to see if the ECS could improve on the lacking performance Nox Engine has when spawning a lot of actors at once.
+\label{subsec:test_cases_fast_spawning}
+\subsubsection{Rationale}
+The fast spawning test was supposed to see if the NOX ECS could improve performance in situations where a game would need to quickly
+spawn a high amount of actors.
 
-\paragraph{Flaws}
-As a result of the physics module not being implemented in the ECS, the physics components never got any testing in the ECS, and therefore the nox version was never compared against.
-The reason for leaving out the physics component is that the whole physics module in the Nox Engine is so tightly coupled with it, that refactoring it for the ECS was not prioritized.
+\subsubsection{Flaws}
+The main flaw with this test was that the NOX ECS had not implemented any creation heavy weight components, like a physics component.
+While the sprite component we used for the test has to set up connections to the graphics module, it does not require any more complex
+computations. The physics module on the other hand, might need to set up some more complex structures.
 
-\paragraph{Method}
-The fast spawning test case is performed by spawning a set amount of actors as fast as possible, and then deleting them all.
-This spawn and delete can happen two different amount of times, once or ten times depending on the test.
-The different amounts of actors in the tests are as defined by this function.
+\subsubsection{Method}
+\label{subsubsec:test_cases_fast_spawning_method}
+The fast spawning test case is performed by spawning a number of actors as fast as possible, before deleting them all.
+This process is either executed one or ten times, depending on the setting of the test.
+The number of actors spawning ranges from 256 to 32768, the number of actors is doubled between each increment.
 
-\begin{equation}
-x = \sum_{n=8}^{16} 2^{n}
-\end{equation}
+\subsubsection{Changes}
+\label{subsubsec:test_cases_fast_spawning_changes}
+The test case was executed closely to the original plan, with the exception of not involving empty actors.
+We did not see any reason to compare the two implementations for this case, as we don't see any reason for creating empty actors in a real life scenario.
+Additionally this test might look skewed, as the NOX ECS does not allocate any memory for empty entities, but rather increments an atomic integer.
 
-This results in a sequence of actor counts going from 256, and increasing with an exponential growth until it reaches 32768.
+\subsection{Numerous Unique Components}
+\subsubsection{Rationale}
+The numerous unique components test was created to determine how NOX ECS would deal with a large number of different components,
+and if the multi-threading could help in making processing of the components more efficient.
+It puts pressure on how many component types the system can handle, and pushes the event system, as every component is sending a large amount of events.
 
-\paragraph{Changes}
-The test case was executed as described in the plan to a large degree, except that there were no tests involving empty actors, as it is of no interest to compare between the Nox Engine and ECS when there is no actual entity object in the ECS to take up memory, which there are in the Nox Engine.
+\subsubsection{Flaws}
+We are unable to find any big flaws with this test.
 
-\subsection{Numerous Unique Components and Multi Threading Support}
-\paragraph{Reason}
-This test case was created because the ECS needed to support both a large amount of different component types at once, and have efficient multi threading.
-It puts pressure both on how many component types the system can handle, but also the event system as every component sends a large amount of events.
+\subsubsection{Method}
+The numerous unique component test uses the trivial component\secref{par:test_cases_trivial_component} to simulate the use of a large amount of components.
+The number of component types are either 2, 20 or 200, based on the test parameters. The components are variations of the trivial component.
+Each component is labeled with a number, ranging from 0 to the max number of component types, indicated by the test.
+This number is used to decide how long a component sleeps in order to simulate processing, and whether or not it should send events.
+The components are given different data access values used for the execution layer algorithm.
+The data access values are distributed evenly in the following order.
+\begin{itemize}
+    \item 25\%: Independent
+    \item 25\%: Read only with one read connection
+    \item 25\%: Read only with two read connections
+    \item 25\%: Unknown
+\end{itemize}
 
-\paragraph{Flaws}
-The fact that the numerous unique components and multi threading support are combined makes it harder to s
-
-\paragraph{Method}
-\paragraph{Changes}
+\subsubsection{Changes}
+This test was implemented according to the original test case plan.
 
 \subsection{Memory Usage}
-\paragraph{Reason}
-This case is used to measure how much memory each system uses with either sprite or transform components.
+\paragraph{Rationale}
+The memory usage test were designed to measure the use of memory within the NOX ECS and compare it to the NOX Actor system.
+It was motivated by the requirement from Suttung of not escalating the memory usage by a significant amount\reqref{req:memory_usage}.
 
 \paragraph{Flaws}
-There is a problem with measuring and comparing the amount of memory the different components are using, when each systems does not give the same amount of functionality.
-However, even though the ECS does not support all features available in the Nox Engine, it still uses a considerable less amount of memory.
-It does this to a degree where it most likely won't catch up to the Nox Engine even when including the missing features.
+The main flaw with the test is that it does not measure the memory usage in an entirely realistic case.
 
 \paragraph{Method}
-The method for performing this test involves creating a set amount of actors with the same numbers mentioned in the fast spawning section above.
-These actors will either be transform or sprite actors depending on the test.
-The test will run for a minimum of one second, and then quit.
+This test was performed by creating a set number of actors, the range of actors is the same as within the fast spawning test\secref{subsubsec:test_cases_fast_spawning_method}.
+The actors will contain sprite and transform components.
+The test will run for a minimum of one second, before quitting.
 
 \paragraph{Changes}
-All of the cases mentioned in the test case plan were not done.
-Instead there were two cases that were tested, with sprite actors and transform actors.
-The cases in the plan were abandoned either for not fitting with the ECS, namely the empty actors case, or being too time consuming which was the case for the deep scenegraph.
+The main difference in this test compared to the test case plan, was that we only used sprite and transform components,
+rather than all of the variations mentioned in the test case plan\todo{Ref appendix test case}.
+This change was mainly motivated by the lack time, additionally the same points mentioned in the fast spawning test also applies here\secref{subsubsec:test_cases_fast_spawning_changes}.
 
-\subsection{Thread Safe Logging}
-\paragraph{Reason}
-Needed a way to ensure the attempt at making the old logging system thread safe does what it is supposed to.
+% \subsection{Thread Safe Logging}
+% \paragraph{Rationale}
+% Needed a way to ensure the attempt at making the old logging system thread safe does what it is supposed to.
 
-\paragraph{Flaws}
-No apparent flaws in the test case.
-This can mostly be contributed to the fact that the problem at hand was not very difficult.
-The addition of a mutex in the logging system made it thread safe, and the way to ensure it was, also provides a strong case.
+% \paragraph{Flaws}
+% No apparent flaws in the test case.
+% This can mostly be contributed to the fact that the problem at hand was not very difficult.
+% The addition of a mutex in the logging system made it thread safe, and the way to ensure it was, also provides a strong case.
 
-\paragraph{Method}
-Each thread in the test will constantly print out the letter a through z for a given amount of time.
-If the logger was not thread safe, there would be a inconsistency where the letter a starts again too early, because a thread has been cut off in the middle of printing.
-After the program has run for a sufficient amount of time, the output is checked to see if any such previously mentioned errors has occurred.
-If there is no such errors, the logger can be considered thread safe.
+% \paragraph{Method}
+% Each thread in the test will constantly print out the letter a through z for a given amount of time.
+% If the logger was not thread safe, there would be a inconsistency where the letter a starts again too early, because a thread has been cut off in the middle of printing.
+% After the program has run for a sufficient amount of time, the output is checked to see if any such previously mentioned errors has occurred.
+% If there is no such errors, the logger can be considered thread safe.
 
-\paragraph{Changes}
-This test was done drastically different, due to it becoming apparent how much easier it can be performed.
-First off, there is no need for a ton of components doing this work of sending messages to put stress on the logging system, a couple of threads sending messages are more than fine.
-In addition, instead of using a regex check to see if every line is correct, the test was simply ran once with a single thread so no races could occur.
-After that the actual test was run, and the result of the single and multi threaded tests were checked to be equal, and if they were the test was a success.
+% \paragraph{Changes}
+% This test was done drastically different, due to it becoming apparent how much easier it can be performed.
+% First off, there is no need for a ton of components doing this work of sending messages to put stress on the logging system, a couple of threads sending messages is fine.
+% In addition, instead of using a regex check to see if every line is correct, the test was simply ran once with a single thread so no races could occur.
+% After that the actual test was run, and the result of the single and multi threaded tests were checked to be equal, and if they were the test was a success.

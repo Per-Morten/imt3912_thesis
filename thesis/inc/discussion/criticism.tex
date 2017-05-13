@@ -26,3 +26,12 @@ The idea was to arrange a game jam with Suttung over a weekend,
 and do tests with them to gather feedback on the new system.
 Unfortunately neither we nor Suttung were able to dedicate the time to this when the system
 was in a testable state.
+
+\todo{Write this into criticism of result}
+There is a problem with measuring and comparing the amount of memory the different components are using, when each systems does not give the same amount of functionality.
+However, even though the ECS does not support all features available in the Nox Engine, it still uses a considerable less amount of memory.
+It does this to a degree where it most likely won't catch up to the Nox Engine even when including the missing features.
+
+It became clear that the memory usage test is not needed as the fast spawning test already handles how much memory is used for a specific amount of actors with certain components.
+This test was meant to serve the purpose of measuring the amount of memory used, and the fast spawning test for the speed of spawning new actors.
+The way of making one test for one testing purpose, and one for another hindered in seeing that the memory usage test was unnecessary.

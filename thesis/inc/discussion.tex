@@ -1,4 +1,17 @@
 \chapter{Discussion}
 \label{chap:discussion}
 
+\section{Individual Optimizations}
+\subsection{}
+
+\section{Usage of the System}
+\subsection{Layered Execution}
+As shown in the benchmarks the layered execution model provides a significant performance boost.
+However, there are usages patterns which is non optimal for the layered execution model.
+These are mainly cases where there is not enough processing requirements to justify the synchronization costs.
+For example if the user is sending a lot of direct events, rather than broadcasted ones,
+and the processing required for receiving events is quite short.
+
+
+
 \subimport{discussion/}{criticism.tex}
