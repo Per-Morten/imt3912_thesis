@@ -1,17 +1,51 @@
 \chapter{Discussion}
 \label{chap:discussion}
 
-\section{Individual Optimizations}
-\subsection{}
+\section{Findings}
+While the benchmarks and implementations were created with the NOX Engine in mind,
+we believe these findings can also be generalized and related to other systems.
 
-\section{Usage of the System}
 \subsection{Layered Execution}
-As shown in the benchmarks the layered execution model provides a significant performance boost.
+As shown in the benchmarks the layered execution model can provide a significant performance boost.
 However, there are usages patterns which is non optimal for the layered execution model.
 These are mainly cases where there is not enough processing requirements to justify the synchronization costs.
 For example if the user is sending a lot of direct events, rather than broadcasted ones,
 and the processing required for receiving events is quite short.
 
+\subsection{Virtual Replacement}
+Having an own virtual function might remove some space overhead, and might perform better in some cases,
+however that also requires all the types of polymorphism to be known at compile time, which might
+not be possible.
+The main advantage of using the meta information structure we proposed is that we are able to remove empty
+virtual calls.
+
+\subsection{Memory Reuse}
+Being able to reuse memory
+
+\subsection{Lock Free}
+Based on what we have seen in the test cases, one should be careful of writing lock free algorithms.
+In many cases a naive implementation with a simple lock can perform as well as a complex lock free algorithm.
+While we were not able to test our code on a weakly ordered platform we did not see any great improvement
+of the lock free structures over the naive locked ones, and the lock free algorithms had a very limited interface.
+
+\subsection{Separate Data for Separate Threads}
+Some of the performance issues within the NOX ECS is a result of synchronization overhead,
+and could potentially have been solved by separating the data on a per thread basis.
+We fell into the trap of thinking to much on data sharing, which did hurt the NOX ECS performance.
+In general we believe that if feasible one should avoid sharing data between different threads.
+For example each thread could have gotten its own allocator, which would remove some synchronization overhead.
+
+\subsection{Templates}
+While templates often increase build times, it is clear that the extra help they provide in
+fault checking at compile time, and possible optimizations that are allowed through type traits
+are extremely valuable.
+However, as shown in this thesis it is possible to write reusable code without the need for templates,
+and without having to sacrifice good memory usage, which can be harder to do when just working with
+base classes and interfaces.
+
+\subsection{Generalization}
+Don't over generalize, NOX Actor system offers more functionality than what is necessarily needed.
+Sometimes its ok to just solve one issue with the
 
 
 \subimport{discussion/}{criticism.tex}

@@ -56,6 +56,7 @@
 \listoffigures
 \listoftables
 
+\todo{Add note, entities and actors are the same thing}
 \todo{Add note that user and programmer are the same thing!}
 
 \subimport{inc/}{introduction.tex}
@@ -91,6 +92,20 @@
 %\chapter{Stakeholder Contract}
 %\chapter{Code}
 
+\todo{Add to appendix!}
+\begin{figure}
+    \includegraphics[scale=0.5]{benchmark_results/fast_spawn/ecs_massif_deletes_10.pdf}
+    \caption{Fast spawning memory usage, NOX ECS}
+    \label{fig:fast_spawning_memory_usage_nox_ecs}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[scale=0.5]{benchmark_results/fast_spawn/nox_massif_deletes_10.pdf}
+    \caption{Fast spawning memory usage, NOX Actor}
+    \label{fig:fast_spawning_memory_usage_nox_actor}
+\end{figure}
+
+
 
 Justify that we are doing just one test properly.
 
@@ -107,6 +122,8 @@ Should have timed right before update has started, so we didnt get the execution
 
 Uniqueptr test case not entirely correct, as it will also update entities that are hibernating etc,
 however it is not relevant for that test case, as we don't have any deactivate components.
+
+Give short explanation on how to see the cachegrind stuff.
 
 \end{document}
 

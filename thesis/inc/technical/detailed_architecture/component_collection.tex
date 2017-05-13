@@ -20,6 +20,7 @@ and send them as parameters to the operation types belonging to the component.
 The reasoning for using a contiguous memory buffer is to make better usage of hardware caching mechanisms.
 
 \paragraph{Reallocation \& Growth Strategy}
+\label{par:detailed_component_collection_reallocation_growth}
 The buffer is contiguous memory, which needs to be reallocated when new components are added.
 This can be a costly operation, but is mitigated by using a simple growth strategy.
 When a collection needs to reallocate it will expand the buffer size based it's growth factor.
