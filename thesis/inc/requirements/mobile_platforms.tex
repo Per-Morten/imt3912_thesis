@@ -1,1 +1,15 @@
 \section{Mobile Platforms}
+\label{sec:requirements_mobile_platforms}
+\todo{Find out how to write this, don't think I am really happy with it}
+Suttung has expressed a desire for the new ECS to function on mobile platforms.
+In terms of multi-threading and performance this posed some interesting challenges.
+Mobile platforms in general are not as powerful as regular pc's, both in terms of clock speed, and in terms of memory access.
+As mentioned earlier contiguous memory and caching mechanisms are important for good performance on modern hardware.
+Because of this, data layout and predictable memory access will be even more important\cite[10:38]{andrei_alexandrescu_quick_code_quickly}.
+\todo{Add more sources here, Chandler Carruth cppcon effiency?: https://www.youtube.com/watch?v=fHNmRkzxHWs }
+Additionally many of the popular mobile platforms run on weakly ordered systems, like ARM\cite{preshing_weak_vs_strong_memory_models}.
+Traditionally ARM has supplied a weak memory model, meaning that synchronization primitives that ensures sequentially consistent memory ordering
+might lead to a performance hit. \todo{Add link to atomic weapons talk by herb sutter, mentioning that later ARM architectures will be seq\_cst}
+
+\requirement{NOX ECS shall support games built for mobile platforms}{req:mobile_platform}
+\reqcomment{This should be done in an efficient manner.}

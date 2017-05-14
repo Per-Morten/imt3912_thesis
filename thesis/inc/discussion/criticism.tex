@@ -1,1 +1,40 @@
 \section{Criticism}
+\label{sec:discussion_criticism}
+There are several aspects of these findings that can be criticized.
+
+\subsection{Single Compiler}
+Due to time constraints we did not have time to run our tests on different compilers.
+This means that we did not get to inspect how different compilers might optimize our code differently.
+
+\subsection{Single Platform}
+We originally planned to test on both Windows and Ubuntu, while also testing on both our computers to
+try with different hardware. However, time only allowed us to test on Ubuntu, and with only one computer.
+We are uncertain as to how much difference it would actually be if we also tested on other computers.
+
+\subsection{Counter Test Cases}
+Due to lack of time we did not have the option to write different systems to test.
+For example it would have been interesting to create a template based entity component system,
+to measure against.
+
+\subsection{Different Functionality}
+A major flaw within the benchmark tests is that the two different systems does not offer all the same functionality.
+We argue that this does not to such a degree influence the timing tests, but rather highlights the different approaches
+between the development of the two systems.
+Both system were used in their intended fashion, and the NOX ECS was not used entirely optimally either.
+In the memory tests the extra functionality should be taken into account, as parts of the extra memory usage
+comes from this functionality.
+However, The difference in memory is rather large, and we believe that even when the extra functionality is implemented
+the NOX ECS will use less memory than the NOX Actor system.
+
+\subsection{No Overarching Representative Test Case}
+Due to time constraints we were unable to create a realistic test case that combined the different behavior
+of the test cases.
+The optimal situation would be to create a small game which could show the differences between the two systems.
+
+\subsection{Repeated Tests}
+Due to the issues that were discovered late in the testing phase, we did not have time to repeat the tests
+as much as desired.
+This is mainly applicable to the tests between NOX ECS and the NOX Actor system, but here the differences
+between the performance is quite clear.
+The numerous unique components internal test were repeated ten more times, and the differences between
+the results were relatively consistent. However, even more repetition is desired here to give move reliable numbers.

@@ -1,1 +1,25 @@
 \section{Tools}
+\subsection{Git}
+Version control was done through git. Git is something we were both familiar with, and is also the version control
+system that Suttung is using. However, while Suttung uses gitlab for storing their repositories we originally
+chose to use bitbucket, but hopped over to github as we were more interested in their tools for issue tracking,
+and development logging.
+
+\subsection{Project Management}
+Different project management platforms were used during the development of the project.
+Originally we used Atlassian's Jira platform. However, we perceived it as being to much overhead for a project
+for only two people. We then moved over to simply using bitbuckets issue tracking system, before finally
+settling on github. Github allowed us both access to a proper issue tracker, a project board, as well as good tools
+for doing code review on pull requests.
+
+\subsection{Development Environment}
+Originally we planned to implement the NOX ECS on Windows, using Microsoft Visual Studio as our coding environment.
+However, after seeing some of the tools the Linux platforms had to offer especially in terms of code profiling,
+we decided to move over to Ubuntu.
+We stayed in Ubuntu for the whole project, coding in Sublime Text, and building with the CMake build tools.
+Windows was used from time to time to solve issues, which required more sophisticated debugging tools.
+
+\subsection{Fault Detection}
+There were several times during the development of this project that we would run into bugs like memory corruption etc,
+especially when implementing the component collection.
+In these cases valgrind's memcheck was used to ensure program correctness, and was a helpful tool in the debugging process.

@@ -1,13 +1,21 @@
 \section{Detailed Architecture}
+The detailed architecture section will describe in greater detail the different structures that is used in
+NOX ECS, including motivations, advantages, disadvantages, alternatives and the longevity of the structure choices.
 
-\subimport{detailed_architecture/}{component_collection.tex}
+\todo{Properly indicate that the different sections are actually choices.}
+
 \subimport{detailed_architecture/}{component.tex}
+\subimport{detailed_architecture/}{operation_types.tex}
+\subimport{detailed_architecture/}{type_identifier.tex}
+\subimport{detailed_architecture/}{meta_information.tex}
+
+% Actual usage of building blocks, still ecs.
+\subimport{detailed_architecture/}{component_collection.tex}
 \subimport{detailed_architecture/}{entity_manager.tex}
 \subimport{detailed_architecture/}{event.tex}
+
+% Talk more on the misc, threading and memory.
 \subimport{detailed_architecture/}{execution_layers.tex}
 \subimport{detailed_architecture/}{lock_free_allocator.tex}
-\subimport{detailed_architecture/}{meta_information.tex}
-\subimport{detailed_architecture/}{operation_types.tex}
-\subimport{detailed_architecture/}{smart_handle.tex}
+\subimport{detailed_architecture/}{lock_free_stack.tex}
 \subimport{detailed_architecture/}{thread_pool.tex}
-\subimport{detailed_architecture/}{type_identifier.tex}

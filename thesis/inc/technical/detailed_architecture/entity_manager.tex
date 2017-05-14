@@ -1,13 +1,80 @@
 \subsection{Entity Manager}
-\todo{Remove this, only here to force pagebreak}
+\label{subsec:detailed_entity_manager}
+The entity manager is the main API presented to the user for interaction with NOX ECS.
+Any interaction related to entities or components is communicated through the entity manager,
+which is responsible for organizing and managing the different entities inhabiting the ecs.
+It allows the NOX ECS to present an interface without exposing direct internal functionality,
+which is a desirable feature.
+
 \subsubsection{Explanation}
+The main idea behind the entity manager is pretty simple.
+It simply consists of several collections of the different registered component types,
+a thread pool, queues for transition requests, event queues, and a simple counter
+used to assign entity ids.
 
-\subsubsection{Motivation}
+\paragraph{Lifecycle Transition}
+The entity manager is responsible for transitioning a component between different stages
+in the lifecycle\secref{subsec:high_level_lifecycle}, upon request.
+This operation is done asynchronously through the different step functions in the entity manager.
+Up until such a step is invoked, the entity manager simply keeps a collection of all requests that
+needs to be processed.
 
-\subsubsection{Alternatives}
+\paragraph{Steps}
+As described in the update cycle\secref{subsec:high_level_update_cycle} entities respond to different
+stages in a cycle during a frame. Managing these different stages is the entity managers job,
+and it is done through the different step functions. The functionality is as described in the update cycle,
+and these steps can either be called in an individual fashion, or through a convenience step function,
+allowing for both control and convenience.
 
-\subsubsection{Pros}
+\paragraph{Parallelism}
+Currently only three of the stages in the update cycle are parallelized, which is
+the distribution of logic events, entity events, and the update stage.
+The rationale being that these steps are the only ones that includes several collections,
+and actually benefit from the parallelism, as each thread is simply given a separate collection
+to execute a task on.
+The direct "scheduling" of these tasks are based on the execution layers\secref{subsec:detailed_execution_layers}.
 
-\subsubsection{Cons}
+\subsubsection{Motivation for Entity Manager}
+\paragraph{Single Entry Point}
+The Entity manager is the single entry point for all communication in NOX ECS,
+whether it be component requests, sending events, or access to resources like the
+logic context of the application.
 
-\subsubsection{Consequences}
+\paragraph{Clean Interface - Expandable Interior}
+The entity manager is also motivated by the desire for a clean interface, that would
+allow us to easily change and expand the interior functionality.
+
+\paragraph{Minimum dependency on NOX Engine}
+It was desirable to avoid to heavy dependencies with the NOX Engine.
+The new ECS were supposed to test some new ideas, and stay relatively decoupled from
+the rest of the NOX Engine.
+This was the rationale behind the decision to have a single hub object, as it would allow
+us to have a single point of integration with the NOX Engine.
+Currently it is only the entity manager that actually relies on some of the old NOX Engine
+functionality, like the event system.
+
+\paragraph{Synchronization points}
+One of the requirements\reqref{req:multi_threading} was to supply multi-threading, in way
+that was relatively invisible to Suttung. The entity manager would help in solving this
+requirement by creating clear "synchronization" points, each time a step function would start
+multiple threads would launch, however once the function was finished, the program would be back
+in a single threaded "state".
+
+\subsubsection{Alternatives to Entity Manager}
+The main alternative to having a hub object like the entity manager would be to require
+the user to organize all of these themselves, which was not really an option,
+as the system was supposed to be relatively easy to use.
+
+\subsubsection{Pros of Entity Manager}
+The main pro of the entity manager is how it allows a relatively clean integration
+with the NOX Engine, and provides a relatively simple to use API at the outset.
+
+\subsubsection{Cons of Entity Manager}
+There is one main disadvantage to the entity manager, which is that components,
+after inheriting from the base class component are tied to the entity manager, introducing
+unnecessary coupling between the components and the manager. This should not
+really be an issue as entity systems are rarely changed during development.
+A comment could also be made that the entity manager has somewhat turned into a blob object,
+as its responsibilities spans some different domains. However, this is not really an issue
+as the main idea, as stated earlier, was for the entity manager to be a single interface,
+and its objective is mainly routing requests forward to the correct providers.

@@ -1,0 +1,27 @@
+\subsection{Transactional Memory}
+\label{subsec:longevity_transactional_memory}
+Currently the only two ways of synchronizing concurrent code in C++
+is using locks, or atomics. Both of these alternatives have issues.
+Locks for example open up the possibility of locking up the system,
+while atomics are fairly challenging to program with.
+Transactional memory is another way synchronize memory across different threads.
+A transaction is a block of code which is executed in an atomic fashion.
+In this case the atomic fashion means that within a transaction block,
+a programmer sees memory as consistent within that block,
+it also means that when a transaction is finished, all operations done within
+the transaction are published to the rest of the program as a whole.
+If two transactions happen at the same time on two different threads,
+then one of the transactions might have to be retried, as the transaction
+was based on an expected view of the memory that is no longer correct\cite{brett_hall_transactional_memory_in_practice}.
+Currently transactional memory is not part of standard C++, but it is
+in a technical specification phase.
+Whether or not transactional memory will make some of our design choices
+irrelevant mainly depends on the performance of the implementation of transactional
+memory.
+
+\paragraph{Consequence}
+If transactional memory were to be implemented in an efficient manner, that would
+be suitable to use within the requirements of games.
+If that were the case then mainly the lock free data structures would be changed within
+the ECS. Both the allocator and stack would be moved over to using transactional memory
+rather than atomics, which would probably make the two containers easier to maintain.

@@ -1,0 +1,47 @@
+\subsection{Modules}
+\label{subsec:longevity_modules}
+As explained earlier in this thesis\secref{sec:requirements_templates}, C++ is known
+for its long compile times, especially with heavy template usage.
+As a result of this, as well as certain other factors,
+there has been a desire to find more building mechanisms, like modules.
+Among the goals of Modules is to improve C++ compile times.
+Some of the ideas behind modules include the possibility to avoid parsing
+template classes that are not instantiated, which in general would give better throughput\cite[49:53]{cppcon_modules_state_of_the_union}.
+Modules are currently being experimented with by different compiler vendors
+like Microsoft\cite{microsoft_modules_support} and Clang\cite{clang_modules_support},
+and will not be adapted into the standard until earliest C++20, seeing as C++17 is feature complete\cite{isocpp_standardization_status}.
+\todo{Find out if the microsoft clang thing should be sources, or just footnotes.}
+
+\paragraph{Consequence}
+If the modules functionality greatly decreases compile times in heavy templated code,
+then there is no reason for the requirement of avoiding templates.
+In this case the ECS should probably be moved over to preferring more template solutions,
+which would allow for better optimizations based on type information, as well as supporting
+proper typesafety.
+Being allowed to use templates would change a lot of the implementation, examples being.
+
+\subparagraph{Meta Information}
+Meta information\secref{subsec:detailed_meta_information} and operation types\secref{subsec:detailed_operation_types}
+would not be needed, as we could template most of our structures and use regular C++ syntax,
+with the compiler instantiating all of our template classes at compile time.
+Data dependencies would still be needed for the layered execution model.
+However, modules would not fix all the problems with heavily templated code,
+for example incomprehensible error messages.
+
+\subparagraph{Component Collection}
+Implementing the component collection with templates would be much more trivial.
+The error prone byte pointer increment model would not be needed, as the compiler
+and language would be able to help.
+The collection could simply be implemented with std vectors, allowing for more
+efficient implementations.
+Potentially it could also be replaced with other third party solutions like
+the plf colony\footnote{\url{http://plflib.org/colony.htm}}.
+
+\subparagraph{Component}
+In the current implementation of the ecs one of the reasons for having a component
+base class is to give the containers an interface to work with, allowing for
+generic code without properly knowing a components type.
+With templates this need disappears, and the system could potentially move
+over to a more duck typed library.
+Where components are any object that implement a certain number of methods,
+in our case this would be methods for the different lifecycle stages.
