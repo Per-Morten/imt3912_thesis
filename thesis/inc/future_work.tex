@@ -21,7 +21,7 @@ is currently not supported in NOX ECS.
 A lot of the implementations covered in the detailed architecture section mentioned alternative
 implementations. Some of these alternative solutions should be pursued in the search for
 better performance and cleaner implementations. For example, the external references functionality
-mentioned in the component collection.
+mentioned in the component collection\footnote{See p.\pageref{subpar:detailed_component_collection_external_references}}.
 
 \subsection{Safety}
 A requirement from Suttung was a focus on safety, and encouraging correct use of API's.
@@ -29,21 +29,73 @@ This requirement was not considered as much as it should have been, and is somet
 should be improved upon in the future.
 For example, the type identifier is not particularly user friendly, and mechanisms should
 be put in place to ensure correct usage of this class.
+A solution could be to create a script that analyzed the different usages of the type identifiers,
+for example detecting if the reserved identifiers were overridden by user provided ones.
+Additionally some extra assertions should be added to defend again user errors disturbing internal
+invariants within the ECS.
+
+\subsection{Data Access Detection Script}
+Writing the data access inn by hand to make proper use of the execution layers are relatively time consuming
+and error prone.
+It would be a better solution if we could write a script that would analyze the different
+components and find their dependencies\footnote{See p.\pageref{par:detailed_execution_layers_code_analysis}}.
+A script could also allow for pre-computation of the execution layers, which could be stored on file,
+rather than a computation at runtime.
+Such a script could potentially also inform users in the cases where there would be uncertainties related
+to the benefits of using the execution layers.
+Like if a lot of components would need to be run single threaded.
+
+\subsection{Standard Components}
+The NOX Actor system does offer a number of standard components, for example lighting components,
+controller components etc.
+Additionally NOX ECS needs to offer some extra components to make up for some lacking functionality,
+for example a component that contains more type information, like what sort of json object the entity was created form.
+A physics component should also be added, however this will require a larger development effort, as the physics logic
+is quite tightly coupled to the NOX Actor system.
+
+\subsection{Various Improvements}
+There are also a various of improvements that should be done to the code base which does not warrant
+their own sections. Examples include proper utilization of the main thread within the thread pool,
+or better utilization of type information, like removing unnecessary destructor calls on trivial types.
+
+\subsection{Proper NOX Integration}
+The NOX ECS still have some way to go before it can be properly tied into the NOX Engine.
+For example the entity manager does not have any mechanism for listening to regular NOX events.
 
 \section{Benchmarking}
-\subsection{Mobile Tests}
-Mobile benchmarking tests were not performed with the NOX ECS,
-the benchmarks should be run on a mobile platform to give information about performance.
+\subsection{Fixing Criticism}
+\todo{Find better title}
+There were several points that can be made to critique our findings\secref{sec:discussion_criticism}.
+In the future these shortcomings should be examined, and ideally be eliminated.
+This means that initially test should:
+\begin{itemize}
+    \item
+    Run on different compilers.
+    \item
+    Run on different PC platforms.
+    \item
+    Be repeated to verify our findings.
+\end{itemize}
+Fixing these issues should not be a large problem, for example our testing scripts already include
+running tests on Clang. This functionality was turned off because of the time constraints.
+Additionally there are several benchmarking issues that should be fixed.
 
-\subsection{Multiple Compiler Tests}
-Currently the benchmark tests were only run on GCC. However, the run test scripts are also
-set up for allowing tests to run on Clang, they were just not run because of our lack of time.
-The benchmark test should also be run on Clang, to check if we get the same results.
-Additionally, the benchmark tests should also be run on other compilers for different platforms,
-like Microsoft Windows.
+\subsection{Mobile Testing}
+Testing on mobile was originally a planned, but this was never accomplished due to lack of time.
+This would have been a good way to check if the lock free structures with relaxed atomics actually
+gave an increased boost in performance.
 
 \subsection{Template Tests}
-While a lot of the individual optimizations have been tested, like using virtual functions rather than
+A lot of the individual optimizations have been tested, like using virtual functions rather than
 operation types. However, we did not have time to create a template based entity component system.
-Having such an example would allow us to see what gains we could get out of using templates.
+Having such an example would allow us to see what gains we could get out of using templates,
+and the optimizations that the compiler could do based on type information.
 
+\section{User Tests}
+We had originally planned to have user tests together with Suttung.
+The idea was to arrange a game jam with Suttung over a weekend,
+and do tests with them to gather feedback on the new system.
+Unfortunately neither we nor Suttung were able to dedicate the time to this when the system
+was in a testable state.
+This is something that should be done in the future, as it would allow us to gather
+data on how the new NOX ECS is to work with, and if there is a large initial loss of productivity.
