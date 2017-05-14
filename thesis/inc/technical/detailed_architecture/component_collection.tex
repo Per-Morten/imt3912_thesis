@@ -127,27 +127,23 @@ Doing lookups based on hashed values was also a possibility, however this would 
 which again would require more development time.
 
 \subsubsection{Pros of Component Collection}
-The main advantages of the component collection is the contiguous access to components.
-This together with the partitioning allows for efficient use of caching and branch prediction mechanisms.
+The main advantage of the component collection is the contiguous access to components.
+Using the contiguous access together with the partitioning allows for efficient use of caching and branch prediction mechanisms.
 The collection also avoids memory fragmentation and allows for memory reuse.
 
 \subsubsection{Cons of Component Collection}
 \paragraph{Memory Movement}
-There is a lot of memory movement overhead required for this structure to avoid fragmentation and
-maintaining the partitioning. This can be quite expensive when working with types that are heavy to move.
+There is a lot of memory movement overhead required for this structure to avoid fragmentation and maintaining the partitioning, which can be quite expensive when working with types that are heavy to move.
 
 \paragraph{Frequent Iterator Invalidation}
-While the smart handles fixes the problem with stale references to components it is not cost free.
+While the smart handles fix the problem with stale references to components, it is not cost-free.
 The search for an invalid reference is an overhead, and the frequency of invalidation depends on how often insertion,
 removal or transitions happen.
 
 \paragraph{Overhead Independent of Lifecycle}
 The partitioning also adds overhead to transitions in situations where a component is not relying on the lifecycle.
-While it is possible to avoid the call to a lifecycle function that is not overloaded, it is still required
-that a component is transitioned in the proper lifecycle order to maintain the partition structure of the collection.
+While it is possible to avoid the call to a lifecycle function that is not overloaded, it is still a requirement that a component is transitioned in the proper lifecycle order to maintain the partition structure of the collection.
 
 \paragraph{Search Overhead}
 Having the index map solution does incur time overhead for searching, which can be noticeable when working with
-large numbers of components at one time. However, there are room for small optimizations here and there,
-for example when adding components, the chance is high that the new component will have an id which is larger
-than the other components, meaning that the binary search can be avoided in a lot of cases.
+large numbers of components at a time. However, there is room for small optimizations here and there, for example, when adding components, the chance is high that the new component will have an id which is larger than the rest, meaning that it is possible to avoid the binary search in many cases.
