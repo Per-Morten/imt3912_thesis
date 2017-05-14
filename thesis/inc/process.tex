@@ -5,3 +5,35 @@
 \subimport{process/}{roles.tex}
 \subimport{process/}{tools.tex}
 \subimport{process/}{scrum_process.tex}
+
+\section{Criticism}
+The process does have some problems that could have been executed in a better manner.
+
+\subsection{Late Start}
+We went through several different phases of deciding on what the thesis should actually be about,
+this meant that we did not get around to starting working with the project as early as we originally
+wanted.
+
+\subsection{Division of Labor}
+There was a clear division of labor within the project, with Per-Morten mainly developing
+the new ECS while Trond were implementing the benchmark test cases.
+This was probably not the best division of labor,
+as we both ended up working quite a lot in isolation.
+Having a more shared division of labor would probably open us both more to critique,
+leading to an overall better product.
+It would probably also have allowed us to find the issues within the test cases at an earlier stage,
+and made them more representable.
+The clear division of labor was mainly done to make better use of the time we had available.
+
+\subsection{Poor Execution of Plans}
+We did spend some time planning the development before we started, however we were unable
+to execute the plans in a desirable fashion. Additionally we often realized this to late,
+and were unable to respond quickly enough to the new changes while simultaneously updating the plans.
+
+\subsection{Optimization Without Profiling}
+Due to the lack of time, we were unable to profile our code while optimizing it.
+This is not particularly good development practice, as we don't have data to base
+our decisions on.
+The fact that we were not able to profile our code properly while optimizing it
+is one of the reasons for including the internal tests, as these give us some
+indications on which optimization that was worth it and not.
