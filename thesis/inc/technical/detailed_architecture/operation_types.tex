@@ -8,8 +8,8 @@ This functionality would normally be supported using virtual functions in C++.
 
 Additionally the operation types are used to support limited component construction, destruction,
 move construction and move assignment without directly needing to know the subject component type.
-Being able to construct, move construct or move assign a class without knowing it's type is a feature
-C++ in general does not support. \todo{Atleast that I know of, need to double check this}
+Being able to construct, move construct or move assign a class without knowing it's type
+is something we have not found C++ support for.
 
 \subsubsection{Motivation}
 The main motivation behind the operation types structure was the requirements restriction on virtuals\reqref{req:virtuals}
@@ -29,7 +29,6 @@ and potentially some other parameters.
 Functions implementing the operation types will cast the Component pointer parameter over to the derived type,
 and call the derived function.
 This allows for overridable behavior without the per instance space overhead of a pointer to the virtual table.
-\todo{Add code example}
 
 This idea of having functions taking opaque types only to cast them over to the correct types is nothing new.
 This line of thought was what allowed users to send in their own compare functions to C's qsort function\footnote{\url{http://en.cppreference.com/w/c/algorithm/qsort}}.
@@ -37,17 +36,34 @@ This line of thought was what allowed users to send in their own compare functio
 Additionally some of these operation types were created for operating on contiguous ranges of component types,
 allowing users to iterate over components and take advantage of known data patterns or caching of calculated values.
 
+\paragraph{Wrapper Functions}
 Writing all these "conversion" functions out by hand would be way too tedious and error prone,
 and going against the "opt-in opt-out" philosophy of the NOX ECS.
 The user should normally not need to worry about correct casting or pointer iteration,
 but work with the mindset and semantics that they are used to, i.e. thinking with member functions.
 
-This problem was solved with the help of C++ templates. \todo{Add comment explaining why this templating is legal.}
+This problem was solved with the help of C++ templates.
 When the user is calling the create meta information for a specific component type,
 the component type is sent in as a template parameter.
 This allows us to create template instantiations of wrapper functions that does the standard conversions.
-\todo{Add code example with comments, clearly showing this}
-\todo{Shall we use proper camelcase etc for function names, like createMetaInformation? Also, do I need to explain further?}
+An example of this is seen in listings \ref{lst:create_meta_information_wrapper}.
+\lstinputlisting[language=cpp, caption=Create Meta Information Wrapper Functions, label=lst:create_meta_information_wrapper]{create_meta_information_code/create_meta_information_wrapper.cpp}
+
+\paragraph{Overload Detection}
+In addition to creating wrappers for the operation types, using templates in this situation
+allows NOX ECS to detect whether or not functions are actually overloaded\footnote{Technically this is really hiding, rather than overloaded, however, since we use it logically to mean overload, we use the term overload rather than hiding}.
+This is done by comparing the function signatures of the component base class against the function signatures of the derived type.
+Member functions within C++ has the class the function belongs to as its first parameter\cite{iso_cpp_member_function_pointers},
+this signature change can be used to compare the two functions against each other using C++ type traits, and std::enable\_if.
+The implementation of this functionality can be see in listing \ref{lst:create_meta_information_overload_detection}
+
+\lstinputlisting[language=cpp, caption=Create Meta Information Overload Detection, label=lst:create_meta_information_overload_detection]{create_meta_information_code/create_meta_information_overload_detection.cpp}
+
+\paragraph{Template Justification}
+Using templates here seems to go against the earlier requirement of avoiding heavy template usage\reqref{req:templates}.
+However, in this case it is justified by the fact that calling the create meta information function is usually only done in one file.
+Additionally this function does not impact any internal workings of NOX ECS, meaning that no recompilation is needed for the NOX ECS when
+a template parameter is changed for this function.
 
 \subsubsection{Alternatives To Operation Types}
 The normal solutions for the problem of reusability and overridable behavior would be template or virtual
@@ -78,8 +94,7 @@ Regular virtual functions in C++ can be hard for the compiler to optimize away. 
 being if the type can be known during compile time. C++ does not offer any Just In Time compilation either,
 meaning that even calls to empty virtual functions can't be removed.
 This is possible with the operation types, as their are just regular function pointers, they can be checked for nullptr.
-This feature is offered by default within the NOX ECS, which is able to detect overriding of functions within a derived type,
-by using C++ template SFINAE functionality. \todo{Add SFINAE to terminology? This can possibly also be done with \url{http://en.cppreference.com/w/cpp/experimental/is_detected}}
+This feature is offered by default within the NOX ECS, which is able to detect overriding of functions within a derived type.
 For example, if a user has not overridden the update function of the component base class, that component type is never scheduled
 for updates. The same applies to receiving events, as well as certain lifecycle function calls.
 

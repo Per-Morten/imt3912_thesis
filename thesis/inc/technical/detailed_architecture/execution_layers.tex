@@ -116,7 +116,9 @@ The bad side to caching is that you need double the amount of memory to save the
 Saving the execution layer structure on file, rather than computing it on every run.
 This should both be easy to implement, and completely remove the time to compute the structure when no new changes to the components have been made.
 
+\phantomsection
 \paragraph{Code analysis}
+\label{par:detailed_execution_layers_code_analysis}
 Code analysis to automatically and reliably find dependencies, removing the need for the programmer to manually specify the read lists and data access for components.
 However, implementing this is both very time consuming, and quite difficult.
 This is especially true for C++, which is one of the most challenging programming languages to implement such behavior.
