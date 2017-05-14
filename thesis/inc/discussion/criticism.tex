@@ -1,13 +1,9 @@
 \section{Criticism}
+\label{sec:discussion_criticism}
 There are several aspects of these findings that can be criticized.
 
-\subsection{Mobile Testing}
-Testing on mobile was originally a planned, but this was never accomplished due to lack of time.
-This would have been a good way to check if the lock free structures with relaxed atomics actually
-gave an increased boost in performance.
-
 \subsection{Single Compiler}
-Again due to time constraints we did not have time to run our tests on different compilers.
+Due to time constraints we did not have time to run our tests on different compilers.
 This means that we did not get to inspect how different compilers might optimize our code differently.
 
 \subsection{Single Platform}
@@ -20,18 +16,25 @@ Due to lack of time we did not have the option to write different systems to tes
 For example it would have been interesting to create a template based entity component system,
 to measure against.
 
-\subsection{No User Tests}
-We had originally planned to have user tests together with Suttung.
-The idea was to arrange a game jam with Suttung over a weekend,
-and do tests with them to gather feedback on the new system.
-Unfortunately neither we nor Suttung were able to dedicate the time to this when the system
-was in a testable state.
+\subsection{Different Functionality}
+A major flaw within the benchmark tests is that the two different systems does not offer all the same functionality.
+We argue that this does not to such a degree influence the timing tests, but rather highlights the different approaches
+between the development of the two systems.
+Both system were used in their intended fashion, and the NOX ECS was not used entirely optimally either.
+In the memory tests the extra functionality should be taken into account, as parts of the extra memory usage
+comes from this functionality.
+However, The difference in memory is rather large, and we believe that even when the extra functionality is implemented
+the NOX ECS will use less memory than the NOX Actor system.
 
-\todo{Write this into criticism of result}
-There is a problem with measuring and comparing the amount of memory the different components are using, when each systems does not give the same amount of functionality.
-However, even though the ECS does not support all features available in the Nox Engine, it still uses a considerable less amount of memory.
-It does this to a degree where it most likely won't catch up to the Nox Engine even when including the missing features.
+\subsection{No Overarching Representative Test Case}
+Due to time constraints we were unable to create a realistic test case that combined the different behavior
+of the test cases.
+The optimal situation would be to create a small game which could show the differences between the two systems.
 
-It became clear that the memory usage test is not needed as the fast spawning test already handles how much memory is used for a specific amount of actors with certain components.
-This test was meant to serve the purpose of measuring the amount of memory used, and the fast spawning test for the speed of spawning new actors.
-The way of making one test for one testing purpose, and one for another hindered in seeing that the memory usage test was unnecessary.
+\subsection{Repeated Tests}
+Due to the issues that were discovered late in the testing phase, we did not have time to repeat the tests
+as much as desired.
+This is mainly applicable to the tests between NOX ECS and the NOX Actor system, but here the differences
+between the performance is quite clear.
+The numerous unique components internal test were repeated ten more times, and the differences between
+the results were relatively consistent. However, even more repetition is desired here to give move reliable numbers.

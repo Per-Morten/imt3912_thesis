@@ -6,21 +6,28 @@ While the benchmarks and implementations were created with the NOX Engine in min
 we believe these findings can also be generalized and related to other systems.
 
 \subsection{Layered Execution}
-As shown in the benchmarks the layered execution model can provide a significant performance boost.
+As shown in the benchmarks the layered execution model can provide a significant performance boost,
+and is a nice way to introduce multi-threading into a system relatively invisible.
 However, there are usages patterns which is non optimal for the layered execution model.
 These are mainly cases where there is not enough processing requirements to justify the synchronization costs.
 For example if the user is sending a lot of direct events, rather than broadcasted ones,
 and the processing required for receiving events is quite short.
 
 \subsection{Virtual Replacement}
-Having an own virtual function might remove some space overhead, and might perform better in some cases,
+Having an own virtual function replacement might remove some space overhead, and might perform better in some cases,
 however that also requires all the types of polymorphism to be known at compile time, which might
 not be possible.
 The main advantage of using the meta information structure we proposed is that we are able to remove empty
 virtual calls.
+In the cases where we were not removing unused functions there did not seem to be that much improvement,
+as in all the test cases the component types were sorted by type, leading to more instruction friendly cache
+traversal.
 
 \subsection{Memory Reuse}
-Being able to reuse memory
+Being able to reuse memory did not provide as big improvement as we had originally envisioned.
+However, we are unsure if this would have lead to better results on mobile devices.
+Gregory\cite[p.262]{game_engine_architecture} that modern PC's have more advanced CPU's and virtual
+memory, meaning that dynamic memory allocation is a lot cheaper than on devices with more limited hardware.
 
 \subsection{Lock Free}
 Based on what we have seen in the test cases, one should be careful of writing lock free algorithms.
@@ -43,9 +50,42 @@ However, as shown in this thesis it is possible to write reusable code without t
 and without having to sacrifice good memory usage, which can be harder to do when just working with
 base classes and interfaces.
 
-\subsection{Generalization}
-Don't over generalize, NOX Actor system offers more functionality than what is necessarily needed.
-Sometimes its ok to just solve one issue with the
+\subsection{String identifiers}
+String identifiers are very flexible, however, this flexibility does come a significant cost, as seen
+in the numerous unique components internal test.
+It is important to make a decision on whether or not this flexibility is really utilized, and worth
+the cost that it brings.
 
+\subsection{Entities and Components}
+The separation of Actors holding components to entities identified by components did come with some
+desirable benefits. The clearer separation allows users to avoid paying for functionality that they
+do not use. It also made a clearer distinction of how data was touched, which allowed for easier efficient
+multi-threading integration.
+However, the decision to go with an ECS should be based on the expected usage patterns, and the
+need for communication between the components.
+A lot of direct communication will need a better system then what was implemented in the NOX ECS.
+
+\subsection{Cache Friendly Traversal}
+As seen from the numerous unique components internal test there is a performance gain from
+ensuring more cache friendly traversals of memory.
+If possible high frequently visited memory should be stored relatively contiguously,
+and operated on in such a manner.
+
+\subsection{Unnecessary Functionality}
+The NOX Actor system offers a lot of functionality, however, this functionality is not necessarily always used,
+however the user is still paying for the overhead of including this functionality, like the children components
+stored in the NOX Actor system.
+We believe that implementations should stay decoupled by offering no more functionality than what is needed
+and requested by the user, and that we were able to gain benefits from this line of thought.
+\todo{Think about if this should really be here!}
+
+\subsection{Conclusion}
+The main conclusion reached from these findings is that choices taken on implementations
+should be based on the expected usage patterns of the system, the flexibility required,
+and the potential costs of the different implementations.
+Additionally optimizations should also be seen from an architectural standpoint rather than
+just a local ones. As shown from the tests, it seems to be the main architectural design
+of the NOX ECS that contributes to its performance, rather than one individual optimization.
+\todo{Check this with Simon}
 
 \subimport{discussion/}{criticism.tex}
