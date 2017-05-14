@@ -27,7 +27,6 @@ When a collection needs to reallocate it will expand the buffer size based it's 
 The new size of the collection is simply its old size multiplied with its growth factor.
 This leads to an amortized constant algorithmic complexity when adding a new component to the collection,
 however some extra overhead is required to keep the index map in a valid state.
-\todo{Ask mariusz if using the word amortized is to "complex"}
 
 \paragraph{Lifecycle Partitioning}
 The components in the collection is further grouped together and partitioned based on their stage
@@ -115,7 +114,9 @@ The main reason for not implementing this was a lack of development time.
 Several different approaches could have been taken for the lookup of components, rather than the index mapping solution,
 these alternatives are described below.
 
+\phantomsection
 \subparagraph{External References}
+\label{subpar:detailed_component_collection_external_references}
 The current smart handle implementation might be more complex than necessary, and does incur a deterministic but hidden lookup\footnote{Hidden in terms that it is not clear from the syntax whether or not a lookup is needed at face value}.
 A simpler solution could be to go for an external reference system like the one described by Reinalter\cite{molecular_matters_dod_external_references},
 where users are given an index and generation into a sparse array, which indexes into the regular component array.
