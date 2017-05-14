@@ -145,11 +145,11 @@ unset logscale y
 After finding some issues with the original NOX Actor versus NOX ECS test case we ran a test to give a better indication of
 the different optimization toggles within the NOX ECS system.
 The issue were related to unused functionality of the ECS, as well as the synchronization overhead of the receive event functions
-which overshadowed the other optimizations.
+which overshadowed the other optimizations. We therefore ran without a multi-threaded implementation of the receive event functions,
+which is also possible in the normal NOX ECS.
 The following discussion is based only on time measurements, as we did not have enough time to
 run the other more detailed profiler tests, like callgrind.
 This means that the following sections include an amount of speculation, and this should be taken into account.
-
 
 \begin{figure}[htb]
 \centering
@@ -184,7 +184,7 @@ We believe this is mainly due to the removal of function calls.
 In this test each fifth component type does not have a update function, while each third component type would not have a function
 for receiving entity events.
 Additionally we can observe that the implementation using std::unique\_ptr is the slowest of the three.
-We believe that this is the result of cache friend data access, as the unique pointers are not guaranteed to be stored contiguously.
+We believe that this is the result of cache ufriendly data access, as the unique pointers are not guaranteed to be stored contiguously.
 
 The main point of showing the difference in time was to highlight NOX ECS's functionality for removing empty virtual calls.
 However, we did not have the time to create another test where the trivial component would have an empty virtual function,
@@ -319,33 +319,7 @@ unset logscale y
 The data seen in figure \ref{fig:benchmarking_numerous_unique_75_internal_time_type_identifiers} clearly shows the effects of using strings to identify
 types, rather than numerical values.
 We are unsure whether or not doing string compares are faster than the hashing function currently used, however, even if that is the case,
-a string compare cant compare to a numerical comparison.
-
-\todo{Finish tommorow}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+we believe that a string comparison won't perform better than straight numerical comparisons.
 
 \section{Fast Spawning}
 \subsection{NOX ECS versus NOX Actor}
@@ -537,4 +511,4 @@ and introducing just an extra pointer has a large effects when growing to twice 
 
 \subsubsection{Test Removal}
 The original implementation of the fast spawn test using the std::unique\_ptr implementation are left out of this test.
-It contained a memory leak, which would make it unrepresentative within the fast spawning test.
+It contained a memory leak, which would make it unrepresentative within the fast spawning test\footnote{This leak was fixed before running the numerous components internal tests, which is why it was included there}.
