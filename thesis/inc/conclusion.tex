@@ -1,16 +1,46 @@
 \chapter{Conclusion}
 \label{chap:conclusion}
-The thesis has shown an implementation of a multi-threaded entity
-component system within the NOX Engine, and discussed the different
-findings of such a process.
-While we were not able to do proper representative and repeated test,
-we do believe that the findings can be relevant to other parties which has
-an interest in entity component systems and mulit-threading.
-Although we are not entirely happy with the end result,
-we are extremely thankful for the experiences gained during the project.
+The thesis has shown and discussed our implementation of the multi-threaded entity
+component system; NOX ECS, within the NOX Engine.
+NOX ECS is an alternative to the NOX Actor system.
+We have performed benchmark tests with the NOX Actor system as reference,
+and benchmarks of different internal optimizations with our normal NOX ECS behavior as reference.
+We argue that the differences between NOX ECS and the NOX Actor system's results were clear enough for us
+start a discussion on the performance differences of the two.
+This was done even thought the tests were flawed to a certain extent.
+The lack of a clear performance enhancing optimization within the internal benchmarks further
+lead us down towards our conclusion on the importance of architecture.
+We argued that a systems architecture should be based on the expected usage patterns of a system,
+and that optimization should be evaluated from an architectural perspective, as well as a local one.
+These conclusions and findings can be relevant for other parties interested
+in entity component systems, performance and multi-threading.
+We believe that once finished the NOX ECS will be a valuable addition to the NOX Engine.
+
+
+\paragraph{Learning Outcome}
+We are extremely thankful for the experiences gained during the project.
 Developing the NOX ECS has allowed us to learn more about optimization techniques,
 as well as a deeper understanding of how the C++ language works.
 We have also gained experience with integration and development within a larger codebase,
 and the challenges that this incur.
 These experiences are great contributions to our long journey to becoming better developers,
-and we believe that once finished the NOX ECS will a great addition to the NOX Engine.
+
+
+Skriv ut litt mer om konklusjonen, få ut essensen av
+
+Vurderingen vår er at konklusjonen med NOX ECS og Actor er ganske god, fordi
+forskjellene er såppass store. Dette er selv om det er noen svakheter med dataen som denne konklusjonen er tatt av.
+
+The main conclusion reached from these findings is that choices taken on implementations
+should be based on the expected usage patterns of the system, the flexibility required,
+and the potential costs of the different implementations.
+Additionally optimizations should also be seen from an architectural standpoint rather than
+just a local standpoint. As shown in the tests, the main contributing factor to NOX ECS's performance
+is the architectural design, rather than one individual optimization.
+
+
+We argue that the flaws with our tests were taken into account when during discussion.
+
+Even though our tests and findings were not without flaws, we believe
+that the conclusion of thinking of performance from an architectural standpoint based on
+expected usage patterns can help improve a programs efficiency.

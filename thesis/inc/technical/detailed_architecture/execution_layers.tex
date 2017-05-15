@@ -1,84 +1,95 @@
 \subsection{Execution Layers}
 \label{subsec:detailed_execution_layers}
+The execution layers is NOX ECS's way of supporting the requirement for multi-threading,
+without requiring large investments for the user\reqref{req:multi_threading}.
+
 \subsubsection{Explanation}
-The execution layers is a structure detailing which components collections can be run concurrently.
+The execution layers is a structure detailing which components types can be run concurrently.
 The structure consist of one or more layers, where each layer has a set of component types.
-Each set of components can be run concurrently.
-When all the component types in one layer has been executed, the next layer can be worked on.
-\todo{Insert an example structure for the execution layers}
+Each set of component types can be run concurrently.
+When all the component types in one layer has been executed, the next layer can be started.
+The sets are created through an algorithm that finds out which component types can be run concurrently,
+based on information given by the programmer.
+
+\begin{figure}[tbp]
+    \begin{center}
+    \includegraphics[scale=0.45]{images/layered_execution_model_1.png}
+    \caption[Execution layers, not layered]{Component Collection Lifecycle Partitioning}
+    \label{fig:execution_layers_model_1}
+    \end{center}
+\end{figure}
+
+\begin{figure}[tbp]
+    \begin{center}
+    \includegraphics[scale=0.45]{images/layered_execution_model_2.png}
+    \caption{Component Collection Lifecycle Partitioning}
+    \label{fig:execution_layers_model_2}
+    \end{center}
+\end{figure}
+
+\paragraph{Component Access}
+\label{subsec:detailed_component_access_levels}
+Describing the actions executed on different components is done with the data access enum, which has 4 values.
+
+\begin{itemize}
+    \item unknown\\
+    All component types are marked as unknown by default, as per the opt-in policy\secref{subsec:high_level_intention}.
+    This data access states that there is nothing known about the components access patterns.
+    Every component type marked with unknown is therefore put into its own separate layer, as they are interpreted to be reading from all other components.
+    Unknown component types are treated like this because expecting the worst case scenario is the only way to ensure the program is run correctly.
+
+    \item read and write\\
+    Read and write data access is planned to be implemented in the future, and currently follows the same logic as unknown.
+    This is because the algorithm could be extended to take writes into account, instead of only dealing with reads.
+    If this was implemented, each component type would need an additional list for which components are written to,
+    as the writes would have to be treated differently from reads.
+
+    \item read only\\
+    A component that only reads from others can be marked read only. This means that it can be put on any layer, as long
+    as it does not read from any other components on that layer.
+
+    \item independent\\
+    A component marked as independent can be run in any layer, as long as no other components on that layer reads from it.
+\end{itemize}
 
 \paragraph{Read list}
 \label{subsec:detailed_read_list}
-Each component type has its own read list that is defined by the programmer.
+Each component with read access has its own read list that is defined by the programmer.
 The list contains all other components types that the component type in question reads from.
 The algorithm uses the read list to figure out how the layers should be structured.
 
 \paragraph{Important qualities of the structure}
 There are a few qualities that the structure both needs, and should have in order to perform better.
 
-\paragraph{No same layer read connections}
+\subparagraph{No same layer read connections}
 It is important that no component types has connections to components in the same layer.
 This would cause issues if a component changes one of its own member variables, and another component reads from it.
 Allowing these same layer reads would start creating race conditions.
-\todo{insert example displaying this behavior}
 
-\paragraph{Per layer component count to thread count ratio}
+\subparagraph{Per layer component count to thread count ratio}
 The number of component types in each layer should optimally be divisible by the amount of threads available.
-It is not desirable that we end up with there being a mismatch in the amount of component types available to work on, and how many threads we have available.
-If this mismatch happens, we end up with some threads doing nothing while waiting for the rest of the threads to finish their work.
-Having an amount of component types divisible by the amount of threads available will mitigate this to some extent.
-This is best shown via an example.
-If there are 5 component types in a layer, with each type requiring the same work load to finish.
-There are 3 worker threads running through all of the component types, where they first complete the first three component types.
-After those three are completed, there are only two left, meaning that one of the threads will have nothing to do while the rest works on the remaining components.
+A mismatch between the number of component types and threads available would lead to some threads having to wait while the other threads finish their work.
+For example if there are 5 component types in a lair, with each type requiring the same work load to finish, and there are 3 worker threads.
+After the initial 3 component types are finished, 1 thread has to wait while the two others finish the remaining component.
 It would have been better to reduce the size of the layer to 3, and move the excess components to other layers trying to have a component type count divisible by the thread count.
 There will always be some time spent waiting on other threads to finish before moving onto the next layer, but following this rule will reduce this waiting.
-
-\paragraph{Component access levels}
-\label{subsec:detailed_component_access_levels}
-The information comes in the form of component access levels, which describes what kind of operations each components type does to other components.
-Each component type has a list of what components it reads from.
-Another list would be added if the read and write data access type had been implemented.
-
-\begin{itemize}
-    \item unknown\\
-    All component types are marked as unknown by default, as per the opt-out policy.
-    This data access type states that there is nothing known about the components access patterns, meaning that the component type might as well be independent.
-    Every component type marked with unknown is therefore put into its own separate layer, as they are interpreted to be reading from all other components.
-    Unknown component types are treated like this because expecting the worst case scenario is the only way to ensure the program is run correctly.
-
-    \item read and write\\
-    Is treated in the exact same manner as the unknown data access, but is also included for potential future use.
-    This is because the algorithm could be extended to take writes into account, instead of only dealing with reads.
-    If this was implemented, each component type would need an additional list for which components are written to, as the writes would have to be treated differently from reads.
-    Setting a component type to read and write will not affect how the algorithm treats it, compared to the unknown data access.
-
-    \item read only\\
-    A component can be marked read only, if it reads data from other components, but does not change data from others.
-
-    \item independent\\
-    If a component is marked as independent, it will ignore any read connections to other components that is specified for the component type.
-    However, if other components have a connection to the independent component, it can not be run concurrently with it.
-    A component with independent data access works the exact same way in the algorithm, except that it does not have any reads outwards to other components, but it may have reads towards itself from other components.
-\end{itemize}
 
 \paragraph{The algorithm}
 The algorithm itself that creates and sets up the execution layer structure goes through three stages: The data collection stage, layer creation stage, and parsing stage.
 
 \subparagraph{Data collection stage}
 This stage consists of setting up all the data needed to run the algorithm.
-It gets the access levels to each component type, and which other components they have read connections to.
-It does not matter which one it is, it only matters that a read does not happen on the same layer.
-If the component type is any other than read only, certain actions will be taken, as mentioned in the component access levels\secref{subsec:detailed_component_access_levels} section.
+The algorithm gets the access levels to each component type, and which other components they have read connections to.
+If the component type is any other than read only, certain actions will be taken, as mentioned in the component access levels\footnote{See p.\pageref{subsec:detailed_component_access_levels}}.
 In the case of having independent data access, the whole read list is simply emptied.
 Having either unknown or read and write will result in the component type having its own separate layer.
 
-\paragraph{Initialize data}
-\lstinputlisting[language=cpp, caption=initialize data, label=lst:initialize_data]{initialize_data.py}
+%\paragraph{Initialize data}
+%\lstinputlisting[language=cpp, caption=initialize data, label=lst:initialize_data]{initialize_data.py}
 
 \subparagraph{Layer creation stage}
-The algorithm goes through all the component types and creates one and one layer.
-Each layer is created in the following steps.
+The algorithm goes through all the component types and creates layers.
+This is done in the following steps.
 
 \begin{enumerate}
     \item Picking out the component with the most connections.
@@ -95,44 +106,45 @@ Each layer is created in the following steps.
 \end{enumerate}
 
 \subparagraph{Data parsing stage}
-Parse the data into a format that is used by the entity manager\todo{add ref to entity manager when that exists} to perform the functions.
-This format change is favorable because the type identifiers\secref{subsec:detailed_type_identifier} used internally in the algorithm would require a search through the list of component collections\secref{subsec:detailed_component_collection} every frame.
+The data parsing stage turns the layers from type identifiers to indexes used within the entity manager\secref{subsec:detailed_entity_manager}
+This format change is favorable as the type identifiers\secref{subsec:detailed_type_identifier} used internally in the algorithm would require a search through the list of component collections\secref{subsec:detailed_component_collection} every frame, rather than just a constant index lookup.
 
 \subsubsection{Motivation}
-Needs a way to run more component types concurrently than only the independent ones.
+The main motivation for this structure was to allow concurrent execution of more components
+than just the independent ones.
+Having a programmer specifying a read list is an easier way to add concurrency without to much burden on the programmer\reqref{req:multi_threading}.
 
 \subsubsection{Alternatives}
 There are a few alternatives to the existing solution, and all of these are better ways of dealing with the task at hand.
-However, they all either require a lot more work, are hampered due to requirements, or were not prioritized.
+However, they all either require a lot more work, are hindered due to requirements, or were not prioritized.
 
 \paragraph{Caching}
-The solution of caching which involves keeping previous frame's data to work on for the next frame.
-There are advantages to this, and a downside.
-The positive ones are that running the components concurrently is no longer an issue, as the data being read from will not change during the reads.
+One solution could be a caching mechanism, which involves keeping previous frame's data to work on for the next frame\cite[p.930]{game_engine_architecture}.
+The main advantages are that synchronization and data races are no longer an issue, as the data being read from will not change during the reads.
 In addition to running all components concurrently, it would avoid the possibility of human error from manually defining the read list for each component.
-The bad side to caching is that you need double the amount of memory to save the previous frame.
+The disadvantage is that the system would require double the amount of memory to save the previous frame.
+This also requires all types to be deep copyable.
 
 \paragraph{Saving execution layer structure}
-Saving the execution layer structure on file, rather than computing it on every run.
+The execution layers could be saved to file, rather than computing it on every run.
 This should both be easy to implement, and completely remove the time to compute the structure when no new changes to the components have been made.
 
 \phantomsection
 \paragraph{Code analysis}
 \label{par:detailed_execution_layers_code_analysis}
-Code analysis to automatically and reliably find dependencies, removing the need for the programmer to manually specify the read lists and data access for components.
-However, implementing this is both very time consuming, and quite difficult.
-This is especially true for C++, which is one of the most challenging programming languages to implement such behavior.
-\todo{Ask pms for link to citation, i know he has talked about this}
+Code analysis could be added to automatically and reliably find dependencies, removing the need for the programmer to manually specify the read lists and data access for components.
+However, implementing this is both very time consuming, and quite difficult as it requires parsing of the C++ language, which is fairly complex.
 
-\subsubsection{Pros}
-There is only one reason this feature was implemented, and that is to better utilize multi core CPU's for increased performance.
+\subsubsection{Pros of Execution Layers}
+The main pro of the execution layers is the ease adding concurrency functionality for the user,
+allowing utilization of multi-core CPU's.
 
 \subsubsection{Cons}
-Adding the support for multi threading components in this manner leads to some certain disadvantages.
+Adding the support for multi threading components in this manner leads to some disadvantages.
 
 \paragraph{Increased loading times}
-With the execution layers having the requirement to be computed every single time you start a program using it, the load times increases by up to a few seconds with a couple hundred component types.
+With the execution layers having to be computed at every start up, the load times might increase a bit when adding lots of component types.
 
 \paragraph{More error prone}
-When requiring the programmers to specify data access and the read list manually, it can lead to several bugs caused by human error.
-In addition, the fact that any part of the execution layers structure can vary based on small changes, meaning that even though an incorrect read list has been specified, a problem may not occur until later changes.
+Requiring the programmers to specify data access and the read list manually, can be error prone. This could lead to several bugs caused by human error.
+Additionally, the fact that any part of the execution layers structure can vary based on small changes, means that even though an incorrect read list has been specified, a problem may not occur until later changes.
