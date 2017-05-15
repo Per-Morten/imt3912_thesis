@@ -51,53 +51,41 @@ One should be able to create an event with a particular type, add data to it, an
 Several alternatives could have been chosen instead of this one.
 
 \paragraph{Observer Pattern}
-One alternative could be to use an observer pattern as described by Nystrom\cite[Observer]{game_programming_patterns},
-which can be optimized to run quite fast.
-One of the reasons for not going for this pattern was to avoid virtual functions,
-and it would make the program harder to run concurrently.
+An alternative could be to use an observer pattern as described by Nystrom\cite[Observer]{game_programming_patterns}, which can be optimized to run quite fast.
+One of the reasons for not going for this pattern was to avoid virtual functions, and it would make the program harder to run concurrently.
 It would also make it harder to run concurrently,
-as this pattern quickly could introduce inter thread dependencies
+as this pattern quickly could introduce inter-thread dependencies
 that could be harder to detect.
-Also it is synchronous in nature which further inhibits parallelism.
+Also, it is synchronous in nature which further inhibits parallelism.
 
 \paragraph{Use NOX Actor Events}
-We could also possibly just reuse the regular NOX Actor events,
-however this would lead to higher coupling internal within the NOX Engine.
-It also would not fix a lot of the motivations behind the event system,
-like the fast integration of events.
+There is also the possibility to reuse the regular NOX Actor events. 
+However, this leads to higher coupling internally within the NOX Engine.
+It would also not fix a lot of the motivations behind the event system, like the fast integration of events.
 
 \paragraph{Direct Communication}
-Another other alternative would be to drop the event system all together and
-just allow for direct component collection. Obviously that would not be particularly
-efficient, and would also make parallelism way harder than with the current solution.
+Another alternative would be to drop the event system altogether and allow for direct component communication. 
+Such an approach is not particularly efficient and would make parallelism considerably harder compared to the current solution.
 
 \subsubsection{Pros of Event}
-The main pros of the events is that it is quick to create new types of events.
+The advantage of the events is that it is quick to create new types of events.
 \todo{Write more here, should be more pros, depends on whether or not we are writing about the queue her as well}.
 
 \subsubsection{Cons of Event}
 There are however several cons to the current event implementation.
 
 \paragraph{Loss of Type Safety}
-Since the events are essentially implemented as void* to avoid templates,
-type safety is gone. When getting the values of object it is the programmers
-responsibility to cast to the correct type.
-However, this should not really be that big of an issue, because when a programmer
-is getting the value from an argument, they do know the type of that argument,
-and the type of the event. So the flexibility is worth the cost.
+Since the events are essentially implemented as void* to avoid templates, type safety is gone. When getting the values of an object, it is the programmer's responsibility to cast to the correct type.
+However, this should not be that big of an issue, because when a programmer is getting the value from an argument, they do know the type of that argument, and the type of the event. 
+So the flexibility is worth the cost.
 
 \paragraph{Maximum Sized Objects}
 Unlike in the old NOX Event system which allocated everything from the heap.
-The current event approach uses the lock-free allocator\secref{subsec:detailed_lock_free_allocator}
-for allocating its arguments.
-This means that there is a maximum size that is supported by the allocator.
-However, this should not be an issue, as events are usually smaller primitive like types,
-and the current lock-free allocator is templated on the size of its memory regions,
-so if a larger size is needed one simply needs to adjust the template parameter.
+The current event approach uses the lock-free allocator for allocating its arguments, which means that there is a maximum size that is supported by the allocator.
+However, this should not be an issue, as events are usually smaller primitive types, and the current lock-free allocator is templated on the size of its memory regions, so if a larger size is needed one simply needs to adjust the template parameter.
 
 \paragraph{Arguments Not Local}
-Arguments within the event are not necessarily stored close to each other in memory,
-which would be optimal for when they are processed. This is because of the linked list
-implementation of the lock-free allocator.
-However most arguments should be stored relatively close to each other, unless they are
+Arguments within the event are not necessarily stored close to each other in memory, which would be optimal for when processing them. This is because of the linked list implementation of the lock-free allocator.
+However, most arguments should be stored relatively close to each other unless they are
 placed within different memory blocks.
+

@@ -9,13 +9,11 @@ We were uncertain whether or not we would set the same restrictions.
 Being able to copy a component would allow for certain optimization possibilities,
 for example using a state caching scheme\cite[p. 930]{game_engine_architecture} for parallelization,
 rather than the layered execution model\secref{subsec:detailed_execution_layers}.
-However, we choose to continue with the restriction of move only types.
-The reason for this was mainly because of Suttungs heavy use of non copyable types,
+However, we choose to continue with the restriction of move-only types.
+The reason for this was mainly because of Suttungs heavy use of noncopyable types,
 like std::unique\_ptr.
 
 \subsubsection{Registering Components}
-The original NOX Actor system required that users would register all the different component types
-before they could be used.
-Originally we saw this as boilerplate code that were not desired in the codebase.
-However, we choose to keep the same rules of needing to register component types before being able
-to use them, as this is required for our solution to work.
+The original NOX Actor system required that users would register all the different component types before they could be used.
+Originally we saw this as boilerplate code that was not desired in the codebase.
+However, we choose to keep the same rules of needing to register component types before being able to use them, as this is required for our solution to work.
