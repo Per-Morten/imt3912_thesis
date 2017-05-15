@@ -1,30 +1,21 @@
 \subsection{Meta Information}
 \label{subsec:detailed_meta_information}
-The meta information structure is an important structure in NOX ECS.
-It contains all type information needed by the ECS to work without
-templates and virtual functions.
-Each component type has a meta information, containing information
-of the components size, type identifier\secref{subsec:detailed_type_identifier},
-operation types\secref{subsec:detailed_operation_types}, data access dependencies etc.
+The meta information is an important structure in NOX ECS.
+It contains all type information needed by the ECS to work without templates and virtual functions.
+Each component type has a meta information object, containing information of the components size, type identifier\secref{subsec:detailed_type_identifier}, operation types\secref{subsec:detailed_operation_types}, data access dependencies, and so forth.
 All of this information allows NOX ECS to implement type ignorant generic functionality.
 
 \subsubsection{Explanation}
 Meta information is simply a struct holding data relevant to a type.
-It is stored together with a component collection\secref{subsec:detailed_component_collection},
-which uses the information stored in the meta structure to decide what actions
-it should take on the components stored within itself.
-Meaning that the meta information both acts as a replacement for templates,
-and for virtual tables.
+It is stored together with a component collection\secref{subsec:detailed_component_collection}, which uses the information stored in the structure to decide what actions it should take on the components stored within itself.
+This means that the meta information both acts as a replacement for templates, and virtual tables.
 
 \todo{Add justification for template function}
-Meta information objects are created through a dedicated template function,
-which uses the template argument to create a meta information structure,
-containing type information, as well as wrappers for the different operation types.
+Meta information objects are created through a dedicated template function, which uses the template argument to create a meta-information structure, containing type information, as well as wrappers for the different operation types.
 
 \subsubsection{Motivation}
-The meta information structure was mainly motivated by the requirement of avoiding heavy template\reqref{req:templates} and virtual functionality\reqref{req:virtuals}.
-NOX ECS would need a way to store type information that could be used to write generic functionality, without templates,
-and without the need to recompile the generic functionality for each new type that was introduced in the ECS.
+The meta-information structure was mainly motivated by the requirement of avoiding heavy template\reqref{req:templates} and virtual functionality\reqref{req:virtuals}.
+NOX ECS would need a way to store type information that could be used to write generic functionality, without templates, and without the need to recompile the generic functionality for each new type that was introduced to the ECS.
 
 \subsubsection{Alternatives}
 Just like with operation types there are no clear alternatives here, other than
@@ -32,29 +23,23 @@ the default functionality of the language through templates and virtual function
 
 \subsubsection{Pros of Meta Information}
 \paragraph{Generic Code Without Templates}
-The main advantage of the meta information structure is how it allows one to implement
+The main advantage of the meta-information structure is how it allows one to implement
 generic functionality like containers without needing to recompile the structures.
-For example if a user creates a new component type, they will need to recompile to create
-the meta information structure for the new component type, however the classes using the
-meta information does not. Classes like component collection does not need recompilation,
-but can just be linked in during the linking phase of the build.
+For example, if a user creates a new component type, they will need to recompile to build the meta-information structure for the new component type. 
+However the classes using the meta information does not. 
+Classes like component collection do not need recompilation, but can just be linked in during the linking phase of the build.
 \todo{Are there more here?}
 
 \subsubsection{Cons of Meta Information}
-Moving over to a Meta Information structure rather than templates do lead to certain difficulties.
+Moving over to a meta-information structure rather than templates do lead to certain difficulties.
 
 \paragraph{Error Prone Pointer Manipulation}
 When working with templates all type information that is needed exists, and the compiler can help avoiding mistakes and ensuring correctness.
-This is especially helpful when working with containers that use a lot of pointer arithmetic,
-as the compiler uses the type information to find out how many bytes a pointer should move
-when it is incremented, or which constructor that should be called to initialize a piece of memory.
-These helpful features disappears when using this meta information structure, and places a burden on the programmer implementing generic functionality.
-For example when implementing an array like container,
-rather than iterating with pointers to types, the programmer will have to work more with raw memory,
-using byte pointers and incrementing them with the size of an object indicated by the meta information.
-This is quite error prone and small mistakes can lead to hard to find bugs and potentially undefined behavior.
+This is particularly useful when working with containers that use a lot of pointer arithmetic, as the compiler uses the type information to find out how many bytes a pointer should move when it is incremented, or which constructor that should be called to initialize a piece of memory.
+These helpful features disappear when using this meta-information structure, and places a burden on the programmer implementing the generic functionality.
+For example, when implementing an array like container, rather than iterating with pointers to types, the programmer will have to work more with raw memory, using byte pointers and incrementing them with the size of an object indicated by the meta information.
+This is quite error-prone, and small mistakes can lead to hard to find bugs and potentially undefined behavior.
 
 \paragraph{Optimization Limitations}
-Just as with the operation types, this functionality is by default implemented in the language
-through other means. Reimplementing this functionality leads to the compiler being on unknown
-ground, with a lot of instructions being opaque at compile time.
+Just as with the operation types, this functionality is by default implemented in the language through other means. 
+Reimplementing this feature hinders the compiler, with many instructions being opaque at compile time.

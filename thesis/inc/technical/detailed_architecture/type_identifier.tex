@@ -6,63 +6,50 @@ but in the code base they are still named type identifiers.}
 
 The type identifier is a simple class used to identify different types within
 the ECS.
-It was created to solve the issue of querying entities for specific components,
-however it is now also used to identify event types, and event arguments.
+It was created to solve the issue of querying entities for specific components; however it is now also used to identify event types and event arguments.
 
 \subsubsection{Explanation}
-The type identifier is a simple wrapper class for a numerical value,
-or a hashed string.
-The class simply accepts a numerical value, or a string for its constructor.
-If the user sends in a string, that string is turned into a numerical value,
-through std::hash. If the user sends in a numerical value,
-that value is used without any further manipulation, i.e. no hashing.
-The identifiers are lightweight structures, that does not take up much memory,
-and can trivially be copied around, and comes with standard equality semantics.
+The type identifier is a simple wrapper class for a numerical value, or a hashed string.
+The class simply accepts a numerical value or a string for its constructor.
+If the user sends in a string, that string is turned into a numerical value, through std::hash. If the user sends a numerical value, that value is used without any further manipulation, i.e. no hashing.
+The identifiers are lightweight structures, that does not take up much memory, and can trivially be copied around, and comes with standard equality semantics.
 
 \subsubsection{Motivation}
 The main motivation behind the type identifier was to provide a quick
 way to be able to query and indicate types of different objects.
 In the standard NOX Event system, types are indicated through std::strings.
-However, we did not want to directly introduce a reliance on strings, when
-the functionality of string is not really needed.
-We therefore decided to offer a choice between using numerical constants, or strings.
-Any internal type identifiers within NOX ECS uses numerical constants,
-as we did not want to push string dependencies on users of the library.
+However, we did not want to directly introduce a reliance on strings, when the functionality of string is not needed.
+Therefore we decided to offer a choice between using numerical constants, or strings.
+Any internal type identifiers within NOX ECS uses numerical constants, as we did not want to push string dependencies on users of the library.
 
 \subsubsection{Alternatives}
 The main alternatives to the type identifiers are the already existing
 naming pattern and string based id system in the NOX Engine.
 However, one alternative that could be possible is the one Gregory\cite[p. 276]{game_engine_architecture}
 mentions, which is a macro based compile time hashing utility,
-which also has the feature of allowing string id's to be used in constant expressions.
+which also has the feature of allowing string ids to be used in constant expressions.
 
 \subsubsection{Pros}
-The only advantage of the type identifier is that it allows for quick lookup,
-and comparison of types.
+The only advantage of the type identifier is that it allows for quick lookup, and comparison of types.
 
 \subsubsection{Cons}
 There are however several disadvantages to this structure.
 
 \paragraph{Collisions}
-Currently there is not implemented any checking to ensure that there are no
-collisions in the hashing values of the type identifiers, or that the user
-have not reused values for different type identifiers.
+Currently, there is not implemented any checking to ensure that there are no collisions in the hashing values of the type identifiers, or that the user has not reused values for different type identifiers.
 
 \paragraph{Reserved Identifier}
-The NOX ECS has reserved the values 0-999 for internal type identifiers within
-NOX ECS. Meaning that the first numerical value for user created type identifiers
-need to start at 1000. There is currently no checking
-in place to ensure that this rule is not violated by users.
+The NOX ECS has reserved the values 0-999 for internal type identifiers within NOX ECS. 
+Meaning that the first numerical value for user created type identifiers needs to start at 1000. There is currently no checking in place to ensure that this rule is not violated by users.
 
 \paragraph{Illegal Mixing of String and Numbers}
 The type identifier allows for the usage of both strings and constant numerical values.
 However, the user is not allowed to mix the usage of strings and numbers.
-While collisions and reserved identifiers are checkable, and will be checked in the future,
-this one is quite difficult to guard against. We just have to trust that the user does not
+While collisions and reserved identifiers are checkable and will be checked in the future,
+this one is quite difficult to guard against. 
+We just have to trust that the user does not
 mix strings and numeric values for the same identifier.
 
 \paragraph{Difficult Bugs}
-All of these disadvantages have one thing in common, and that is that they lead to
-hard to find bugs. For example, a programmer trying to use the id reserved for
-children components, might end up being able to create components without an entity manager
-reference, leading to a segmentation fault.
+All of these disadvantages have one thing in common, and that is that they lead to hard to find bugs. 
+For example, a programmer trying to use the id reserved for children components, might end up being able to create components without an entity manager reference, leading to a segmentation fault.
