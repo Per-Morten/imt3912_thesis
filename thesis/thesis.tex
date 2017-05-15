@@ -11,6 +11,8 @@
 \usepackage{lmodern}
 \usepackage[miktex]{gnuplottex}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage[final]{pdfpages}
 
 \usepackage[binary-units=true]{siunitx}
 \DeclareSIUnit\year{yr}
@@ -40,6 +42,9 @@
 \newcommand{\requirement}[2]{\begin{quote}\refstepcounter{ptrequirements}\textbf{Requirement \theptrequirements: #1 \label{#2}}\end{quote}}
 \newcommand{\reqref}[1]{\footnote{Requirement \ref{#1}.}}
 \newcommand{\reqcomment}[1]{\emph{Comment: #1}}
+
+\newcommand{\cpp}{\mbox{C++}}
+\newcommand{\std}[1]{\mbox{std::#1}}
 
 \def \gnuplotterminal {pdf}
 %\newcommand{}{pdf}
@@ -77,20 +82,6 @@
 
 
 \appendix %after this line all chapters will have leters instead of numbers
-%\chapter{Test Case Plan}
-%\chapter{Design Document}
-%\chapter{Technical Specification}
-%\chapter{Project Plan}
-%\chapter{Scrum Plans}
-%\chapter{Daily Scrum Logs}
-%\chapter{Stakeholder Meetings}
-%\chapter{Supervisor Meetings}
-%\chapter{Sprint Retrospectives}
-%\chapter{Group Rules}
-%\chapter{Benchmark Data}
-%\chapter{Stakeholder Contract}
-%\chapter{Code}
-
 \todo{Add to appendix!}
 \begin{figure}
     \includegraphics[scale=0.5]{benchmark_results/fast_spawn/ecs_massif_deletes_10.pdf}
@@ -104,26 +95,142 @@
     \label{fig:fast_spawning_memory_usage_nox_actor}
 \end{figure}
 
+\iffalse
+\chapter{Test Case Plan}
+\label{chap:appendix_test_case_plan}
+\includepdf[pages=-]{../test_case_plan/build/test_case_plan_format.pdf}
+
+\chapter{Technical Specification}
+\label{chap:appendix_technical_specification}
+\includepdf[pages=-]{../technical_specification/build/technical_specification.pdf}
+
+\chapter{Design Document}
+\label{chap:appendix_design_document}
+\includepdf[pages=-]{../design_document/build/design_document.pdf}
+
+\chapter{Project Plan}
+\label{chap:appendix_project_plan}
+\includepdf[pages=-]{../project_plan/compiled_pdf/o7_project_plan.pdf}
+
+\chapter{Scrum Plan v2}
+\label{chap:appendix_scrum_plan_v2}
+\includepdf[pages=-]{../scrum_plan_v2/build/scrum_plan_v2.pdf}
+
+\chapter{Scrum Plan v3}
+\label{chap:appendix_scrum_plan_v3}
+\includepdf[pages=-]{../scrum_plan_v3/build/scrum_plan_v3.pdf}
+
+\chapter{Sprint Retrospectives}
+\label{chap:appendix_sprint_retrospectives}
+\includepdf[pages=-]{../sprint_retrospectives/build/280217.pdf}
+\includepdf[pages=-]{../sprint_retrospectives/build/080317.pdf}
+\includepdf[pages=-]{../sprint_retrospectives/build/190317.pdf}
+\includepdf[pages=-]{../sprint_retrospectives/build/280317.pdf}
+\includepdf[pages=-]{../sprint_retrospectives/build/030417.pdf}
+
+\chapter{Stakeholder Meetings}
+\label{chap:appendix_stakeholder_meetings}
+\includepdf[pages=-]{../stakeholder_meetings/build/060217.pdf}
+\includepdf[pages=-]{../stakeholder_meetings/build/210217.pdf}
+\includepdf[pages=-]{../stakeholder_meetings/build/220317.pdf}
+\includepdf[pages=-]{../stakeholder_meetings/build/280217.pdf}
+
+\chapter{Supervisor Meetings}
+\label{chap:appendix_supervisor_meetings}
+\includepdf[pages=-]{../supervisor_meetings/build/100217.pdf}
+\includepdf[pages=-]{../supervisor_meetings/build/160217.pdf}
+\includepdf[pages=-]{../supervisor_meetings/build/080317.pdf}
+\includepdf[pages=-]{../supervisor_meetings/build/240317.pdf}
+
+\chapter{Daily Scrum Meetings}
+\label{chap:appendix_daily_scrum_meetings}
+\includepdf[pages=-]{../daily_scrum/build/010217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/020217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/030217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/060217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/070217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/080217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/100217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/130217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/140217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/150217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/200217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/210217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/220217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/250217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/260217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/280217.pdf}
+\includepdf[pages=-]{../daily_scrum/build/010317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/060317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/070317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/080317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/100317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/110317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/200317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/210317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/220317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/240317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/250317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/260317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/270317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/280317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/290317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/310317.pdf}
+\includepdf[pages=-]{../daily_scrum/build/020417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/030417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/040417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/050417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/210417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/220417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/230417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/240417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/250417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/300417.pdf}
+\includepdf[pages=-]{../daily_scrum/build/010517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/020517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/040517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/050517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/060517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/070517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/090517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/100517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/110517.pdf}
+\includepdf[pages=-]{../daily_scrum/build/120517.pdf}
+\fi
 
 
-Justify that we are doing just one test properly.
+%\chapter{Scrum Plans}
+%\chapter{Daily Scrum Logs}
+%\chapter{Stakeholder Meetings}
+%\chapter{Supervisor Meetings}
+%\chapter{Sprint Retrospectives}
+%\chapter{Group Rules}
+%\chapter{Benchmark Data}
+%\chapter{Stakeholder Contract}
+
+%\chapter{Group Rules}
+%\includepdf[pages=-]{../group_rules/signed_group_rules.pdf}
 
 
-Do the rest of the tests before the presentation.
-When in doubt do citations.
-Ok that the test is not representative for our best case.
-
-The optimization toggles are their own tests, and having them be different is ok.'
-
-
-Write:
-Should have timed right before update has started, so we didnt get the execution layer overhead, etc.
-
-Uniqueptr test case not entirely correct, as it will also update entities that are hibernating etc,
-however it is not relevant for that test case, as we don't have any deactivate components.
-
-Give short explanation on how to see the cachegrind stuff.
-
+%
+%Justify that we are doing just one test properly.
+%
+%
+%Do the rest of the tests before the presentation.
+%When in doubt do citations.
+%Ok that the test is not representative for our best case.
+%
+%The optimization toggles are their own tests, and having them be different is ok.'
+%
+%
+%Write:
+%Should have timed right before update has started, so we didnt get the execution layer overhead, etc.
+%
+%Uniqueptr test case not entirely correct, as it will also update entities that are hibernating etc,
+%however it is not relevant for that test case, as we don't have any deactivate components.
+%
+%Give short explanation on how to see the cachegrind stuff.
+%
 \end{document}
 
 % More explanations in technical, not requirements.

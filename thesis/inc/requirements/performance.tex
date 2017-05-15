@@ -1,6 +1,6 @@
 
 \section{Performance}
-As stated earlier, performance is an important aspect of the games industry.
+Performance is an important aspect of the games industry.
 As a result of this, Suttung and the Authors decided upon certain restrictions and goals.
 
 \subsection{Virtual Functions}
@@ -8,14 +8,13 @@ As a result of this, Suttung and the Authors decided upon certain restrictions a
 Virtual functions are C++'s way of supporting dynamic function binding, allowing for run-time polymorphism.
 With the help of virtual functions, objects derived from a base class can override base class functionality, even when the derived type is unknown at compile time.
 The C++ ISO Standard does not mandate the implementation of virtual functions.
-However, many compilers choose the same tactic; creating a virtual table\cite{wikipedia_virtual_method_table}\cite[p. 140]{game_engine_architecture}.
+However, many compilers choose the same tactic; creating a virtual table\cite[p. 140]{game_engine_architecture}
 
-You can view a virtual table as a data structure containing function pointers to virtual functions.
+The virtual table can be viewed as a data structure containing function pointers to virtual functions.
 Each instance of a derived object is given a hidden member variable, which is a pointer to their class's respective virtual table.
 When invoking a virtual function, the virtual table pointer is used to look up which function to run.
 The virtual table pointer can be placed anywhere, but is usually either the first or last member of an object.
-Multiple inheritance is often implemented by adding more virtual tables and virtual table pointers\cite{codersource_virtual_functions}
-\cite[31:12]{andrei_alexandrescu_quick_code_quickly}.
+Multiple inheritance is often implemented by adding more virtual tables and virtual table pointers\cite{codersource_virtual_functions}\cite[31:12]{andrei_alexandrescu_quick_code_quickly}.
 
 The introduction of a hidden member variable adds a certain space overhead for each instance of a polymorphic class.
 A few factors influence the exact space overhead of the implementation.
@@ -52,7 +51,7 @@ As a result of this Suttung and the authors decided to try to find another mecha
 Modern day CPU architecture has a different set of problems concerning optimization than in earlier history.
 Much focus has gone into making the CPU execute instructions faster, through parallelization, pipelining, and so forth.
 Unfortunately, memory access efficiency has not managed to keep up with the raw speed of the CPU.
-The caching and prefetching mechanisms are introduced to compensate for the inefficient memory access.\cite[p. 153]{game_engine_architecture}.
+Caching and prefetching mechanisms are introduced to compensate for the inefficient memory access\cite[p. 153]{game_engine_architecture}.
 Taking advantage of these caching mechanisms can lead to great boosts in performance, which is desirable for Suttung.
 However, these mechanisms do require that, for example, we take memory layout into consideration, with a preference
 to contiguous memory.
@@ -63,7 +62,6 @@ to contiguous memory.
 \label{subsec:requirements_performance_multi_threading}
 To further improve performance Suttung has requested that the new ECS should be multi-threaded, allowing them to utilize multi-core hardware better.
 The multi-threading should preferably be something that happens in the background so that the programmers do not have to worry much about synchronization.
-\todo{Write about contention problems?}
 
-\todo{Add requirement comment structure. Comment: without large investments by the programmer}
-\requirement{NOX ECS shall supply solutions for writing parallelized code.}{req:multi_threading}
+\requirement{NOX ECS shall supply solutions for writing code that can be parallelized.}{req:multi_threading}
+\reqcomment{This should not require large investments by the programmer}

@@ -2,17 +2,17 @@
 
 \subsection{Purpose}
 The tests purpose is to measure the quality of the different optimizations and choices made within the ECS.
-For each test the results are supposed to give and indication to the performance differences between NOX ECS and the NOX Actor system.
+For each test the results are supposed to give an indication to the performance differences between NOX ECS and the NOX Actor system.
 Additionally, internal tests are used to compare the performance of the different optimizations within the NOX ECS implementation.
 
 \subsection{Compiler}
-We only compiled the test cases with GCC, instead of the original plan, which also included Clang and MSVC.
+We only compiled the test cases with GCC, instead of the original plan of also included Clang and MSVC.
 This decision was motivated by the time constraints, after discovering how long the tests took.
 
 \subsection{Platforms}
-The original plan was to run the tests on both Windows and Linux, with additional time,
+The original plan was to run the tests on both Windows and Linux. With additional time,
 tests would also be run on a mobile platform\reqref{req:mobile_platform}.
-Due to time constraints, the tests were not run on Windows.
+Due to time constraints, the tests were only run on Linux.
 
 \subsection{Testing Platform}
 \subsubsection{Hardware}
@@ -36,11 +36,11 @@ table \ref{tab:hardware_info}. A more detailed version can be seen in appendix \
 \end{table}
 
 \subsubsection{Precautions}
-Measuring performance on modern architectures is quite difficult, the complexity of modern operating systems and hardware means
+Measuring performance on modern architectures is quite difficult. The complexity of modern operating systems and hardware means
 it is harder for us to take control to ensure that our tests are run in isolation.
 Operating systems can context switch out the test, to run other tasks that needs to be done.
 The hardware can apply cpu frequency scaling, to avoid wasting unnecessary power.
-We were not able to turn off these features, however, we tried to mitigate their impact.
+We were not able to turn off these features. However, we tried to mitigate their impact.
 
 \paragraph{Program Isolation}
 When performing tests the computer would not have any other user programs running in the background.
@@ -56,8 +56,7 @@ We want deterministic platforms when running our tests, hence we used the cpupow
 to better control the frequency of the CPU. To avoid issues with overheating, the frequency was set to \SI{2}{\giga\hertz},
 which we considered a moderate amount.
 
-\subsubsection{Mock Behavior}
-\todo{Think of better title}
+\subsubsection{Emulating Behavior}
 The different tests would need a way to mock behavior relevant to the test case.
 These mocks were motivated by the lack of time to not create a proper realistic scenario.
 
@@ -78,12 +77,12 @@ the NOX Actor implementation of the sprite component.
 \subsection{Different Test Optimizations}
 In addition to testing the system as a whole against the NOX Actor system, we wanted
 to test some of the optimizations and choices in isolation.
-This lead to the creation of some optimization toggles.
+This lead to the creation of some optimization switches.
 These would be used to turn off or change implementation of certain behaviors within
 the system.
 When one of the optimizations were toggled the rest of the system was running with
-default behavior, i.e. no two toggles were enabled at the same time.
-Running without any toggles indicates default behavior.
+default behavior, i.e. no two switches were enabled at the same time.
+Running without any switches indicates default behavior.
 \begin{itemize}
     \item NOX\_ECS\_COMPONENT\_VIRTUAL
     \item NOX\_ECS\_COMPONENT\_UNIQUE\_PTR\_VIRTUAL
@@ -97,10 +96,10 @@ Running without any toggles indicates default behavior.
     \item NOX\_ATOMIC\_USE\_SEQ\_CST
     \item NOX\_LOCKFREESTACK\_USE\_LINEAR\_ALLOCATOR
 \end{itemize}
-These concepts of these toggles are explained further in the following subsections.
+The concepts of the switches are explained further in the following subsections.
 
 \subsubsection{Atomic Sequential Consistency}
-The NOX ECS uses relaxed atomics for its lock free implementations, we wanted to test
+The NOX ECS uses relaxed atomics for its lock free implementations. We wanted to test
 whether or not these were worth the implementation cost.
 The tests were run on a strongly ordered architecture\cite{preshing_weak_vs_strong_memory_models}, where the
 full potential of these relaxations are not shown. However, we still wanted to see
@@ -114,7 +113,7 @@ We wanted to inspect the performance difference between these to approaches.
 \subsubsection{Allocators}
 We have implemented 3 different allocators, the lock free allocator,
 a locked linear allocator, and a heap allocator.
-All three of these will be tested for the event arguments, while the
+All three of these will be tested for the event arguments, while only the
 linear allocator and lock free allocator will be tested with the lock free stack.
 The reason for only using the two allocators on the stack is that it requires
 a linear allocator to avoid the ABA problem\footnote{Explained in p.\pageref{subpar:detailed_lock_free_allocator_aba}}.
@@ -122,8 +121,7 @@ a linear allocator to avoid the ABA problem\footnote{Explained in p.\pageref{sub
 \subsubsection{Locked vs Lock Free}
 We wanted to see the difference in performance regarding the lock free containers
 and more primitive locked containers.
-Therefore, the cases where lifecycle transitions and event processing
-would be handled with locked containers.
+Therefore, a switch was added to use a locked container for lifecycle transitions and event processing.
 We also added a test for using a lock free stack with the thread pool.
 
 \subsubsection{Collection}
@@ -132,17 +130,17 @@ mainly to give more information on memory optimizations and the virtual
 replacements.
 
 \paragraph{Virtual Usage}
-In one of the tests the collections will function normally, but
-components will be using virtual functions, rather than the operation types
-from the meta information structure.
+In the first of the collection tests, the collection will function as normal, with one exception.
+Rather than using the operation types within the meta information structure,
+the collection will do virtual function calls on its components.
 
 \paragraph{Unique Pointers}
-The other case will be a simpler implementation of the collection.
+The other test will be a simpler implementation of the collection.
 In this case all the components will be allocated on the heap, and managed
 using std::unique\_ptrs.
 Virtual functions will also be used, rather than the meta information,
 as we are not working with contiguous ranges.
-Additionally no partitioning is done with the components.
+No partitioning is done with the components.
 
 \subsubsection{Execution Layers}
 By default the ECS uses the execution layers on frequently called functions,
@@ -151,9 +149,9 @@ We wanted to see the difference in performance when toggling this,
 and therefore ran tests for each function where the execution layers were disabled.
 
 \subsection{Dropped Tests}
-Certain tests will not be covered in the thesis, either because they were not executed, or not relevant.
-These include the multi-threading support and thread safe logging test.
-The multi-threading test were rendered irrelevant because it is already covered by the numerous unique components test.
+Certain planned types of tests will not be covered in the thesis, either because they were not executed, or not relevant.
+This includes the multi-threading support and thread safe logging test.
+The multi-threading test was rendered irrelevant because it is already covered by the numerous unique components test.
 The thread safe logging test was removed because it did not contribute to the overall theme of the thesis.
 \todo{Is this ok justification?}
 
@@ -178,7 +176,7 @@ Then the compilation is run in conjunction with the bash shell command time to m
 \subsection{Fast Spawning}
 \label{subsec:test_cases_fast_spawning}
 \subsubsection{Rationale}
-The fast spawning test was supposed to see if the NOX ECS could improve performance in situations where a game would need to quickly
+The fast spawning test was supposed to check if the NOX ECS could improve performance in situations where a game would need to quickly
 spawn a high amount of actors.
 
 \subsubsection{Flaws}
@@ -205,7 +203,11 @@ and if the multi-threading could help in making processing of the components mor
 It puts pressure on how many component types the system can handle, and pushes the event system, as every component is sending a large amount of events.
 
 \subsubsection{Flaws}
-We are unable to find any big flaws with this test.
+A major flaw with the numerous unique components test is its use of a trivial component that prints out results.
+Having the test relying on printouts could affect the data in different ways.
+This oversight was fixed for the test with the different optimization switches.
+Here the print statement was traded with an empty volatile for loop, which the compiler could not optimize away.
+Unfortunately we did not have time to rerun the tests comparing NOX ECS and the NOX Actor system.
 
 \subsubsection{Method}
 The numerous unique component test uses the trivial component\secref{par:test_cases_trivial_component} to simulate the use of a large amount of components.
@@ -240,7 +242,7 @@ The test will run for a minimum of one second, before quitting.
 \paragraph{Changes}
 The main difference in this test compared to the test case plan, was that we only used sprite and transform components,
 rather than all of the variations mentioned in the test case plan\todo{Ref appendix test case}.
-This change was mainly motivated by the lack time, additionally the same points mentioned in the fast spawning test also applies here\secref{subsubsec:test_cases_fast_spawning_changes}.
+This change was mainly motivated by the lack of time, additionally the same points mentioned in the fast spawning test also applies here\secref{subsubsec:test_cases_fast_spawning_changes}.
 
 % \subsection{Thread Safe Logging}
 % \paragraph{Rationale}
