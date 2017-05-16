@@ -15,13 +15,13 @@ set key below
 set format y "%8.2fs"
 set grid
 #
-plot "benchmark_results/200_actors/ecs_no_opt_numerous_gcc_components_200_time.csv" using 1:2 with linespoints title "ecs", "benchmark_results/200_actors/nox_numerous_gcc_components_200_time.csv" using 1:2 with linespoints title "nox actor"
+plot "benchmark_results/200_actors/ecs_no_opt_numerous_gcc_components_200_time.csv" using 1:2 with linespoints title "NOX ECS", "benchmark_results/200_actors/nox_numerous_gcc_components_200_time.csv" using 1:2 with linespoints title "NOX Actor"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption[Benchmark Numerous Components, ECS versus Actor]{Numerous Unique Components, 200 unique components, time}
+\caption[Numerous Components, ECS versus Actor, 200 Unique Components]{Numerous Unique Components, 200 unique components, Time}
 \label{fig:benchmarking_numerous_unique_200_time}
 \end{figure}
 
@@ -36,7 +36,7 @@ supported by the NOX Actor system.
 Because of this anomaly, we only really consider the data from 32 entities and up.
 Based on the different data we also see that the NOX Actor system scales worse than the NOX ECS depending on the number of actors.
 We would also argue that this test is not optimal for the NOX ECS, the synchronization needed within the receive event functions
-means that the layered execution algorithm for events drags the performance of the system down. \todo{Remove this if false}
+means that the layered execution algorithm for events drags the performance of the system down.
 
 \begin{figure}[H]
 \centering
@@ -50,13 +50,13 @@ set format y "%8.2fs"
 set grid
 #
 
-plot "benchmark_results/20_actors/ecs_no_opt_numerous_gcc_components_20_time.csv" using 1:2 with linespoints title "ecs", "benchmark_results/20_actors/nox_numerous_gcc_components_20_time.csv" using 1:2 with linespoints title "nox actor"
+plot "benchmark_results/20_actors/ecs_no_opt_numerous_gcc_components_20_time.csv" using 1:2 with linespoints title "NOX ECS", "benchmark_results/20_actors/nox_numerous_gcc_components_20_time.csv" using 1:2 with linespoints title "NOX Actor"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components, 20 unique components, time}
+\caption[Numerous Components, ECS versus Actor, 20 Unique Components]{Numerous Unique Components, 20 unique components, time}
 \label{fig:benchmarking_numerous_unique_20_time}
 \end{figure}
 
@@ -121,23 +121,23 @@ set format y "%8.2fs"
 set grid
 
 plot\
-"benchmark_results/75_cmps/75_cmps_final_atomic_use_seq_cst_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "atomic use seq cst",\
-"benchmark_results/75_cmps/75_cmps_final_ecs_component_unique_ptr_virtual_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "component unique ptr virtual",\
-"benchmark_results/75_cmps/75_cmps_final_ecs_component_virtual_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "component virtual",\
-"benchmark_results/75_cmps/75_cmps_final_ecs_layered_execution_update_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "no layered execution update",\
-"benchmark_results/75_cmps/75_cmps_final_entitymanager_pool_use_lock_free_stack_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "entitymanager pool use lock free stack",\
-"benchmark_results/75_cmps/75_cmps_final_entitymanager_use_locked_queue_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "entitymanager use locked queue",\
-"benchmark_results/75_cmps/75_cmps_final_event_use_heap_allocator_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "event use heap allocator",\
-"benchmark_results/75_cmps/75_cmps_final_event_use_linear_allocator_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "event use linear allocator",\
-"benchmark_results/75_cmps/75_cmps_final_lockfreestack_use_linear_allocator_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "lockfreestack use linear allocator",\
-"benchmark_results/75_cmps/75_cmps_final_no_optimization_toggles_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "ecs",\
-"benchmark_results/75_cmps/75_cmps_final_use_string_type_id_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "use string type id",
+"benchmark_results/75_cmps/75_cmps_final_atomic_use_seq_cst_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Atomic sequentially consistent",\
+"benchmark_results/75_cmps/75_cmps_final_ecs_component_unique_ptr_virtual_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Component through unique pointer and virtual",\
+"benchmark_results/75_cmps/75_cmps_final_ecs_component_virtual_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Component regular virtual",\
+"benchmark_results/75_cmps/75_cmps_final_ecs_layered_execution_update_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "No layered execution update",\
+"benchmark_results/75_cmps/75_cmps_final_entitymanager_pool_use_lock_free_stack_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Thread pool using lock free stack",\
+"benchmark_results/75_cmps/75_cmps_final_entitymanager_use_locked_queue_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Entity manager using locked queue",\
+"benchmark_results/75_cmps/75_cmps_final_event_use_heap_allocator_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Event using heap allocator",\
+"benchmark_results/75_cmps/75_cmps_final_event_use_linear_allocator_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Event using linear allocator",\
+"benchmark_results/75_cmps/75_cmps_final_lockfreestack_use_linear_allocator_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Lock-free stack using linear allocator",\
+"benchmark_results/75_cmps/75_cmps_final_no_optimization_toggles_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "NOX ECS",\
+"benchmark_results/75_cmps/75_cmps_final_use_string_type_id_numerous_gcc_75_actors_time.csv" using 1:2 with linespoints title "Identifier using string id",
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components Internal, 75 unique components, time}
+\caption[Numerous Components, Internal, 75 Unique Components]{Numerous Unique Components Internal, 75 unique components, time}
 \label{fig:benchmarking_numerous_unique_75_internal_time}
 \end{figure}
 After finding some issues with the original NOX Actor versus NOX ECS test case we ran a test to give a better indication of
@@ -164,14 +164,14 @@ set format y "%8.2f"
 set grid
 
 plot\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$6) with linespoints title "component unique ptr virtual",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$8) with linespoints title "component virtual"
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$6) with linespoints title "Component through unique pointer and virtual",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$8) with linespoints title "Component regular virtual"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components Internal, 75 unique components, time}
+\caption[Numerous Components, Internal, 75 Unique Components, Virtual]{Numerous Unique Components Internal, 75 unique components, time}
 \label{fig:benchmarking_numerous_unique_75_internal_time_virtual}
 \end{figure}
 
@@ -185,7 +185,7 @@ Additionally we can observe that the implementation using std::unique\_ptr is th
 We believe that this is the result of cache ufriendly data access, as the unique pointers are not guaranteed to be stored contiguously.
 
 The main point of showing the difference in time was to highlight NOX ECS's functionality for removing empty virtual calls.
-However, we did not have the time to create another test where the trivial component would have an empty virtual function,
+We did not have the time to create another test where the trivial component would have an empty virtual function,
 so instead of just being compiled down to a return statement, the functions would check on a compile time parameter whether
 or not the function should be run, or just return. So it branches and returns if it should not be run.
 We argue that while this is not entirely correct the differences in time make up for the branch statement, as we remove
@@ -203,17 +203,17 @@ set format y "%8.2f"
 set grid
 
 plot\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$4) with linespoints title "atomic seq cst",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$12) with linespoints title "pool lockfree stack",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$14) with linespoints title "entity manager locked queue",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$18) with linespoints title "event linear allocator",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$20) with linespoints title "lockfree stack linear allocator"
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$4) with linespoints title "Atomic sequentially consistent",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$12) with linespoints title "Thread pool using lock free stack",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$14) with linespoints title "Entity manager using locked queue",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$18) with linespoints title "Event using linear allocator",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$20) with linespoints title "Lock-free stack using linear allocator"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components Internal, 75 unique components, time}
+\caption[Numerous Components, Internal, 75 Unique Components, Lock free]{Numerous Unique Components Internal, 75 unique components, time}
 \label{fig:benchmarking_numerous_unique_75_internal_time_atomics}
 \end{figure}
 
@@ -239,19 +239,19 @@ set format y "%8.3f"
 set grid
 
 plot\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$16) with linespoints title "event heap allocator",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$18) with linespoints title "event use linear allocator",\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$20) with linespoints title "lockfree stack linear allocator"
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$16) with linespoints title "Event using heap allocator",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$18) with linespoints title "Event using linear allocator",\
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$20) with linespoints title "Lock-free stack using linear allocator"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components Internal, 75 unique components, time}
+\caption[Numerous Components, Internal, 75 Unique Components, Allocators]{Numerous Unique Components Internal, 75 unique components, time}
 \label{fig:benchmarking_numerous_unique_75_internal_time_allocators}
 \end{figure}
 \subsubsection{Allocators}
-There are minor differences between the allocators (figure \ref{fig:benchmarking_numerous_unique_75_internal_time_allocators}), however
+There are minor differences between the allocators (figure \ref{fig:benchmarking_numerous_unique_75_internal_time_allocators});
 this data is really noisy, and we therefore don't want to speculate on the actual improvements of using custom allocators.
 A potential reason for the custom allocators not performing better could be cache ping pong'ing effects\footnote{Explained in p.\pageref{par:detailed_lock_free_ping_pong}}.
 
@@ -266,20 +266,20 @@ set format y "%8.2f"
 set grid
 
 plot\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$10) with linespoints title "no layered execution update"
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$10) with linespoints title "No layered execution update"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components Internal, 75 unique components, time}
+\caption[Numerous Components, Internal, 75 Unique Components, Layered Execution]{Numerous Unique Components Internal, 75 unique components, time}
 \label{fig:benchmarking_numerous_unique_75_internal_time_layered_execution}
 \end{figure}
 \subsubsection{Layered Execution}
 As shown in figure \ref{fig:benchmarking_numerous_unique_75_internal_time_layered_execution},
 running the update on multiple threads, using the layered execution model gives a decent performance improvement.
 This should not be surprising considering that the behavior within the test case fits well with multi-threading.
-However, the relative impact of the optimization starts dropping when more components are introduced.
+The relative impact of the optimization starts dropping when more components are introduced.
 We believe this is due to the increased event processing added when increasing the number of components,
 and that relatively speaking less time is used within the parts of the program effected by the layered execution.
 
@@ -294,20 +294,20 @@ set format y "%8.2f"
 set grid
 
 plot\
-"benchmark_results/75_cmps/comparison.csv" using 1:($2/$22) with linespoints title "Use string type identifiers"
+"benchmark_results/75_cmps/comparison.csv" using 1:($2/$22) with linespoints title "Identifier using string id"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Numerous Unique Components Internal, 75 unique components, time}
+\caption[Numerous Components, Internal, 75 Unique Components, String ID]{Numerous Unique Components Internal, 75 unique components, time}
 \label{fig:benchmarking_numerous_unique_75_internal_time_type_identifiers}
 \end{figure}
 
 \subsubsection{Type Identifiers}
 The data seen in figure \ref{fig:benchmarking_numerous_unique_75_internal_time_type_identifiers} clearly shows the effects of using strings to identify
 types, rather than numerical values.
-We are unsure whether or not doing string compares are faster than the hashing function currently used, however, even if that is the case,
+We are unsure whether or not doing string compares are faster than the hashing function currently used, even if that is the case,
 we believe that a string comparison won't perform better than straight numerical comparisons.
 
 \section{Fast Spawning}
@@ -327,21 +327,21 @@ set format y "%8.2fs"
 set grid
 
 plot\
-"benchmark_results/fast_spawn/ecs_no_optimization_toggles_fast_spawning_gcc_deletes_10_time.csv" using 1:2 with linespoints title "ecs",\
-"benchmark_results/fast_spawn/nox_fast_spawning_gcc_deletes_10_sprite_actors_time.csv" using 1:2 with linespoints title "nox actor"
+"benchmark_results/fast_spawn/ecs_no_optimization_toggles_fast_spawning_gcc_deletes_10_time.csv" using 1:2 with linespoints title "NOX ECS",\
+"benchmark_results/fast_spawn/nox_fast_spawning_gcc_deletes_10_sprite_actors_time.csv" using 1:2 with linespoints title "NOX Actor"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Fast Spawn, 10 repetitions, sprite actors, time}
+\caption[Fast Spawning, ECS versus Actor, 10 repetitions, sprites, time]{Fast Spawn, 10 repetitions, sprite actors, time}
 \label{fig:fast_spawn_10_sprite_time}
 \end{figure}
 
 \subsubsection{Timing}
 The results from the fast spawning tests seen in figure \ref{fig:fast_spawn_10_sprite_time},
 the ECS outperforms the NOX Actor system.
-However the difference between the two starts shrinking when more components are added.
+The difference between the two starts shrinking when more components are added.
 Further inspection with kcachegrind indicates that this is the result of memory movement and searching within a component collection.
 This is quite logical, as the number maximum entities increase, more time is needed
 to search through the index map, ensuring that the index map stays correct.
@@ -361,14 +361,14 @@ set format y '%.0s%cB'
 set grid
 
 plot\
-"benchmark_results/fast_spawn/ecs_no_optimization_toggles_fast_spawning_gcc_deletes_10_memory.csv" using 1:2 with linespoints title "ecs",\
-"benchmark_results/fast_spawn/nox_fast_spawning_gcc_deletes_10_sprite_actors_memory.csv" using 1:2 with linespoints title "nox actor"
+"benchmark_results/fast_spawn/ecs_no_optimization_toggles_fast_spawning_gcc_deletes_10_memory.csv" using 1:2 with linespoints title "NOX ECS",\
+"benchmark_results/fast_spawn/nox_fast_spawning_gcc_deletes_10_sprite_actors_memory.csv" using 1:2 with linespoints title "NOX Actor"
 
 unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Fast Spawn, 10 repetitions, sprite actors, memory}
+\caption[Fast Spawning, ECS versus Actor, 10 repetitions, sprites, memory]{Fast Spawn, 10 repetitions, sprite actors, memory}
 \label{fig:fast_spawn_10_sprite_peak_memory}
 \end{figure}
 
@@ -376,7 +376,7 @@ unset logscale y
 \subsection{Peaks}
 In general the current implementation of NOX ECS uses less memory at its peaks than what the NOX Actor system does.
 These numbers are not entirely accurate, as NOX ECS does not have all the same functionality the NOX Actor system does.
-However, we speculate that NOX ECS will still use less memory at its peaks than the NOX Actor system, even when
+We speculate that NOX ECS will still use less memory at its peaks than the NOX Actor system, even when
 all the extra functionality is implemented within NOX ECS.
 This is based on how NOX Actors are filled with a lot of variables that are not necessarily needed,
 creating one instance of an actor without components allocates 472 bytes\footnote{Measured with GCC 5.4.0, 64bit platform, the size can vary based on platform and compiler}.
@@ -395,8 +395,7 @@ The biggest difference when it comes to memory usage is how memory is retained.
 NOX Actor system consistently frees its memory when deleting actors, meaning that it uses less memory relative to its peaks.
 This is not a surprise as the NOX ECS was designed to retain memory for reuse, meaning that when all the components are deleted
 it will still retain the memory used to hold components.
-Output from massif showing how memory is allocated and deallocated during the test can be seen in appendix \todo{Ref for ECS},
-and \todo{Ref for ecs}.
+Output from massif showing how memory is allocated and deallocated during the test can be seen in appendix \ref{chap:appendix_massif_output}.
 
 \subsection{NOX ECS Internal optimizations}
 \subsubsection{Timing}
@@ -414,16 +413,16 @@ set grid
 #
 
 plot\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$4) with linespoints title "Atomic sequential Consistency",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$6) with linespoints title "Components virtual",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$8) with linespoints title "No layered events",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$10) with linespoints title "No Layered Update",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$12) with linespoints title "Pool use lock free stack",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$14) with linespoints title "Entity manager locked queue",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$16) with linespoints title "Event use heap allocator",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$18) with linespoints title "Event use linear allocator",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$20) with linespoints title "stack linear allocator",\
-"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$22) with linespoints title "Use string type identifiers"
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$4) with linespoints title "Atomic sequentially consistent",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$6) with linespoints title "Component regular virtual",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$8) with linespoints title "No layered execution receive events",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$10) with linespoints title "No layered execution update",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$12) with linespoints title "Thread pool using lock free stack",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$14) with linespoints title "Entity manager using locked queue",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$16) with linespoints title "Event using heap allocator",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$18) with linespoints title "Event using linear allocator",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$20) with linespoints title "Lock-free stack using linear allocator",\
+"benchmark_results/fast_spawn/internal/comparison_time.csv" using 1:($2/$22) with linespoints title "Identifier using string id"
 
 
 
@@ -447,7 +446,7 @@ unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Fast Spawn ECS Internal, 10 repetitions, sprite actors, time}
+\caption[Fast spawning, Internal, 10 repetitions, sprites, time]{Fast Spawn ECS Internal, 10 repetitions, sprite actors, time}
 \label{fig:benchmarking_fast_spawn_internal_time}
 \end{figure}
 In terms of speed there were no real differences between the different optimizations (figure \ref{fig:benchmarking_fast_spawn_internal_time}).
@@ -472,16 +471,16 @@ set grid
 
 
 plot\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($4-$2) with linespoints title "Atomic sequential Consistency",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($6-$2) with linespoints title "Components virtual",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($8-$2) with linespoints title "No layered events",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($10-$2) with linespoints title "No Layered Update",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($12-$2) with linespoints title "Pool use lock free stack",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($14-$2) with linespoints title "Entity manager locked queue",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($16-$2) with linespoints title "Event use heap allocator",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($18-$2) with linespoints title "Event use linear allocator",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($20-$2) with linespoints title "stack linear allocator",\
-"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($22-$2) with linespoints title "Use string type identifiers"
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($4-$2) with linespoints title "Atomic sequentially consistent",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($6-$2) with linespoints title "Component regular virtual",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($8-$2) with linespoints title "No layered execution receive events",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($10-$2) with linespoints title "No layered execution update",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($12-$2) with linespoints title "Thread pool using lock free stack",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($14-$2) with linespoints title "Entity manager using locked queue",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($16-$2) with linespoints title "Event using heap allocator",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($18-$2) with linespoints title "Event using linear allocator",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($20-$2) with linespoints title "Lock-free stack using linear allocator",\
+"benchmark_results/fast_spawn/internal/comparison_memory.csv" using 1:($22-$2) with linespoints title "Identifier using string id"
 
 
 #plot\
@@ -504,7 +503,7 @@ unset logscale x
 unset logscale y
 
 \end{gnuplot}
-\caption{Fast Spawn ECS Internal, 10 repetitions, sprite actors, memory}
+\caption[Fast spawning, Internal, 10 repetitions, sprites, memory]{Fast Spawn ECS Internal, 10 repetitions, sprite actors, memory}
 \label{fig:benchmarking_fast_spawn_internal_memory}
 \end{figure}
 

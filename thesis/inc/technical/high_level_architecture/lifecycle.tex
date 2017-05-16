@@ -1,10 +1,7 @@
-\subsection{Lifecycle}
+\section{Lifecycle}
 \label{subsec:high_level_lifecycle}
 It was decided early that the new ECS would follow a lifecycle akin to the one in the existing NOX Actor system,
 which was inspired by the Android activity lifecycle\cite{android_activity_lifecycle}.
-The original NOX Actor system had the following stages.
-\todo{Write about the different states in the lifecycle of the original NOX Actor system, or perhaps just link to it,
-seeing that we need to explain our own anyway, why explain both}
 
 The new ECS lifecycle borrows heavily from the NOX Actor system's lifecycle, with some minor name changes,
 and the addition of the raw memory stage, to clear up certain confusions with the previous lifecycle.
@@ -13,7 +10,7 @@ The lifecycle allows the users to release unnecessary resources when a component
 The following sections describe each stage in the entity lifecycle.
 The lifecycle and its corresponding transitions can be seen in figure \ref{fig:lifecycle}.
 
-\subsubsection{Raw Memory Stage}
+\subsection{Raw Memory Stage}
 Unlike the other parts of the lifecycle, raw memory is not a stage that a component can actually be in,
 as this stage is before a constructor has been run on an object.
 The rationale for this stage is to clear up any confusion within the old NOX Actor system,
@@ -25,26 +22,25 @@ Since the NOX ECS is pooling and reusing its memory, it needs to be clear that w
 that has been destructed, that object is destructed in the sense that it is now just raw memory.
 At this point nothing is know about the object, so a component that has been turned into raw memory cant be rebuilt.
 
-\subsubsection{Hibernation Stage}
+\subsection{Hibernation Stage}
 Hibernation is the first stage within the lifecycle where a component can be said to be valid.
 This stage is either directly after the constructor or after an user requested initialize function has been executed on a component.
 The stage is meant to be used when a component will be inactive for a longer period of time, similarly to "Stopped" in the Android Activity State\cite[Activity state and ejection from memory]{android_activity_lifecycle}.
 A component that is hibernating should only contain it's most basic resources, to not waste space or time within the program.
 
-\subsubsection{Inactive Stage}
+\subsection{Inactive Stage}
 Inactive is meant for short term component inactivity.
 A component that is inactive should hold on to most of it's resources, allowing for reactivation to be a lightweight transition.
 Within the Android Activity States this would be the "Paused" state\cite[Activity state and ejection from memory]{android_activity_lifecycle}.
 
-\subsubsection{Active Stage}
+\subsection{Active Stage}
 A component that is active is one that is currently running within the system.
 This component has all its resources available and is currently getting its update function called.
 
-\subsubsection{Stage Transitions}
+\subsection{Stage Transitions}
 Components transition through the different stages of a lifecycle through transition requests via function calls.
 Transitions are handled asynchronously, however multiple transitions will by default be executed together.
 This means that one can request a component to awake and activate, and this will still by default only take one frame.
-\todo{Add note on the meaning of frame, potentially add it to the list over terminology}
 The transitions are as follows.
 \begin{description}
     \item

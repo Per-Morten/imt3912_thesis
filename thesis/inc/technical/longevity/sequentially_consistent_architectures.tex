@@ -1,4 +1,4 @@
-\subsection{Sequentially Consistent Architectures}
+\section{Sequentially Consistent Architectures}
 \label{subsec:longevity_sequentially_consistent_architectures}
 One of the reasons for creating the lock free containers, stack and allocator,
 with relaxed memory models was to cater to architectures with a weak memory model,
@@ -8,7 +8,7 @@ software has converged on a sequentially consistent memory model,
 and hardware is starting to follow suit, starting to implement sequentially
 consistent memory models.
 
-\paragraph{Consequence}
+\subsection{Consequence}
 With hardware moving over to sequentially consistent memory models,
 or potentially stronger memory models, like x86\cite{preshing_weak_vs_strong_memory_models},
 the rationale for continuing to use relaxed atomics disappear.

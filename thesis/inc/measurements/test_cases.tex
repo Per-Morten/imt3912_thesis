@@ -17,7 +17,7 @@ Due to time constraints, the tests were only run on Linux.
 \subsection{Testing Platform}
 \subsubsection{Hardware}
 All test cases were run on a two year old "Lenovo Y70-70 Touch 80DU", a selection of the different hardware components are listed in
-table \ref{tab:hardware_info}. A more detailed version can be seen in appendix \todo{Insert appendix ref}.
+table \ref{tab:hardware_info}. A more detailed version can be seen in appendix \ref{chap:hardware_info}.
 
 \begin{table}
 \begin{center}
@@ -49,9 +49,8 @@ To avoid running out of power, or activating different power saving measures, th
 throughout the tests.
 
 \paragraph{CPU power control}
-\todo{Find a good source for explanation, possibly: https://www.quora.com/What-is-CPU-throttling, or talk with mariusz}
 CPU frequency scaling is the situation where the frequency of the cpu is adjusted to fit the current computational needs,
-in order to save power.
+in order to save power\cite{cpu_scaling}.
 We want deterministic platforms when running our tests, hence we used the cpupower\footnote{\url{https://linux.die.net/man/1/cpupower}}
 to better control the frequency of the CPU. To avoid issues with overheating, the frequency was set to \SI{2}{\giga\hertz},
 which we considered a moderate amount.
@@ -153,7 +152,6 @@ Certain planned types of tests will not be covered in the thesis, either because
 This includes the multi-threading support and thread safe logging test.
 The multi-threading test was rendered irrelevant because it is already covered by the numerous unique components test.
 The thread safe logging test was removed because it did not contribute to the overall theme of the thesis.
-\todo{Is this ok justification?}
 
 \subsection{Compilation Test}
 \subsubsection{Rationale}
@@ -164,7 +162,7 @@ we therefore added a test that would ensure that that this requirement was met.
 There is one major flaw with this test, and it is that it can't be performed without heavy restructuring of the code base.
 The ECS is tightly coupled with the Nox Engine in the sense that a significant amount of the original code is still used in the ECS.
 This means that if you compile the ECS, you also have to compile the Nox Engine.
-However, it would be very difficult and time consuming to extract exactly the code needed for the ECS to avoid this problem.
+It would be very difficult and time consuming to extract exactly the code needed for the ECS to avoid this problem.
 A way around this could be to first compile the Nox Engine and the ECS.
 Then measure and compare the compilation duration for the nox tests and ecs tests.
 Unfortunately we were unable to find a way to partially compile the project in this manner.
@@ -241,7 +239,7 @@ The test will run for a minimum of one second, before quitting.
 
 \paragraph{Changes}
 The main difference in this test compared to the test case plan, was that we only used sprite and transform components,
-rather than all of the variations mentioned in the test case plan\todo{Ref appendix test case}.
+rather than all of the variations mentioned in the test case plan\footnote{See appendix \ref{chap:appendix_test_case_plan}}.
 This change was mainly motivated by the lack of time, additionally the same points mentioned in the fast spawning test also applies here\secref{subsubsec:test_cases_fast_spawning_changes}.
 
 % \subsection{Thread Safe Logging}

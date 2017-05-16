@@ -1,50 +1,50 @@
-\subsection{Thread Pool}
+\section{Thread Pool}
 The thread pool is a structure within NOX ECS, which allows us to separate work out to different threads quickly, and is essential for implementing our fork and join\secref{subsubsec:high_level_threading_model} structure.
 
-\subsubsection{Explanation}
+\subsection{Explanation}
 The thread pool is a simple structure containing a collection of threads and a queue of tasks waiting to be executed.
 
-\paragraph{Task}
+\subsubsection{Task}
 Tasks are simple function objects, currently implemented through the C++11 std::function\footnote{\url{http://en.cppreference.com/w/cpp/utility/functional/function}} class.
 This generic approach allows programmers to use the queue with invokable concept desirable, one only needs to wrap the behavior in a lambda or another function object, and it can be utilized as a task in the thread pool.
 
-\paragraph{Threads}
+\subsubsection{Threads}
 The threads are regular C++11 std::threads\footnote{\url{http://en.cppreference.com/w/cpp/thread/thread}}, and the number of threads is decided by the programmer.
 Each worker thread continuously runs a worker function, where they wait for the task queue to receive tasks.
 To avoid unnecessary, wasteful spinning of the threads, the threads wait on a condition variable,
 allowing them to be rescheduled for later.
 The worker thread function can be observed in listing \ref{lst:thread_pool_worker_function}
-\lstinputlisting[language=cpp, caption=thread pool worker function, label=lst:thread_pool_worker_function]{thread_pool_code/worker_function.py}
+\lstinputlisting[language=cpp, caption=Thread Pool Worker Function, label=lst:thread_pool_worker_function]{thread_pool_code/worker_function.py}
 
-\subsubsection{Motivation of Thread Pool}
+\subsection{Motivation of Thread Pool}
 The main rationale behind the thread pool was the desire to be able to create and reuse threads quickly.
 Creating regular threads does have a certain overhead tied to them, which is why a pool was created.
 Having already created an interface that the code works with, also allows it to easier add extensions to the pool
 at a later date. Examples being the possibility of creating individual allocators per thread\secref{subsubsec:lock_free_allocator_alternatives},
 this could be implemented by simply assigning threads constant id's, or reusing the std::thread::id, which then would be unique per thread.
 
-\subsubsection{Alternatives to Thread Pool}
+\subsection{Alternatives to Thread Pool}
 Several alternatives could have been used rather than implementing a thread pool.
 
-\paragraph{Third Party Library}
+\subsubsection{Third Party Library}
 Several thread libraries exist on the current market.
-However, we decided rather create our simple thread pool, rather than introduce new dependencies within the NOX Engine.
+We decided to create our simple thread pool, rather than introduce new dependencies into the NOX Engine.
 
-\paragraph{OpenMP}
+\subsubsection{OpenMP}
 OpenMP\footnote{Open Multi-Processing} would be an alternative to creating our own thread pool.
 The OpenMP API allows for easy parallelism through "\#pragma omp" statements and is a quite cheap way to introduce
 parallelism to a C++ program. However, OpenMP is not part of standard C++, and compiler support varies.
 An example is Microsoft Visual C++ 2017, which currently only supports the OpenMP 2.0 standard\cite{microsoft_openmp_support},
 while GCC 6.1 fully supports the OpenMP 4.5 standard\cite{gcc_openmp_support}.
 
-\paragraph{Futures and Promises}
+\subsubsection{Futures and Promises}
 In addition to standard threads, C++11 also introduced asynchronous through futures and promise\footnote{\url{http://en.cppreference.com/w/cpp/header/future}}.
 While these concepts provides quite clean interfaces, it does not support any reusing of threads, meaning that some efficiency is potentially lost.
 
-\subsubsection{Pros of Thread Pool}
+\subsection{Pros of Thread Pool}
 The main advantage of the thread pool is the reuse of threads, as well as being able to add more work to the pool while concurrently executing said work.
 
-\subsubsection{Cons of Thread Pool}
+\subsection{Cons of Thread Pool}
 The main disadvantage of the thread pool is its limited interface and possibly naive implementation.
 Additionally, the current implementation does not allow the calling thread to partake in the execution of tasks,
 but just waits until all tasks are finished.

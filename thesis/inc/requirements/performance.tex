@@ -33,8 +33,7 @@ Invoking a virtual function also adds some overhead regarding extra lookups, the
 as well as from situation to situation.
 The overhead can, for example, be influenced by whether or not the function is in the CPU's instruction cache, or whether or not the CPU has made a branch miss prediction, which can lead to pipeline flushes and stalls\cite{scott_meyers_cpu_caches_and_why_you_care}\cite[Data Locality]{game_programming_patterns}.
 As a result of invoking virtual functions at runtime, the compiler might only see the invocation as an opaque function call,
-possibly disabling certain optimizations, like inlining, reordering, compile time calculations, or even removing empty function calls. \todo{Do we need some godbolt examples here?}
-\todo{Clear this with Mariusz and others knowledgeable with C++; Tried this with godbolt, compiler could not remove empty function call. How to "cite" this?}
+possibly disabling certain optimizations, like inlining, reordering, compile time calculations, or even removing empty function calls.
 These tradeoffs are known, and compilers can to some extent optimize away some of these issues.
 For example, if a type is known at compile time, then a compiler might do de-virtualization,
 meaning that it will not do a lookup on a virtual pointer table, but rather do a direct function call\cite{lazarenko_devirtualization}.

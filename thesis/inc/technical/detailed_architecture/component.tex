@@ -1,17 +1,16 @@
-\subsection{Component}
+\section{Component}
 \label{subsec:detailed_component}
 The component is a simple base class from which all components must inherit.
 It solves the problem of writing generic code without knowing different component types through templates.
-\todo{Explain what we are solving. Done?}
 
-\subsubsection{Explanation}
+\subsection{Explanation}
 The component exists to ensure that all components get a minimum set of needed
 variables, like an entity id and a reference to the entity manager.
-The component also fills the role of being a general interface internally within the ECS, as the ECS does not directly see component types, however, instead sees the raw memory, which is reinterpreted as component pointers.
+The component also fills the role of being a general interface internally within the ECS, as the ECS does not directly see component types, but rather raw memory, which is reinterpreted as components.
 It is the component pointers together with the meta-information\secref{subsec:detailed_meta_information},
 that allows for the generic behavior without direct type information.
 
-\subsubsection{Motivation}
+\subsection{Motivation}
 As with a lot of the building block structures within the ECS, the need for a base component
 were motivated out of the requirement for avoiding heavy template usage\reqref{req:templates}.
 The ECS would need a way to extract certain information related to components,
@@ -19,8 +18,7 @@ like their id. The component might need access to the entity manager\secref{subs
 to get a hold of other components, so making it a reference
 would ensure that all components would have access to it.
 
-\subsubsection{Alternatives}
-\todo{Tie these two together}
+\subsection{Alternatives}
 An alternative could have been an ID component pair model.
 One approach could be to keep components and id's as separate objects and store them in a pair structure.
 It would mean that a component might not need members like the entity manager pointer, but also lead to even less coupling within the systems, as the components would not need to inherit from the component base class.
@@ -28,9 +26,9 @@ However, this approach would require even more opaque type usage within the ECS,
 moreover, further reinterpret casting for the user.
 This solution would become more relevant by removing the template requirements\reqref{req:templates}.
 
-\subsubsection{Pros}
+\subsection{Pros}
 The main advantage of the component base class over the alternative of the pair solution is that it allows for the use of the base class as an interface.
 Additionally, inheriting from a base class allows for the declaration of all member functions that the ECS manages, which is used with the operation types\secref{subsec:detailed_operation_types} to discover overloads of member functions.
 
-\subsubsection{Cons}
+\subsection{Cons}
 A disadvantage of the component base class is that it couples the components to the system.

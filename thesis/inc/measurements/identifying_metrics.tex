@@ -80,8 +80,7 @@ clearly indicating we are running with a 64 bit register.
 Counting cycles will give a very consistent metric in addition to measuring real time.
 This will strengthen the validity of the time metrics, by having another measurement to further confirm the results.
 
-\subsection{Massif}
-\todo{Rename to Memory usage?}
+\subsection{Memory Usage}
 \label{subsec:measurements_massif}
 The memory usage is measured with the heap profiler Massif, which is a part of the tool suite called Valgrind.
 Massif\cite{massif_manual} takes snapshots of the processes heap each time a allocation or deallocation happens, but reduces this frequency if the process runs for a prolonged duration.
@@ -93,7 +92,7 @@ There is also a peak snapshot, at which point the heap consumption was at its gr
 
 Below is an example of the part of a massif output, where row 10 to 13 are normal snapshots, and the row 14 is a detailed one.
 
-\begin{lstlisting}[basicstyle=\footnotesize, caption={Massif output example (massif documentation\protect\cite{massif_manual})}, label=lst:massif_output]
+\begin{lstlisting}[basicstyle=\footnotesize, caption={[Massif output example]Massif output example (massif documentation\protect\cite{massif_manual})}, label=lst:massif_output]
 --------------------------------------------------------------------------------
  n        time(B)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
 --------------------------------------------------------------------------------
@@ -115,7 +114,7 @@ Below is an example of the part of a massif output, where row 10 to 13 are norma
 ->09.95% (2,000B) 0x8048431: main (example.c:23)
 \end{lstlisting}
 
-\subsection{Callgrind}
+\subsection{Additional Data}
 \label{subsec:measurements_callgrind}
 Additional data points are gathered from Callgrind\cite{callgrind_manual}, which is another profiling tool in the Valgrind tool suite.
 Callgrind collects various data from an executed program, and visualizes the information as a call graph.

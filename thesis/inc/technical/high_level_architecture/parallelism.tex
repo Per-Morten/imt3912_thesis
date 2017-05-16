@@ -1,8 +1,8 @@
-\subsection{Parallelism}
+\section{Parallelism}
 One of the goals behind the new NOX ECS was to avoid heavy synchronization within the parallel segments.
 The rationale being that heavy synchronization could be unnecessary, and also inefficient within the proposed system.
 
-\subsubsection{Threading Model}
+\subsection{Threading Model}
 \label{subsubsec:high_level_threading_model}
 The NOX ECS would need a good threading model that would allow efficient uses of multi-core
 architectures, while at the same time being relatively invisible to the programmers
@@ -14,8 +14,6 @@ and the program flow would to a larger extent appear to act as a familiar linear
 A user could simply call for instance the update function on a central manager, and be completely
 unaware of whether or not that function was taking advantage of possible parallelism.
 
-\todo{Add picture of the fork-and-join model?}
-
 The threading model of choice also fit nicely with the previous decision of keeping component types
 grouped together.
 Each thread would be assigned a collection of components which could be processed in an isolated,
@@ -26,14 +24,14 @@ into different layers of execution\secref{subsec:detailed_execution_layers}.
 This division would be based on known access patterns between the different component types,
 which is provided by a programmer.
 
-\subsubsection{Contention}
+\subsection{Contention}
 The fork-and-join model with a layered execution would solve the problem of organizing and running components
 in a concurrent matter.
 However, it did not solve the issue of communication with central systems, like the event system, or lifecycle requests.
 If these were protected with regular locks chances were high that there would be a lot of contention.
 It was therefore decided that the implementation of these central systems should be lock free.
 
-\subsubsection{Asynchronous Code}
+\subsection{Asynchronous Code}
 Adding parallelism to the ECS does introduce the importance of asynchronous code.
 Many of the calls to the ECS would be processed asynchronously to better allow for batched
 processing, and this would be something the users of the ECS would need to take into account.

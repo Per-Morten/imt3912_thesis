@@ -13,7 +13,7 @@
 
 %% MACRO
 \newcommand{\NTNU}{{N}orwegian {U}niversity of {S}cience and {T}echnology} %the extra {'s protect upper case
-\newcommand{\NTNUno}{{N}orges teknisk-naturvitenskapelige universitet} 
+\newcommand{\NTNUno}{{N}orges teknisk-naturvitenskapelige universitet}
 \newcommand{\NTNUgjovik}{{NTNU} i {G}j\o{}vik}
 \newcommand{\NTNUalesund}{{NTNU} i \AA{}lesund}
 
@@ -42,16 +42,20 @@
 \RequirePackage{lastpage}
 \RequirePackage{babel}
 \RequirePackage{enumitem}
-\RequirePackage[utf8]{inputenc}     % For utf8 encoded .tex files  % For cross references in pdf
-\RequirePackage[pdftex]{graphicx, hyperref} 
-\RequirePackage{color}              % For colouring text  
+\RequirePackage{listings}
 
-\hypersetup{colorlinks=true,     
-		linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
+\RequirePackage[utf8]{inputenc}     % For utf8 encoded .tex files  % For cross references in pdf
+%\RequirePackage[pdftex]{graphicx, hyperref}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+\RequirePackage{color}              % For colouring text
+
+\hypersetup{colorlinks=true,
+        linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
     citecolor=blue,        % color of links to bibliography
     filecolor=blue,      % color of file links
     urlcolor=blue           % color of external links
-		}
+        }
 \setlist[enumerate]{itemsep=0mm, topsep=5pt, partopsep=0mm, parsep=0mm}
 \setlist[enumerate,1]{label=\arabic*., ref=\arabic*}
 \setlist[enumerate,2]{label=\arabic*., ref=\arabic*}
@@ -160,23 +164,23 @@
 %%\def\@subtitle{\relax}
 %%\newcommand{\subtitle}[1]{\gdef\@subtitle{#1}}
 %%\renewcommand{\maketitle}{
-%%	\newpage
-%%	\null
-%%	\vskip 2em%
-%%	\begin{center}%
-%%	\let \footnote \thanks
-%%	{\LARGE \@title \par}%
-%%	\vskip 1.5em%
-%%	{\large
-%%		\lineskip .5em%
-%%		\begin{tabular}[t]{c}%
-%%		\@author
-%%		\end{tabular}\par}%
-%%	\vskip 1em%
-%%	{\large \@date}%
-%%	\end{center}%
-%%	\par
-%%	\vskip 1.5em
+%%  \newpage
+%%  \null
+%%  \vskip 2em%
+%%  \begin{center}%
+%%  \let \footnote \thanks
+%%  {\LARGE \@title \par}%
+%%  \vskip 1.5em%
+%%  {\large
+%%      \lineskip .5em%
+%%      \begin{tabular}[t]{c}%
+%%      \@author
+%%      \end{tabular}\par}%
+%%  \vskip 1em%
+%%  {\large \@date}%
+%%  \end{center}%
+%%  \par
+%%  \vskip 1.5em
 %%}
 
 
@@ -198,7 +202,7 @@
   {4pt}%
   {\normalfont\fontsize{12}{14}\selectfont\bfseries}%
 }
-   
+
 \def\subsection{\@startsection
   {subsection}%
   {2}%
@@ -351,7 +355,7 @@ Use $\backslash$useyear\{<year>\} to set year.
 
 
 \newcommand\nmt@firstpagetext{%
-  \noindent Use this class with options\\ 
+  \noindent Use this class with options\\
   ``BSP'' Bachelor i Spillprogrammering,\\
   ``BRD'' Bachelor i drift av nettverk og datasystemer,\\
   ``BIS'' Bachelor i Informasjonssikkerhet,\\
@@ -363,7 +367,7 @@ Use $\backslash$useyear\{<year>\} to set year.
 }
 
 \newcommand\nmt@secondpagetext{%
-  \noindent Use this class with options\\ 
+  \noindent Use this class with options\\
   ``BSP'' Bachelor i Spillprogrammering,\\
   ``BRD'' Bachelor i drift av nettverk og datasystemer,\\
   ``BIS'' Bachelor i Informasjonssikkerhet,\\
@@ -374,14 +378,14 @@ Use $\backslash$useyear\{<year>\} to set year.
   ``BABED'' Bachelor i IT-støttet bedriftsutvikling.
 }
 
-	    
+
 
 %% OPTIONS (declare more here if needed)
 
 \DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse%
 \geometry{a4paper, left=3.75cm, right=3.75cm, top=3cm, bottom=4cm,
   head=1.2cm, foot=2cm}}
-	
+
 \DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue%
 \geometry{a4paper, left=4.5cm, right=3cm, top=3cm, bottom=4cm,
   head=1.2cm, foot=2cm}}
@@ -390,19 +394,19 @@ Use $\backslash$useyear\{<year>\} to set year.
 \newif\if@nynorsk
 \newif\if@english
 
-	\newcommand\nmt@DepartmentNameText{}
-	\newcommand\nmt@IDI{
-		Department of Computer Science\\
-		\NTNU, 
-		}
-	\newcommand\nmt@IIK{
-			Department of Information Security and Communication Technology\\
-		\NTNU, 
-		}
-	
-	\newcommand\nmt@DegreeNameText{}
-  \newcommand\nmt@BSP{Bachelor in Game Programmering}
-  \newcommand\nmt@BPROG{Bachelor in Programmering [Games|Applications]}
+    \newcommand\nmt@DepartmentNameText{}
+    \newcommand\nmt@IDI{
+        Department of Computer Science\\
+        \NTNU,
+        }
+    \newcommand\nmt@IIK{
+            Department of Information Security and Communication Technology\\
+        \NTNU,
+        }
+
+    \newcommand\nmt@DegreeNameText{}
+  \newcommand\nmt@BSP{Bachelor in Game Programming}
+  \newcommand\nmt@BPROG{Bachelor in Programming [Games|Applications]}
   \newcommand\nmt@BRD{Bachelor of Science in Network and System Administration}
   \newcommand\nmt@BIS{Bachelor in Information Security}
   \newcommand\nmt@BPU{Bachelor in Software Engineering}
@@ -411,22 +415,22 @@ Use $\backslash$useyear\{<year>\} to set year.
   \newcommand\nmt@BIT{Bachelor in Information Technology}
   \newcommand\nmt@BABED{IT-supported Business Architecture}
   \newcommand\nmt@AuthorText{Author(s)}
-	\newcommand\nmt@SupervisorText{Supervisor(s)}
-	
+    \newcommand\nmt@SupervisorText{Supervisor(s)}
+\newcommand\thesis@titlehead{\thesis@title}
 
 
 \DeclareOption{norsk}{
-	
-	\renewcommand\nmt@IDI{%
-	   Institute for Datateknikk og Informatikk\\
-	 	\NTNUno, 
-	}
-	\renewcommand\nmt@IIK{
-			Institutt for informasjonssikkerhet og kommunikasjonsteknologi\\
-		\NTNUno, 
-		}	
-	
-	
+
+    \renewcommand\nmt@IDI{%
+       Institute for Datateknikk og Informatikk\\
+        \NTNUno,
+    }
+    \renewcommand\nmt@IIK{
+            Institutt for informasjonssikkerhet og kommunikasjonsteknologi\\
+        \NTNUno,
+        }
+
+
   \renewcommand\nmt@BSP{Bachelor i spillprogrammering}
   \renewcommand\nmt@BPROG{Bachelor i programmering[spill|apps]}
   \renewcommand\nmt@BRD{Bachelor i drift av nettverk og datasystemer}
@@ -438,25 +442,27 @@ Use $\backslash$useyear\{<year>\} to set year.
   \renewcommand\nmt@BABED{Bachelor i IT-støttet bedriftsutvikling}
 
   \renewcommand\nmt@AuthorText{Forfattere}
-	\renewcommand\nmt@SupervisorText{Veileder}
+    \renewcommand\nmt@SupervisorText{Veileder}
 
-   \@norsktrue 
-   \@nynorskfalse 
+    \renewcommand\thesis@titlehead{\thesis@titleNOR}
+
+   \@norsktrue
+   \@nynorskfalse
    \@englishfalse
 }
 
 \DeclareOption{english}{
-   \@englishtrue 
+   \@englishtrue
    \@nynorskfalse
    \@norskfalse
 }
 
 \DeclareOption{nynorsk}{
-	\renewcommand\nmt@DepartmentNameText{%
-	   Institute for datateknikk og informatikk\\
-	 	\NTNUno, 
-	}
-	\renewcommand\nmt@BSP{Bachelor i spillprogrammering}
+    \renewcommand\nmt@DepartmentNameText{%
+       Institute for datateknikk og informatikk\\
+        \NTNUno,
+    }
+    \renewcommand\nmt@BSP{Bachelor i spillprogrammering}
   \renewcommand\nmt@BRD{Bachelor i drift av nettverk og datasystemer}
   \renewcommand\nmt@BIS{Bachelor i informasjonssikkerhet}
   \renewcommand\nmt@BPU{Bachelor i programvareutvikling}
@@ -466,103 +472,103 @@ Use $\backslash$useyear\{<year>\} to set year.
   \renewcommand\nmt@BABED{Bachelor i IT-støttet bedriftsutvikling}
 
   \renewcommand\nmt@AuthorText{Forfattere}
-	\renewcommand\nmt@SupervisorText{Veileder}
+    \renewcommand\nmt@SupervisorText{Veileder}
 
-   \@englishfalse 
+   \@englishfalse
    \@nynorsktrue
    \@norskfalse
 }
 
 
-	
+
 
 \DeclareOption{BSP}{%
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IDI
-			}
+        \nmt@IDI
+            }
   \renewcommand\nmt@DegreeNameText{%
-    	\nmt@BSP
-			}
+        \nmt@BSP
+            }
 
 
-			}
+            }
 
 \DeclareOption{BPROG}{%
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IDI
-			}
-	\renewcommand\nmt@DegreeNameText{%
-    	\nmt@BPROG
-			}
-			
-			}
+        \nmt@IDI
+            }
+    \renewcommand\nmt@DegreeNameText{%
+        \nmt@BPROG
+            }
 
-\DeclareOption{BRD}{%  
+            }
+
+\DeclareOption{BRD}{%
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IIK
-			}
-	\renewcommand\nmt@DegreeNameText{%
-    	\nmt@BRD
-			}}
+        \nmt@IIK
+            }
+    \renewcommand\nmt@DegreeNameText{%
+        \nmt@BRD
+            }}
 
 \DeclareOption{BIND}{%
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IDI
-			}
-	\renewcommand\nmt@DegreeNameText{%
-    	\nmt@BIND
-			}}
-			
+        \nmt@IDI
+            }
+    \renewcommand\nmt@DegreeNameText{%
+        \nmt@BIND
+            }}
+
 \DeclareOption{BIS}{%
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IIK
-			}
-	\renewcommand\nmt@DegreeNameText{%
-    	\nmt@BIS
-			}}
+        \nmt@IIK
+            }
+    \renewcommand\nmt@DegreeNameText{%
+        \nmt@BIS
+            }}
 
 \DeclareOption{BPU}{%
 
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IDI
-			}
-	\renewcommand\nmt@DegreeNameText{%
-    	\nmt@BPU
-			}
+        \nmt@IDI
+            }
+    \renewcommand\nmt@DegreeNameText{%
+        \nmt@BPU
+            }
 }
 
 \DeclareOption{BADR}{%
   \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IIK
-			}
-	\renewcommand\nmt@DegreeNameText{%
+        \nmt@IIK
+            }
+    \renewcommand\nmt@DegreeNameText{%
         \nmt@BADR
             }
 }
 
 \DeclareOption{BIT}{%
     \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IDI
-			}
-	\renewcommand\nmt@DegreeNameText{%
+        \nmt@IDI
+            }
+    \renewcommand\nmt@DegreeNameText{%
         \nmt@BIT
             }
 }
 
 \DeclareOption{BABED}{%
     \renewcommand\nmt@DepartmentNameText{%
-    	\nmt@IIK
-			}
-	\renewcommand\nmt@DegreeNameText{%
+        \nmt@IIK
+            }
+    \renewcommand\nmt@DegreeNameText{%
         \nmt@BABED
             }
 }
 
   \renewcommand\nmt@firstpagetext{%
     \begin{tabular}{c}
-    	\nmt@DegreeNameText\\
-    	20 ECTS\\
-    	\nmt@DepartmentNameText\\
+        \nmt@DegreeNameText\\
+        20 ECTS\\
+        \nmt@DepartmentNameText\\
     \end{tabular}
   }
 
@@ -574,7 +580,7 @@ Use $\backslash$useyear\{<year>\} to set year.
 
 %% FRONTPAGE GENERATION
 \newcommand\makefrontpages{%
-	  \makebachelorfrontpages
+      \makebachelorfrontpages
 }
 
 
@@ -584,119 +590,119 @@ Use $\backslash$useyear\{<year>\} to set year.
   \begin{titlepage}%
     %\thispagestyle{empty}
     %\setcounter{page}\z@
-		\hypersetup{pageanchor=false}
+        \hypersetup{pageanchor=false}
 
     \let\footnotesize\small
     \let\footnoterule\relax
     \let \footnote \thanks
     \null\vfil
-    \includegraphics[width=200pt]{ntnuthesis/hovedlogo_eng} \\    
+    \includegraphics[width=200pt]{ntnuthesis/hovedlogo_eng} \\
     \vskip 75\p@
     \begin{center}%
-      {\fontsize{22}{25}\selectfont \thesis@title}%
+      {\fontsize{22}{25}\selectfont \thesis@titlehead}%
 \vskip 3em%
 {\large
-	\lineskip .75em%
-   \fontsize{14}{16}\selectfont{ 
+    \lineskip .75em%
+   \fontsize{14}{16}\selectfont{
      \nmt@AuthorText}\\
    \begin{tabular}[10cm]{p{1.5cm}l}%
-          \rule[-4cm]{0cm}{4cm}&{\fontsize{14}{16}\selectfont 
+          \rule[-4cm]{0cm}{4cm}&{\fontsize{14}{16}\selectfont
           \parbox{6cm}{
-					\thesis@author \\
+                    \thesis@author \\
           \thesis@authorA \\
           \thesis@authorB \\
           \thesis@authorC \\
  %         \thesis@authorD \\
-          } 
+          }
           \par}
         \end{tabular}\par}
-	\vskip 1em
-	\fontsize{14}{16} \selectfont{
-	\nmt@firstpagetext \\
-	\vskip 1em
+    \vskip 1em
+    \fontsize{14}{16} \selectfont{
+    \nmt@firstpagetext \\
+    \vskip 1em
   \nmt@frontpagesyear}
-	
-	
-	\end{center}%
-	
-	\vspace*{\fill}
-	{\fontsize{14}{16}\selectfont{	
-	\nmt@SupervisorText
+
+
+    \end{center}%
+
+    \vspace*{\fill}
+    {\fontsize{14}{16}\selectfont{
+    \nmt@SupervisorText
   }
-	\hspace*{21.5mm}{	\thesis@supervisor\\
-		 \thesis@supervisorA\\ \par}}
-		
+    \hspace*{21.5mm}{   \thesis@supervisor\\
+         \thesis@supervisorA\\ \par}}
+
   \end{titlepage}
 
  \cleardoublepage
-  
+
   \newpage
   {%
-    \fontsize{14}{16}\selectfont 
+    \fontsize{14}{16}\selectfont
     Sammendrag av Bacheloroppgaven\\
-	\par}
+    \par}
 %\addcontentsline{toc}{chapter}{Summary}
 %\thispagestyle{empty}
 \begin{tabular}{p{0.35\textwidth}@{  }p{0.65\textwidth}}
-	Tittel: & \textbf{\thesis@titleNOR}\\
-		&\\
-	Dato: & \nmt@frontpagesyear\\
-		&\\
-	Deltakere: & \thesis@author\\
-		& \thesis@authorA\\
-		& \thesis@authorB\\
-		& \thesis@authorC\\
-	Veiledere: & \thesis@supervisor\\
-		& \thesis@supervisorA\\
-		&\\
-	Oppdragsgiver: & \thesis@oppdragsgiver\\
-		&\\
-	Kontaktperson: & \nmt@contact\\
-		&\\
-	N\o{}kkelord: & \nmt@keywordsNOR\\
-	Antall sider: & \pageref{LastPage}\\
-	Antall vedlegg: & \nmt@appnumber\\
-	Tilgjengelighet: & \AA{}pen\\ % this needs updating \nmt@pubNOR}\\
-		&\\
-	\hline\\
-	Sammendrag: & \nmt@descNOR\\
+    Tittel: & \textbf{\thesis@titleNOR}\\
+        &\\
+    Dato: & \nmt@frontpagesyear\\
+        &\\
+    Deltakere: & \thesis@author\\
+        & \thesis@authorA\\
+        & \thesis@authorB\\
+        & \thesis@authorC\\
+    Veiledere: & \thesis@supervisor\\
+        & \thesis@supervisorA\\
+        &\\
+    Oppdragsgiver: & \thesis@oppdragsgiver\\
+        &\\
+    Kontaktperson: & \nmt@contact\\
+        &\\
+    N\o{}kkelord: & \nmt@keywordsNOR\\
+    Antall sider: & \pageref{LastPage}\\
+    Antall vedlegg: & \nmt@appnumber\\
+    Tilgjengelighet: & \AA{}pen\\ % this needs updating \nmt@pubNOR}\\
+        &\\
+    \hline\\
+    Sammendrag: & \nmt@descNOR\\
   \end{tabular}
 
 % this should be a function call so that the layout is done in a single place. This is currently bad coding but I do not have time to fix it at the moment.  Can be fixed this later.
 \cleardoublepage
-  
+
   \newpage
   {%
-    \fontsize{14}{16}\selectfont 
+    \fontsize{14}{16}\selectfont
     Summary of Graduate Project\\
-	\par}
+    \par}
 %\addcontentsline{toc}{chapter}{Summary}
 %\thispagestyle{empty}
 \begin{tabular}{p{0.35\textwidth}@{  }p{0.65\textwidth}}
-	Title: & \textbf{\thesis@title}\\
-		&\\
-	Date: & \nmt@frontpagesyear\\
-		&\\
-	Authors: & \thesis@author\\
-		& \thesis@authorA\\
-		& \thesis@authorB\\
-		& \thesis@authorC\\
-	Supervisor: & \thesis@supervisor\\
-		& \thesis@supervisorA\\
-		&\\
-	Employer: & \thesis@oppdragsgiver\\
-		&\\
-	Contact Person: & \nmt@contact\\
-		&\\
-	Keywords: & \nmt@keywords\\
-	Pages: & \pageref{LastPage}\\
-	Attachments: & \nmt@appnumber\\
-	Availability: & Open\\ % this needs updating to use \nmt@pub}\\
-		&\\
-	\hline\\
-	Abstract: & \nmt@desc\\
+    Title: & \textbf{\thesis@title}\\
+        &\\
+    Date: & \nmt@frontpagesyear\\
+        &\\
+    Authors: & \thesis@author\\
+        & \thesis@authorA\\
+        & \thesis@authorB\\
+        & \thesis@authorC\\
+    Supervisor: & \thesis@supervisor\\
+        & \thesis@supervisorA\\
+        &\\
+    Employer: & \thesis@oppdragsgiver\\
+        &\\
+    Contact Person: & \nmt@contact\\
+        &\\
+    Keywords: & \nmt@keywords\\
+    Pages: & \pageref{LastPage}\\
+    Attachments: & \nmt@appnumber\\
+    Availability: & Open\\ % this needs updating to use \nmt@pub}\\
+        &\\
+    \hline\\
+    Abstract: & \nmt@desc\\
 \end{tabular}
 
-		\hypersetup{pageanchor=true}
+        \hypersetup{pageanchor=true}
 
 }

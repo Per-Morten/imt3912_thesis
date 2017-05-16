@@ -22,15 +22,15 @@
 
 %\renewcommand{\comment}[1]{\textcolor{blue}{\emph{#1}}}  %% use of the colour and you can see how to use commands with parts
 \newcommand{\com}[1]{{\color{red}#1}} % supervisor comment
-%\renewcommand{\com}[1]{} %remove starting % to remove supervisor comments
+\renewcommand{\com}[1]{} %remove starting % to remove supervisor comments
 % This will appear in text \com{Lecuters comment} and be visible unless you uncomment
 % the renewcommand line.
 
 \newcommand{\todo}[1]{{\color{cyan}\lbrack todo: #1\rbrack}\\} % items to do
-%\renewcommand{\todo}[1]{} %remove starting % to remove items to do
+\renewcommand{\todo}[1]{} %remove starting % to remove items to do
 
 \newcommand{\n}[1]{{\color{blue}#1}} % other comment
-%\renewcommand{\n}[1]{} %remove starting % to remove notes
+\renewcommand{\n}[1]{} %remove starting % to remove notes
 
 \newcommand{\dn}[1]{} % add the dn to a note to say that you have finished with it.
 
@@ -56,13 +56,12 @@
 \makefrontpages
 
 \subimport{inc/}{preface.tex}
+\todo{Haha}
 
 \tableofcontents
 \listoffigures
 \listoftables
-
-\todo{Add note, entities and actors are the same thing}
-\todo{Add note that user and programmer are the same thing!}
+\lstlistoflistings
 
 \subimport{inc/}{introduction.tex}
 \subimport{inc/}{requirements.tex}
@@ -77,51 +76,67 @@
 \bibliographystyle{ntnuthesis/ntnubachelorthesis}
 \bibliography{inc/thesis}
 
-\todo{Add issue tracking and estimation section to process}
-\todo{Download newest version of thesis template}
 
 
 \appendix %after this line all chapters will have leters instead of numbers
-\todo{Add to appendix!}
+\chapter{Massif Memory Output}
+\label{chap:appendix_massif_output}
 \begin{figure}
     \includegraphics[scale=0.5]{benchmark_results/fast_spawn/ecs_massif_deletes_10.pdf}
     \caption{Fast spawning memory usage, NOX ECS}
-    \label{fig:fast_spawning_memory_usage_nox_ecs}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale=0.5]{benchmark_results/fast_spawn/nox_massif_deletes_10.pdf}
     \caption{Fast spawning memory usage, NOX Actor}
-    \label{fig:fast_spawning_memory_usage_nox_actor}
 \end{figure}
 
-\iffalse
+\chapter{Hardware Info}
+\label{chap:hardware_info}
+\subimport{inc/}{hardware_info.tex}
+
+\chapter{Code}
+\label{chap:code}
+\subimport{inc/}{code.tex}
+
+\chapter{Data}
+\label{chap:data}
+The various data recorded from the tests can be found in the results folder on the development repository.
+
 \chapter{Test Case Plan}
 \label{chap:appendix_test_case_plan}
+The following appendix includes the test case plan, which the tests were based upon.
 \includepdf[pages=-]{../test_case_plan/build/test_case_plan_format.pdf}
 
 \chapter{Technical Specification}
 \label{chap:appendix_technical_specification}
+The technical specification outlines addition requirements on the functionality of the NOX ECS.
 \includepdf[pages=-]{../technical_specification/build/technical_specification.pdf}
 
 \chapter{Design Document}
 \label{chap:appendix_design_document}
+The Design document was created when prototyping NOX ECS, and shows the original ideas of the system.
 \includepdf[pages=-]{../design_document/build/design_document.pdf}
 
 \chapter{Project Plan}
 \label{chap:appendix_project_plan}
+The project plan shows our original plan for the project and topic. Both the topic and the plan changed
+quite a bit during development.
 \includepdf[pages=-]{../project_plan/compiled_pdf/o7_project_plan.pdf}
 
 \chapter{Scrum Plan v2}
 \label{chap:appendix_scrum_plan_v2}
+The scrum plan v2, contains the new sprints after the first re-planning process.
 \includepdf[pages=-]{../scrum_plan_v2/build/scrum_plan_v2.pdf}
 
 \chapter{Scrum Plan v3}
 \label{chap:appendix_scrum_plan_v3}
+The scrum plan v3, containes the new sprints after the second re-planning process.
 \includepdf[pages=-]{../scrum_plan_v3/build/scrum_plan_v3.pdf}
 
 \chapter{Sprint Retrospectives}
 \label{chap:appendix_sprint_retrospectives}
+This appendix includes the different sprint retrospectives that were held during the development.
 \includepdf[pages=-]{../sprint_retrospectives/build/280217.pdf}
 \includepdf[pages=-]{../sprint_retrospectives/build/080317.pdf}
 \includepdf[pages=-]{../sprint_retrospectives/build/190317.pdf}
@@ -130,6 +145,7 @@
 
 \chapter{Stakeholder Meetings}
 \label{chap:appendix_stakeholder_meetings}
+Following are the summaries from the different meetings with the stakeholder.
 \includepdf[pages=-]{../stakeholder_meetings/build/060217.pdf}
 \includepdf[pages=-]{../stakeholder_meetings/build/210217.pdf}
 \includepdf[pages=-]{../stakeholder_meetings/build/220317.pdf}
@@ -137,6 +153,7 @@
 
 \chapter{Supervisor Meetings}
 \label{chap:appendix_supervisor_meetings}
+Following are the summaries from the different meetings with the supervisor.
 \includepdf[pages=-]{../supervisor_meetings/build/100217.pdf}
 \includepdf[pages=-]{../supervisor_meetings/build/160217.pdf}
 \includepdf[pages=-]{../supervisor_meetings/build/080317.pdf}
@@ -196,7 +213,7 @@
 \includepdf[pages=-]{../daily_scrum/build/100517.pdf}
 \includepdf[pages=-]{../daily_scrum/build/110517.pdf}
 \includepdf[pages=-]{../daily_scrum/build/120517.pdf}
-\fi
+
 
 
 %\chapter{Scrum Plans}
@@ -208,35 +225,9 @@
 %\chapter{Benchmark Data}
 %\chapter{Stakeholder Contract}
 
-%\chapter{Group Rules}
-%\includepdf[pages=-]{../group_rules/signed_group_rules.pdf}
 
 
-%
-%Justify that we are doing just one test properly.
-%
-%
-%Do the rest of the tests before the presentation.
-%When in doubt do citations.
-%Ok that the test is not representative for our best case.
-%
-%The optimization toggles are their own tests, and having them be different is ok.'
-%
-%
-%Write:
-%Should have timed right before update has started, so we didnt get the execution layer overhead, etc.
-%
-%Uniqueptr test case not entirely correct, as it will also update entities that are hibernating etc,
-%however it is not relevant for that test case, as we don't have any deactivate components.
-%
+
 %Give short explanation on how to see the cachegrind stuff.
 %
 \end{document}
-
-% More explanations in technical, not requirements.
-% Do reference back in time, not forward.
-% Cite books, should be enough for the standard.
-% Only code snipets in the thesis, no need to include all files.
-% Explain SFINAE
-% Footnotes for "fire and forget" comments
-% Oversight that we are not doing the sparse outer array thingy.

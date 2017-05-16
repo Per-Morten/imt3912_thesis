@@ -1,4 +1,4 @@
-\subsection{Update Cycle}
+\section{Update Cycle}
 \label{subsec:high_level_update_cycle}
 In addition to the lifecycle the new ECS also has an update cycle with specific steps.
 These steps are by default arranged in a specific sequence, but can to a certain degree
@@ -9,9 +9,6 @@ leading to more cache friendly data traversal and access patterns.
 The following sections describes the different stages in the update cycle,
 and are listed in their default order.
 
-\todo{Fix this so it does not look so hilariously ugly}
-\todo{This should be a figure}
-\todo{perhaps make it clearer that "all requested components", are different subsets, not necessarily the same components.}
 \begin{description}
     \item
     [Distribute Logic Events]
@@ -29,11 +26,11 @@ and are listed in their default order.
 
     \item
     [Deactivate Components]
-    Deactivates all requested components.
+    Deactivates all components queued for deactivation.
 
     \item
     [Hibernate Components]
-    Hibernates all requested components.
+    Hibernates all components queued for hibernation.
 
     \item
     [Remove Components]
@@ -45,9 +42,9 @@ and are listed in their default order.
 
     \item
     [Awake Components]
-    Awakes all requested components.
+    Awakes all components queued for awakening.
 
     \item
     [Activate Components]
-    Activates all requested components.
+    Activates all components queued for activation.
 \end{description}

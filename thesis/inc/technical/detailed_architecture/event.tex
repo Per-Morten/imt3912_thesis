@@ -1,56 +1,54 @@
-\subsection{Event}
+\section{Event}
 \label{subsec:detailed_event}
 The events are our solution to the problem of allowing for decoupled communication
 between components.
 When a component wants to communicate to either other components or other entities in general, the component will send an event.
 
-\todo{Discuss the Event "Queue" here, or in the Entity Manager?}
-
-\subsubsection{Explanation}
-The event class is based on Gregory's\cite[p. 938]{game_engine_architecture} event arguments, which he presents as key value pairs of variants. 
-In NOX ECS it is implemented as key-value pairs. 
+\subsection{Explanation}
+The event class is based on Gregory's\cite[p. 938]{game_engine_architecture} event arguments, which he presents as key value pairs of variants.
+In NOX ECS it is implemented as key-value pairs.
 However, it uses a linked list approach rather than variants.
 
 The event object is a singly linked list of event arguments, allocated from
 the lock-free allocator\secref{subsec:detailed_lock_free_allocator}.
-In addition to these arguments, an event also knows its type (i.e. name), and its sender and receiver id. 
+In addition to these arguments, an event also knows its type (i.e. name), and its sender and receiver id.
 All of this information can be queried.
 
-\paragraph{Argument}
+\subsubsection{Argument}
 The event arguments non-owning memory containers, containing its identifier,
 a pointer to the next argument, a pointer to a destructor and a pointer to its payload.
 
-\subparagraph{Destructor}
+\paragraph{Destructor}
 While the argument is not owning the memory of its payload, it is responsible for the object
 in the payload getting destructed properly.
 This behavior is achieved in the same fashion as the operation types\secref{subsec:detailed_operation_types}, through a function pointer to a destructor.
 
-\subparagraph{Get value}
+\paragraph{Get value}
 A challenge when it comes to the argument is, once type information is discarded, how is access given to the value stored within an argument.
 The only practical way to do this is to give access to the payload of an argument and cast it to the correct type. Currently, this can be in two ways, by either taking a copy of the argument,
 or by pointing directly into the payload.
 
-\subsubsection{Motivation}
+\subsection{Motivation}
 Several factors motivated the current implementation.
 
-\paragraph{Decoupled Communication}
+\subsubsection{Decoupled Communication}
 The main motivation behind the event system was to allow for efficient decoupled communication between components.
 It was desirable to avoid direct communication between components, as that would inhibit concurrency and increase coupling within the system.
 The rationale for creating a new event system was also to remove the coupling to other NOX Modules, as the old NOX Actor system was relying on the regular NOX Events.
 
-\paragraph{Broadcasting Of Events}
+\subsubsection{Broadcasting Of Events}
 Additionally, there was a desire for being able for broadcast events, sending them not only to a single receiving entity but throughout the entire system.
 
-\paragraph{Fast Integration of New Events}
+\subsubsection{Fast Integration of New Events}
 The last main motivation for this structure was a desire for being able to introduce new events rapidly.
 Introducing events within the old NOX Actor event system required inheriting from a common base class, meaning that the user would have to create a new class for each type of event.
-It was desirable for the creation of new events to be simple within the new ECS, and without the requirement for creating a new class. 
+It was desirable for the creation of new events to be simple within the new ECS, and without the requirement for creating a new class.
 One should be able to create an event with a particular type, add data to it, and send it off.
 
-\subsubsection{Alternatives to Event}
+\subsection{Alternatives to Event}
 Several alternatives could have been chosen instead of this one.
 
-\paragraph{Observer Pattern}
+\subsubsection{Observer Pattern}
 An alternative could be to use an observer pattern as described by Nystrom\cite[Observer]{game_programming_patterns}, which can be optimized to run quite fast.
 One of the reasons for not going for this pattern was to avoid virtual functions, and it would make the program harder to run concurrently.
 It would also make it harder to run concurrently,
@@ -58,34 +56,35 @@ as this pattern quickly could introduce inter-thread dependencies
 that could be harder to detect.
 Also, it is synchronous in nature which further inhibits parallelism.
 
-\paragraph{Use NOX Actor Events}
-There is also the possibility to reuse the regular NOX Actor events. 
-However, this leads to higher coupling internally within the NOX Engine.
+\subsubsection{Use NOX Actor Events}
+There is also the possibility to reuse the regular NOX Actor events,
+but this leads to higher coupling internally within the NOX Engine.
 It would also not fix a lot of the motivations behind the event system, like the fast integration of events.
 
-\paragraph{Direct Communication}
-Another alternative would be to drop the event system altogether and allow for direct component communication. 
+\subsubsection{Direct Communication}
+Another alternative would be to drop the event system altogether and allow for direct component communication.
 Such an approach is not particularly efficient and would make parallelism considerably harder compared to the current solution.
 
-\subsubsection{Pros of Event}
+\subsection{Pros of Event}
 The advantage of the events is that it is quick to create new types of events.
-\todo{Write more here, should be more pros, depends on whether or not we are writing about the queue her as well}.
 
-\subsubsection{Cons of Event}
-There are however several cons to the current event implementation.
+\subsection{Cons of Event}
+There are several cons to the current event implementation.
 
-\paragraph{Loss of Type Safety}
-Since the events are essentially implemented as void* to avoid templates, type safety is gone. When getting the values of an object, it is the programmer's responsibility to cast to the correct type.
-However, this should not be that big of an issue, because when a programmer is getting the value from an argument, they do know the type of that argument, and the type of the event. 
+\subsubsection{Loss of Type Safety}
+Since the events are essentially implemented as void* to avoid templates, type safety is gone.
+When getting the values of an object, it is the programmer's responsibility to cast to the correct type.
+However, this should not be that big of an issue, because when a programmer is getting the value from an argument, they do know the type of that argument, and the type of the event.
 So the flexibility is worth the cost.
 
-\paragraph{Maximum Sized Objects}
+\subsubsection{Maximum Sized Objects}
 Unlike in the old NOX Event system which allocated everything from the heap.
 The current event approach uses the lock-free allocator for allocating its arguments, which means that there is a maximum size that is supported by the allocator.
-However, this should not be an issue, as events are usually smaller primitive types, and the current lock-free allocator is templated on the size of its memory regions, so if a larger size is needed one simply needs to adjust the template parameter.
+This is not a problem, as events are usually smaller primitive types, and the current lock-free allocator is templated on the size of its memory regions, so if a larger size is needed one simply needs to adjust the template parameter.
 
-\paragraph{Arguments Not Local}
-Arguments within the event are not necessarily stored close to each other in memory, which would be optimal for when processing them. This is because of the linked list implementation of the lock-free allocator.
+\subsubsection{Arguments Not Local}
+Arguments within the event are not necessarily stored close to each other in memory, which would be optimal for when processing them.
+This is because of the linked list implementation of the lock-free allocator.
 However, most arguments should be stored relatively close to each other unless they are
 placed within different memory blocks.
 

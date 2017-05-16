@@ -1,9 +1,9 @@
-\subsection{Execution Layers}
+\section{Execution Layers}
 \label{subsec:detailed_execution_layers}
 The execution layers is NOX ECS's way of supporting the requirement for multi-threading,
 without requiring large investments for the user\reqref{req:multi_threading}.
 
-\subsubsection{Explanation}
+\subsection{Explanation}
 The execution layers is a structure detailing which components types can be run concurrently.
 The structure consist of one or more layers, where each layer has a set of component types.
 Each set of component types can be run concurrently.
@@ -27,7 +27,7 @@ based on information given by the programmer.
     \end{center}
 \end{figure}
 
-\paragraph{Component Access}
+\subsubsection{Component Access}
 \label{subsec:detailed_component_access_levels}
 Describing the actions executed on different components is done with the data access enum, which has 4 values.
 
@@ -52,21 +52,21 @@ Describing the actions executed on different components is done with the data ac
     A component marked as independent can be run in any layer, as long as no other components on that layer reads from it.
 \end{itemize}
 
-\paragraph{Read list}
+\subsubsection{Read list}
 \label{subsec:detailed_read_list}
 Each component with read access has its own read list that is defined by the programmer.
 The list contains all other components types that the component type in question reads from.
 The algorithm uses the read list to figure out how the layers should be structured.
 
-\paragraph{Important qualities of the structure}
+\subsubsection{Important qualities of the structure}
 There are a few qualities that the structure both needs, and should have in order to perform better.
 
-\subparagraph{No same layer read connections}
+\paragraph{No same layer read connections}
 It is important that no component types has connections to components in the same layer.
 This would cause issues if a component changes one of its own member variables, and another component reads from it.
 Allowing these same layer reads would start creating race conditions.
 
-\subparagraph{Per layer component count to thread count ratio}
+\paragraph{Per layer component count to thread count ratio}
 The number of component types in each layer should optimally be divisible by the amount of threads available.
 A mismatch between the number of component types and threads available would lead to some threads having to wait while the other threads finish their work.
 For example if there are 5 component types in a lair, with each type requiring the same work load to finish, and there are 3 worker threads.
@@ -74,20 +74,20 @@ After the initial 3 component types are finished, 1 thread has to wait while the
 It would have been better to reduce the size of the layer to 3, and move the excess components to other layers trying to have a component type count divisible by the thread count.
 There will always be some time spent waiting on other threads to finish before moving onto the next layer, but following this rule will reduce this waiting.
 
-\paragraph{The algorithm}
+\subsubsection{The algorithm}
 The algorithm itself that creates and sets up the execution layer structure goes through three stages: The data collection stage, layer creation stage, and parsing stage.
 
-\subparagraph{Data collection stage}
+\paragraph{Data collection stage}
 This stage consists of setting up all the data needed to run the algorithm.
 The algorithm gets the access levels to each component type, and which other components they have read connections to.
 If the component type is any other than read only, certain actions will be taken, as mentioned in the component access levels\footnote{See p.\pageref{subsec:detailed_component_access_levels}}.
 In the case of having independent data access, the whole read list is simply emptied.
 Having either unknown or read and write will result in the component type having its own separate layer.
 
-%\paragraph{Initialize data}
+%\subsubsection{Initialize data}
 %\lstinputlisting[language=cpp, caption=initialize data, label=lst:initialize_data]{initialize_data.py}
 
-\subparagraph{Layer creation stage}
+\paragraph{Layer creation stage}
 The algorithm goes through all the component types and creates layers.
 This is done in the following steps.
 
@@ -105,46 +105,46 @@ This is done in the following steps.
     \item Repeat step 1-5 until all components are put into layers.
 \end{enumerate}
 
-\subparagraph{Data parsing stage}
+\paragraph{Data parsing stage}
 The data parsing stage turns the layers from type identifiers to indexes used within the entity manager\secref{subsec:detailed_entity_manager}
 This format change is favorable as the type identifiers\secref{subsec:detailed_type_identifier} used internally in the algorithm would require a search through the list of component collections\secref{subsec:detailed_component_collection} every frame, rather than just a constant index lookup.
 
-\subsubsection{Motivation}
+\subsection{Motivation}
 The main motivation for this structure was to allow concurrent execution of more components
 than just the independent ones.
 Having a programmer specifying a read list is an easier way to add concurrency without to much burden on the programmer\reqref{req:multi_threading}.
 
-\subsubsection{Alternatives}
+\subsection{Alternatives}
 There are a few alternatives to the existing solution, and all of these are better ways of dealing with the task at hand.
-However, they all either require a lot more work, are hindered due to requirements, or were not prioritized.
+They all either require a lot more work, are hindered due to requirements, or were not prioritized.
 
-\paragraph{Caching}
+\subsubsection{Caching}
 One solution could be a caching mechanism, which involves keeping previous frame's data to work on for the next frame\cite[p.930]{game_engine_architecture}.
 The main advantages are that synchronization and data races are no longer an issue, as the data being read from will not change during the reads.
 In addition to running all components concurrently, it would avoid the possibility of human error from manually defining the read list for each component.
 The disadvantage is that the system would require double the amount of memory to save the previous frame.
 This also requires all types to be deep copyable.
 
-\paragraph{Saving execution layer structure}
+\subsubsection{Saving execution layer structure}
 The execution layers could be saved to file, rather than computing it on every run.
 This should both be easy to implement, and completely remove the time to compute the structure when no new changes to the components have been made.
 
 \phantomsection
-\paragraph{Code analysis}
+\subsubsection{Code analysis}
 \label{par:detailed_execution_layers_code_analysis}
 Code analysis could be added to automatically and reliably find dependencies, removing the need for the programmer to manually specify the read lists and data access for components.
 However, implementing this is both very time consuming, and quite difficult as it requires parsing of the C++ language, which is fairly complex.
 
-\subsubsection{Pros of Execution Layers}
+\subsection{Pros of Execution Layers}
 The main pro of the execution layers is the ease adding concurrency functionality for the user,
 allowing utilization of multi-core CPU's.
 
-\subsubsection{Cons}
+\subsection{Cons}
 Adding the support for multi threading components in this manner leads to some disadvantages.
 
-\paragraph{Increased loading times}
+\subsubsection{Increased loading times}
 With the execution layers having to be computed at every start up, the load times might increase a bit when adding lots of component types.
 
-\paragraph{More error prone}
+\subsubsection{More error prone}
 Requiring the programmers to specify data access and the read list manually, can be error prone. This could lead to several bugs caused by human error.
 Additionally, the fact that any part of the execution layers structure can vary based on small changes, means that even though an incorrect read list has been specified, a problem may not occur until later changes.

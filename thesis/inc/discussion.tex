@@ -8,7 +8,7 @@ we believe these findings can also be generalized and related to other systems.
 \subsection{Layered Execution}
 As shown in the benchmarks the layered execution model can provide a significant performance boost,
 and is a nice way to introduce multi-threading into a system relatively invisible.
-However, there are usages patterns which is non optimal for the layered execution model.
+There are usages patterns which is non optimal for the layered execution model.
 These are the cases where there is not enough processing done in a function to justify the synchronization overhead
 of multi-threading.
 For example if the user is sending a lot of direct events, rather than broadcasted ones,
@@ -26,7 +26,7 @@ cache traversal. This was done in all the different test cases.
 
 \subsection{Memory Reuse}
 Being able to reuse memory did not provide as big improvement as we had originally envisioned.
-However, we are unsure if this would have lead to better results on mobile devices.
+We are unsure if this would have lead to better results on mobile devices.
 Gregory\cite[p.262]{game_engine_architecture} states that modern PC's have more advanced CPU's and virtual
 memory, meaning that dynamic memory allocation is a lot cheaper than on devices with more limited hardware.
 
@@ -52,7 +52,7 @@ and without having to sacrifice good memory usage. This can be harder to do when
 base classes and interfaces.
 
 \subsection{String identifiers}
-String identifiers are very flexible. However, this flexibility does come a significant cost, as seen
+String identifiers are very flexible. This flexibility does come a significant cost, as seen
 in the numerous unique components internal test.
 It is important to make a decision on whether or not this flexibility is really utilized, and worth
 the cost that it brings.
@@ -62,7 +62,7 @@ The separation of Actors holding components to entities identified by components
 desirable benefits. The clearer separation allows users to avoid paying for functionality that they
 do not use. It also made a clearer distinction of how data was touched, which allowed for easier efficient
 multi-threading integration.
-However, the decision to go with an ECS-pattern should be based on the expected usage patterns, and the
+The decision to go with an ECS-pattern should be based on the expected usage patterns, and the
 need for communication between the components.
 A lot of direct communication will need a better system then what was implemented in the NOX ECS.
 
@@ -78,7 +78,6 @@ however the user is still paying for the overhead of including this functionalit
 stored in the NOX Actor system.
 We believe that implementations should stay decoupled by offering no more functionality than what is needed
 and requested by the user, and that we were able to gain benefits from this line of thought.
-\todo{Think about if this should really be here!}
 
 \subsection{Conclusion}
 The main conclusion reached from these findings is that choices taken on implementations

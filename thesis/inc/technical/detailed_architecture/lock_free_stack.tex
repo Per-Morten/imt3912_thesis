@@ -1,11 +1,11 @@
-\subsection{Lock-Free Stack}
+\section{Lock-Free Stack}
 \label{subsec:detailed_lock_free_stack}
 The lock-free stack is the main container type used for generalized "queuing" within
 the new entity component system. Events and transition requests are all stored
 in these stacks before being processed asynchronously, which also
 allows for thread safe interaction with the entity manager\secref{subsec:detailed_entity_manager}.
 
-\subsubsection{Explanation}
+\subsection{Explanation}
 The implementation of the lock-free stack in pretty simple compared to the lock-free allocator.
 The current implementation of the push function was directly copied from cppreference\cite{cppreference_atomic_compare_exchange},
 while the pop operation was not copied, it is still pretty close to the push operation.
@@ -13,7 +13,7 @@ Both of these functions rely on the same compare and swap functionality seen in 
 The lock-free stack was also built with a linear allocator in mind, which allows it to avoid the ABA problem\footnote{Explained in p.\pageref{subpar:detailed_lock_free_allocator_aba}}.
 This is because there is no way the stack can be given a piece of memory it has seen before, because dynamic deallocation is not allowed.
 
-\paragraph{Push}
+\subsubsection{Push}
 As stated earlier the push implementation is from the online page cppreference\cite{cppreference_atomic_compare_exchange}, but an explanation of the code is still given below.
 The push functions closely to a standard implementation of a linked list based stack push operation.
 When a push operation is called, one creates a new node for the new data and replaces the head of the stack with the new node.
@@ -23,9 +23,9 @@ The compare and swap fails are when another thread has managed to replace the he
 of the stack. This means that the current thread will have to retry its operation, reloading in the newly replaced head, before trying to replace it.
 The only real difference between our implementation and the example from cppreference is that the new node is allocated from an allocator.
 The pseudo code can be seen in listing \ref{lst:lock_free_stack_push}.
-\lstinputlisting[language=cpp, caption=push, label=lst:lock_free_stack_push]{lock_free_stack_code/lock_free_stack_push.py}
+\lstinputlisting[language=cpp, caption=Lock-Free Stack Push, label=lst:lock_free_stack_push]{lock_free_stack_code/lock_free_stack_push.py}
 
-\paragraph{Pop}
+\subsubsection{Pop}
 The lock-free version of the pop function follows similar logic as the push operation.
 The function takes in an out parameter, out\_value, which is used to store the value popped from the queue.
 If one successfully pops from the queue, the value popped will be stored in the out\_value variable,
@@ -33,53 +33,53 @@ and the function will return true. Otherwise, the function will return false, an
 unmodified.
 The current interface for the pop function allows for an atomic read-modify-write operation, firstly checking if the stack is not empty, and in that case popping the value.
 The pseudo code for the function can be seen in listing \ref{lst:lock_free_stack_pop}
-\lstinputlisting[language=cpp, caption=push, label=lst:lock_free_stack_pop]{lock_free_stack_code/lock_free_stack_pop.py}
+\lstinputlisting[language=cpp, caption=Lock-Free Stack Pop, label=lst:lock_free_stack_pop]{lock_free_stack_code/lock_free_stack_pop.py}
 
-\subsubsection{Motivation for Lock-Free Stack}
+\subsection{Motivation for Lock-Free Stack}
 Several factors contributed to the decision to make the collection a lock-free stack.
 The main motivation behind the lock-free stack was to keep the interactions with the entity manager thread safe, as per the requirement of safety\reqref{req:safety}, and multi-threading\reqref{req:multi_threading}.
 
-The rationale for going with a stack like structure, rather than a queue, was that all events and transitions would need to be processed before the end of a frame. 
-The ECS currently does not allow processing of transitions, or events to be paused, and continued the next frame. 
-Additionally, there is no requirement of ordering on the processing of the events, meaning that there was no real requirement for queue functionality, merely a way to process a collection. 
+The rationale for going with a stack like structure, rather than a queue, was that all events and transitions would need to be processed before the end of a frame.
+The ECS currently does not allow processing of transitions, or events to be paused, and continued the next frame.
+Additionally, there is no requirement of ordering on the processing of the events, meaning that there was no real requirement for queue functionality, merely a way to process a collection.
 This results in using a stack rather than a queue, which also would be easier to implement.
 
-\subsubsection{Alternatives to Lock-Free Stack}
+\subsection{Alternatives to Lock-Free Stack}
 There were a couple of alternatives to the lock-free stack.
 
-\paragraph{Third Party Structure}
+\subsubsection{Third Party Structure}
 Several third party lock-free queues could be used instead of creating a new container. However, this would mean that the NOX Engine would need to take on another dependency, which is not desirable either.
 
-\paragraph{Locked Queue}
+\subsubsection{Locked Queue}
 A simple solution would be to use a regular std::queue, protected by a mutex,
 with minor tweaks to the interface to adapt it to a concurrent environment.
 
-\paragraph{Bounded Queue}
+\subsubsection{Bounded Queue}
 A bounded queue is another solution, in this case, one could simply allocate a large buffer for each queue, and implement them as circular buffers.
 However, the number of events sent per frame can be quite dynamic, which could break the of the queues bounds.
 
-\paragraph{One Queue Per Thread}
+\subsubsection{One Queue Per Thread}
 As with the lock-free allocator, a more optimal solution could be to give each thread
-their own queues. 
-This would allow us to keep the queue functionality, while still running concurrently. 
+their own queues.
+This would allow us to keep the queue functionality, while still running concurrently.
 The queue could be a simple wrapper class, with an array of queues, one dedicated to each thread.
 
-\subsubsection{Pros to Lock-Free Stack}
+\subsection{Pros to Lock-Free Stack}
 The lock-free stack has some of the same advantages as the allocator,
 the main advantage being that it is relatively fast, and guarantees program progress.
 
-\subsubsection{Cons to Lock-Free Stack}
+\subsection{Cons to Lock-Free Stack}
 The lock-free stack directly inherits some of the disadvantages from the allocator,
 mainly the maintainability aspect.
 
-\paragraph{Missing Queue Functionality}
+\subsubsection{Missing Queue Functionality}
 As mentioned earlier a stack does not offer the possibility of stopping processing or containing a queue order.
 This means that if NOX in the future is supposed to be able to do cross-iteration processing of events and transitions, the stack would need to be changed to a queue.
 
-\paragraph{Exposing Implementation}
+\subsubsection{Exposing Implementation}
 The current interface of the stack does expose its underlying implementation to an undesirable extent.
 To avoid the ABA problem, the stack requires a linear allocator, which again requires
 to be cleared.
 The clearing operation cannot be done in a concurrent setting, as this is not allowed by the allocator.
-This means that is up to the user of the stack to remember to clear it after all events and transitions in one frame have been processed. 
+This means that is up to the user of the stack to remember to clear it after all events and transitions in one frame have been processed.
 If possible, this should be fixed in the future, as this level of exposition is not ideal.

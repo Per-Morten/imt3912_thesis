@@ -1,9 +1,9 @@
-\subsection{Choices}
+\section{Choices}
 In addition to the architectural choices described above certain other restrictions
 were put in place.
 These were based on usage patterns seen in the original NOX Actor system.
 
-\subsubsection{Non Copyable Components}
+\subsection{Non Copyable Components}
 Neither actors or components in the original NOX Actor system were copyable.
 We were uncertain whether or not we would set the same restrictions.
 Being able to copy a component would allow for certain optimization possibilities,
@@ -13,7 +13,7 @@ However, we choose to continue with the restriction of move-only types.
 The reason for this was mainly because of Suttungs heavy use of noncopyable types,
 like std::unique\_ptr.
 
-\subsubsection{Registering Components}
+\subsection{Registering Components}
 The original NOX Actor system required that users would register all the different component types before they could be used.
 Originally we saw this as boilerplate code that was not desired in the codebase.
-However, we choose to keep the same rules of needing to register component types before being able to use them, as this is required for our solution to work.
+We choose to keep the same rules of needing to register component types before being able to use them, as this is required for our solution to work.

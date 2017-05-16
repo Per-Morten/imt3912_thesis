@@ -1,4 +1,4 @@
-\subsection{Transactional Memory}
+\section{Transactional Memory}
 \label{subsec:longevity_transactional_memory}
 Currently the only two ways of synchronizing concurrent code in C++
 is using locks, or atomics. Both of these alternatives have issues.
@@ -19,7 +19,7 @@ Whether or not transactional memory will make some of our design choices
 irrelevant mainly depends on the performance of the implementation of transactional
 memory.
 
-\paragraph{Consequence}
+\subsection{Consequence}
 If transactional memory were to be implemented in an efficient manner, that would
 be suitable to use within the requirements of games.
 If that were the case then mainly the lock free data structures would be changed within
