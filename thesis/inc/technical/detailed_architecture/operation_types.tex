@@ -21,16 +21,16 @@ alternatively, use generic non-member functions to implement component behavior.
 By default, the operation types would be "invisible" to the user of the ECS, allowing them to think in a regular member function object oriented mindset.
 
 \subsection{Explanation}
-Operation types are pointers to functions that take in Component pointers,
+Operation types are pointers to functions that take in component pointers,
 and potentially some other parameters.
-Functions implementing the operation types will cast the Component pointer parameter over to the derived type,
+Functions implementing the operation types will cast the component pointer parameter over to the derived type,
 and call the derived function.
 This allows for overridable behavior without the per instance space overhead of a pointer to the virtual table.
 
 This idea of having functions taking opaque types only to cast them over to the correct types is nothing new.
 This line of thought was what allowed users to send in their own compare functions to C's qsort function\footnote{\url{http://en.cppreference.com/w/c/algorithm/qsort}}.
 
-Additionally, some of these operation types were created for operating on contiguous ranges of component types,
+Additionally, some of these operation types were created for operating on contiguous ranges of components,
 allowing users to iterate over components and take advantage of known data patterns or caching of calculated values.
 
 \subsubsection{Wrapper Functions}

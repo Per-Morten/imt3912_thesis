@@ -1,7 +1,7 @@
 
 \section{Performance}
-Performance is an important aspect of the games industry.
-As a result of this, Suttung and the Authors decided upon certain restrictions and goals.
+Performance is an important aspect of the video game industry.
+As a result of this, Suttung and the authors decided upon certain restrictions and goals.
 
 \subsection{Virtual Functions}
 \label{subsec:requirements_performance_virtual_functions}
@@ -12,7 +12,7 @@ However, many compilers choose the same tactic; creating a virtual table\cite[p.
 
 The virtual table can be viewed as a data structure containing function pointers to virtual functions.
 Each instance of a derived object is given a hidden member variable, which is a pointer to their class's respective virtual table.
-When invoking a virtual function, the virtual table pointer is used to look up which function to run.
+When invoking a virtual function, the virtual table pointer is used to look up which function to execute.
 The virtual table pointer can be placed anywhere, but is usually either the first or last member of an object.
 Multiple inheritance is often implemented by adding more virtual tables and virtual table pointers\cite{codersource_virtual_functions}\cite[31:12]{andrei_alexandrescu_quick_code_quickly}.
 
@@ -34,11 +34,11 @@ as well as from situation to situation.
 The overhead can, for example, be influenced by whether or not the function is in the CPU's instruction cache, or whether or not the CPU has made a branch miss prediction, which can lead to pipeline flushes and stalls\cite{scott_meyers_cpu_caches_and_why_you_care}\cite[Data Locality]{game_programming_patterns}.
 As a result of invoking virtual functions at runtime, the compiler might only see the invocation as an opaque function call,
 possibly disabling certain optimizations, like inlining, reordering, compile time calculations, or even removing empty function calls.
-These tradeoffs are known, and compilers can to some extent optimize away some of these issues.
+These tradeoffs are known, and compilers can to some extent optimize these issues.
 For example, if a type is known at compile time, then a compiler might do de-virtualization,
 meaning that it will not do a lookup on a virtual pointer table, but rather do a direct function call\cite{lazarenko_devirtualization}.
 
-There is rarely a need for direct run-time polymorphism in the NOX engine, especially within the entity systems.
+There is rarely a need for direct run-time polymorphism in the NOX Engine, especially within the actor system.
 In the original NOX Actor system, all the different components were known at compile time.
 As a result of this Suttung and the authors decided to try to find another mechanism for handling "polymorphic" behavior, leading to the following requirement.
 
@@ -59,7 +59,7 @@ to contiguous memory.
 
 \subsection{Multi-threading}
 \label{subsec:requirements_performance_multi_threading}
-To further improve performance Suttung has requested that the new ECS should be multi-threaded, allowing them to utilize multi-core hardware better.
+To further improve performance Suttung has requested that the new ECS should be multi-threaded, allowing them to utilize multi-core hardware more efficiently.
 The multi-threading should preferably be something that happens in the background so that the programmers do not have to worry much about synchronization.
 
 \requirement{NOX ECS shall supply solutions for writing code that can be parallelized.}{req:multi_threading}

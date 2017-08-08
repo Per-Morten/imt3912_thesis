@@ -3,10 +3,12 @@ Entity Component Systems is an architectural pattern that is used extensively wi
 The pattern tries to solve the problem of objects spanning multiple domain, that are often found in game logic related code.
 Where a game object is solving many different domains at the same time, like graphics rendering, physics simulation and
 audio requests.
+
 Rather than placing these different behaviors in various base classes and creating a game object hierarchy,
 entity component systems splits the domain specific code into their own component classes.
 Different game objects then simply become combinations of different component classes,
 where the combinations decide on the behavior of the game objects.
+
 This leads to great flexibility, like allowing entirely new game objects to be created by simply combining different components.
 Additional benefits are higher reusability and faster iteration times.
 Both of which are desirable within the games industry\cite{game_programming_patterns}.
@@ -15,11 +17,11 @@ Both of which are desirable within the games industry\cite{game_programming_patt
 There are many different variations on the entity component system pattern, which can depend on how much one focuses on
 the component aspect of the pattern.
 Nystrom\cite[component]{game_programming_patterns} first introduces the component pattern by having game objects simply hold
-pointers to components that describes its behavior.
+pointers to components that describe its behavior.
 Gregory\cite[p. 886]{game_engine_architecture} discusses two different approaches of component models, pure component models,
 and property-centric architectures. Here a pure component component model is the situation where a game object is defined
 implicitly through the components that share a unique game object id.
-Property-centric architectures on the other hand has a more relational database approach, and the game object id can be seen
+Property-centric architectures on the other hand have a more relational database approach, and the game object id can be seen
 as the primary key of the relations of properties (behavior-less components).
 The property-centric architecture is closer to what Adam Martin\cite{t_machine_entity_systems} describes as entity systems.
 He also describes components as simple data containers that does not contain logic,

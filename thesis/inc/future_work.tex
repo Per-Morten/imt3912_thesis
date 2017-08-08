@@ -7,12 +7,12 @@ The following sections details areas that we would like to improve upon.
 \subsection{Remaining Features}
 \subsubsection{Lifecycle Queries}
 Currently there are still some features missing from the NOX ECS, like being able to query
-components for their lifecycle stage, which was possible in the original Actor model.
+components for their lifecycle stage, which was possible in the original Actor system.
 Implementing this functionality should be trivial.
 
 \subsubsection{JSON Integration}
 The factory functionality for loading and creating entities through JSON objects
-is not equivalent to the functionality found in the factory of the NOX Actor system.
+is not equivalent to the functionality found in the NOX Actor system.
 This needs to be added before the NOX ECS can be properly used by Suttung.
 This functionality also include proper serialization with JSON objects, which
 is currently not supported in NOX ECS.
@@ -31,7 +31,7 @@ For example, the type identifier is not particularly user friendly, and mechanis
 be put in place to ensure correct usage of this class.
 A solution could be to create a script that analyzed the different usages of the type identifiers,
 for example detecting if the reserved identifiers were overridden by user provided ones.
-Additionally some extra assertions should be added to defend again user errors disturbing internal
+Additionally, some extra assertions should be added to defend against user errors disturbing internal
 invariants within the ECS.
 
 \subsection{Data Access Detection Script}
@@ -41,7 +41,7 @@ It would be a better solution if we could write a script that would analyze the 
 components and find their dependencies\footnote{See p.\pageref{par:detailed_execution_layers_code_analysis}}.
 A script could also allow for pre-computation of the execution layers, which could be stored on file,
 rather than a computation at runtime.
-Such a script could potentially also inform users in the cases where there would be uncertainties related
+Such a script could potentially also inform the user in the cases where there would be uncertainties related
 to the benefits of using the execution layers.
 Like if a lot of components would need to be run single threaded.
 
@@ -49,7 +49,7 @@ Like if a lot of components would need to be run single threaded.
 The NOX Actor system does offer a number of standard components, for example lighting components,
 controller components etc.
 Additionally NOX ECS needs to offer some extra components to make up for some lacking functionality,
-for example a component that contains more type information, like what sort of json object the entity was created form.
+for example a component that contains more type information, like what sort of JSON object an entity was created form.
 A physics component should also be added, however this will require a larger development effort, as the physics logic
 is quite tightly coupled to the NOX Actor system.
 
@@ -60,7 +60,7 @@ or better utilization of type information, like removing unnecessary destructor 
 
 \subsection{Proper NOX Integration}
 The NOX ECS still have some way to go before it can be properly tied into the NOX Engine.
-For example the entity manager does not have any mechanism for listening to regular NOX events.
+For example, the entity manager does not have any mechanism for listening to regular NOX events.
 
 \section{Benchmarking}
 \subsection{Fixing Test Flaws}
@@ -77,11 +77,11 @@ This means that initially test should:
 \end{itemize}
 Fixing these issues should not be a large problem, for example our testing scripts already include
 running tests on Clang. This functionality was turned off because of the time constraints.
-Additionally there are several benchmarking issues that should be fixed.
+Additionally, there are several benchmarking issues that should be fixed.
 
 \subsection{Mobile Testing}
 Testing on mobile was originally a planned, but this was never accomplished due to lack of time.
-This would have been a good way to check if the lock free structures with relaxed atomics actually
+This would have been a good way to check if the lock-free structures with relaxed atomics actually
 gave an increased boost in performance.
 
 \subsection{Template Tests}
@@ -93,7 +93,7 @@ and the optimizations that the compiler could do based on type information.
 \section{User Tests}
 We had originally planned to have user tests together with Suttung.
 The idea was to arrange a game jam with Suttung over a weekend,
-and do tests with them to gather feedback on the new system.
+and gather feedback on the new system.
 Unfortunately neither we nor Suttung were able to dedicate the time to this when the system
 was in a testable state.
 This is something that should be done in the future, as it would allow us to gather

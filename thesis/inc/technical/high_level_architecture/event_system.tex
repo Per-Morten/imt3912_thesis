@@ -1,10 +1,10 @@
 \section{Event System}
-NOX Engine already allows for decoupled communication through their own event system.
+The NOX Engine already allows for decoupled communication through their own event system.
 The NOX event system is used both for sending events through different subsystems of the engine, and for sending messages between the various actors in their actor model.
 We decided that we would introduce our own event system, for a number of reasons.
 
 \subsection{Decoupled Event System}
-As previously mentioned the NOX Actor event system is an extension of the generalized event system used within the NOX Engine.
+The NOX Actor event system is an extension of the generalized event system used within the NOX Engine.
 This system is also used to communicate with other engine subsystems, for example, the physics system.
 We argue that the system for inter-entity communication has different requirements than communication with engine subsystems.
 Creating a new event system that is decoupled from the old one, also gives us greater control.

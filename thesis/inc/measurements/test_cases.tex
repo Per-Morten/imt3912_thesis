@@ -6,7 +6,7 @@ For each test the results are supposed to give an indication to the performance 
 Additionally, internal tests are used to compare the performance of the different optimizations within the NOX ECS implementation.
 
 \subsection{Compiler}
-We only compiled the test cases with GCC, instead of the original plan of also included Clang and MSVC.
+We only compiled the test cases with GCC, instead of the original plan of also including Clang and MSVC.
 This decision was motivated by the time constraints, after discovering how long the tests took.
 
 \subsection{Platforms}
@@ -39,19 +39,19 @@ table \ref{tab:hardware_info}. A more detailed version can be seen in appendix \
 Measuring performance on modern architectures is quite difficult. The complexity of modern operating systems and hardware means
 it is harder for us to take control to ensure that our tests are run in isolation.
 Operating systems can context switch out the test, to run other tasks that needs to be done.
-The hardware can apply cpu frequency scaling, to avoid wasting unnecessary power.
+The hardware can apply CPU frequency scaling, to avoid wasting unnecessary power.
 We were not able to turn off these features. However, we tried to mitigate their impact.
 
 \paragraph{Program Isolation}
 When performing tests the computer would not have any other user programs running in the background.
-Additionally wifi was turned off, and all IO devices were disconnect from the computer.
+Additionally WiFi was turned off, and all I/O devices were disconnect from the computer.
 To avoid running out of power, or activating different power saving measures, the charger was still connected
 throughout the tests.
 
 \paragraph{CPU power control}
-CPU frequency scaling is the situation where the frequency of the cpu is adjusted to fit the current computational needs,
+CPU frequency scaling is the situation where the frequency of the CPU is adjusted to fit the current computational needs,
 in order to save power\cite{cpu_scaling}.
-We want deterministic platforms when running our tests, hence we used the cpupower\footnote{\url{https://linux.die.net/man/1/cpupower}}
+We want deterministic platforms when running our tests, hence we used cpupower\footnote{\url{https://linux.die.net/man/1/cpupower}}
 to better control the frequency of the CPU. To avoid issues with overheating, the frequency was set to \SI{2}{\giga\hertz},
 which we considered a moderate amount.
 
@@ -62,7 +62,7 @@ These mocks were motivated by the lack of time to not create a proper realistic 
 \paragraph{Trivial Component}
 \label{par:test_cases_trivial_component}
 To mock processing within a component the trivial component was created.
-The trivial component is a simple component structure which will do some work in the form of busy waiting,
+The trivial component is a simple structure which will do some work in the form of busy waiting,
 and sending events to other trivial components.
 The component will wait a certain time period to simulate computation, and potentially send an event
 based on its waiting duration.
@@ -107,10 +107,10 @@ if we would gain any benefit using relaxed atomics versus sequentially consisten
 \subsubsection{Numeric Type Identifiers}
 The type identifier system offers two different ways to identify types, using
 hashed strings, or using numeric values.
-We wanted to inspect the performance difference between these to approaches.
+We wanted to inspect the performance difference between these two approaches.
 
 \subsubsection{Allocators}
-We have implemented 3 different allocators, the lock free allocator,
+We have implemented three different allocators, the lock free allocator,
 a locked linear allocator, and a heap allocator.
 All three of these will be tested for the event arguments, while only the
 linear allocator and lock free allocator will be tested with the lock free stack.
@@ -160,11 +160,11 @@ we therefore added a test that would ensure that that this requirement was met.
 
 \subsubsection{Flaws}
 There is one major flaw with this test, and it is that it can't be performed without heavy restructuring of the code base.
-The ECS is tightly coupled with the Nox Engine in the sense that a significant amount of the original code is still used in the ECS.
-This means that if you compile the ECS, you also have to compile the Nox Engine.
+The ECS is tightly coupled with the NOX Engine in the sense that a significant amount of the original code is still used in the ECS.
+This means that if you compile the ECS, you also have to compile the NOX Engine.
 It would be very difficult and time consuming to extract exactly the code needed for the ECS to avoid this problem.
-A way around this could be to first compile the Nox Engine and the ECS.
-Then measure and compare the compilation duration for the nox tests and ecs tests.
+A way around this could be to first compile the NOX Engine and the ECS.
+Then measure and compare the compilation duration for the NOX tests and ECS tests.
 Unfortunately we were unable to find a way to partially compile the project in this manner.
 
 \subsubsection{Method}
@@ -198,7 +198,7 @@ Additionally this test might look skewed, as the NOX ECS does not allocate any m
 \subsubsection{Rationale}
 The numerous unique components test was created to determine how NOX ECS would deal with a large number of different components,
 and if the multi-threading could help in making processing of the components more efficient.
-It puts pressure on how many component types the system can handle, and pushes the event system, as every component is sending a large amount of events.
+It puts pressure on how many component types the system can handle, and pushes the event system, as many components are sending a large number of events.
 
 \subsubsection{Flaws}
 A major flaw with the numerous unique components test is its use of a trivial component that prints out results.

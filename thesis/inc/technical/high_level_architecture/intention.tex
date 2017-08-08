@@ -1,11 +1,11 @@
 \section{Intention}
 \label{subsec:high_level_intention}
-The intention of the new ECS was that it would be an "opt-in" system with consequences.
+The intention of the NOX ECS was to be an "opt-in" system with consequences.
 The syntax and semantics would mirror the old system as much as possible by default, allowing for Suttung to remain productive while learning the new system.
 Safety would also be "enabled" by default, users would not need to care about correct casting nor race conditions.
 With cache friendly algorithms focusing on homogeneous treatment of contiguous data,
 the new system would still perform better than the old actor system without any further optimizations by the user.
-This would be the case by default.
+
 The user would be given a choice to opt into to other "features" for better performance, at the cost of less safety.
-For example opting in to multi-threading support by specifying dependencies between component types, at the cost of possible
+For example opting in to multi-threading support by specifying dependencies between component types, traded for possible
 race conditions if specified incorrectly.

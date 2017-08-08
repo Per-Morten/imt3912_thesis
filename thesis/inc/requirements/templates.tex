@@ -1,7 +1,6 @@
 \section{Templates}
 \label{sec:requirements_templates}
-C++ is infamous for its long compile times, caused by several factors
-\cite{stack_overflow_why_does_cpp_compilation_take_so_long}.
+C++ is infamous for its long compile times, caused by several factors\cite{stack_overflow_why_does_cpp_compilation_take_so_long}.
 Some of these factors include:
 \begin{itemize}
     \item
@@ -26,7 +25,7 @@ This process of generating code for template instantiations only happens on a pe
 It means that the compiler will have to compile the same template instantiation of a class multiple times.
 These duplicate template instantiations are removed during the linking phase.
 In addition to this, templates have to be written within header files,
-meaning that any change to that header file will lead to a recompilation of all files that includes that header file\cite{dr_dobbs_cpp_compilation_speed}.
+meaning that any change to the file will lead to a recompilation of all files which include the header file\cite{dr_dobbs_cpp_compilation_speed}.
 
 Suttung expressed a wish to avoid a significant compile time increase, as waiting for the program to compile hinders a rapid iteration process.
 Therefore, we decided together with Suttung to try to avoid heavy templated solutions to keep acceptable build times.

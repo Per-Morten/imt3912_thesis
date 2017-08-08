@@ -1,20 +1,21 @@
 \section{Parallelism}
-One of the goals behind the new NOX ECS was to avoid heavy synchronization within the parallel segments.
+One of the goals behind the NOX ECS was to avoid heavy synchronization within the parallel segments.
 The rationale being that heavy synchronization could be unnecessary, and also inefficient within the proposed system.
 
 \subsection{Threading Model}
 \label{subsubsec:high_level_threading_model}
-The NOX ECS would need a good threading model that would allow efficient uses of multi-core
+The NOX ECS would need a good threading model that would allow efficient use of multi-core
 architectures, while at the same time being relatively invisible to the programmers
-using the ecs.
+using the system.
 It was decided to go for a fork-and-join like threading model\cite[p. 369]{game_engine_architecture},
 as this would allow for encapsulated threading behavior within the entity system.
 Users of the system would not need to worry about starting up new threads,
 and the program flow would to a larger extent appear to act as a familiar linear sequential system.
+
 A user could simply call for instance the update function on a central manager, and be completely
 unaware of whether or not that function was taking advantage of possible parallelism.
 
-The threading model of choice also fit nicely with the previous decision of keeping component types
+The threading model of choice also fit nicely with the decision of keeping component types
 grouped together.
 Each thread would be assigned a collection of components which could be processed in an isolated,
 homogeneous and contiguous manner, avoiding cache invalidation and synchronization problems.
@@ -32,6 +33,6 @@ If these were protected with regular locks chances were high that there would be
 It was therefore decided that the implementation of these central systems should be lock free.
 
 \subsection{Asynchronous Code}
-Adding parallelism to the ECS does introduce the importance of asynchronous code.
-Many of the calls to the ECS would be processed asynchronously to better allow for batched
+Adding parallelism to NOX ECS adds a focus on asynchronous code.
+Many of the calls to the ECS would be handled asynchronously to better allow for batched
 processing, and this would be something the users of the ECS would need to take into account.

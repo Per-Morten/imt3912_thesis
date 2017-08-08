@@ -8,14 +8,14 @@ we believe these findings can also be generalized and related to other systems.
 \subsection{Layered Execution}
 As shown in the benchmarks the layered execution model can provide a significant performance boost,
 and is a nice way to introduce multi-threading into a system relatively invisible.
-There are usages patterns which is non optimal for the layered execution model.
+There are usage patterns which is non optimal for the layered execution model.
 These are the cases where there is not enough processing done in a function to justify the synchronization overhead
 of multi-threading.
-For example if the user is sending a lot of direct events, rather than broadcasted ones,
+For example, if the user is sending a lot of direct events, rather than broadcasted ones,
 and the processing required for receiving events is quite short.
 
 \subsection{Virtual Replacement}
-Having an own virtual function replacement might remove some space overhead, and might perform better in some cases.
+Having an own virtual function replacement might remove some space overhead, and perform better in some cases.
 However, that also requires all the types of polymorphism to be known at compile time, which might
 not be possible.
 The main advantage of using the meta information structure we proposed is that we are able to remove empty
@@ -31,10 +31,10 @@ Gregory\cite[p.262]{game_engine_architecture} states that modern PC's have more 
 memory, meaning that dynamic memory allocation is a lot cheaper than on devices with more limited hardware.
 
 \subsection{Lock Free}
-Based on what we have seen in the test cases, one should be careful of writing lock free algorithms.
-In many cases a naive implementation with a simple lock can perform as well as a complex lock free algorithm.
+Based on what we have seen in the test cases, one should be careful of writing lock-free algorithms.
+In many cases a naive implementation with a simple lock can perform as well as a complex lock-free algorithm.
 While we were not able to test our code on a weakly ordered platform we did not see any great improvement
-of the lock free structures over the naive locked ones, and the lock free algorithms had a very limited interface.
+of the lock-free structures over the naive locked ones, and the lock-free algorithms had a very limited interface.
 
 \subsection{Separate Data for Separate Threads}
 Some of the performance issues within the NOX ECS is a result of synchronization overhead,
@@ -58,7 +58,7 @@ It is important to make a decision on whether or not this flexibility is really 
 the cost that it brings.
 
 \subsection{Entities and Components}
-The separation of Actors holding components to entities identified by components did come with some
+The shift of actors holding components to entities identified by components came with some
 desirable benefits. The clearer separation allows users to avoid paying for functionality that they
 do not use. It also made a clearer distinction of how data was touched, which allowed for easier efficient
 multi-threading integration.
@@ -83,7 +83,7 @@ and requested by the user, and that we were able to gain benefits from this line
 The main conclusion reached from these findings is that choices taken on implementations
 should be based on the expected usage patterns of the system, the flexibility required,
 and the potential costs of the different implementations.
-Additionally optimizations should also be seen from an architectural standpoint rather than
+Additionally, optimizations should also be seen from an architectural standpoint rather than
 just a local standpoint. As shown in the tests, the main contributing factor to NOX ECS's performance
 is the architectural design, rather than one individual optimization.
 

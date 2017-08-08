@@ -3,11 +3,11 @@
 \subsection{Main metrics}
 Analyzing the difference between the NOX Actor system and the NOX ECS based on the requirements would need different metrics.
 After some discussion we decided to use time, memory usage and cpu cycles.
-Not all of these were equally important, for instance, the cpu cycles would mainly be used if there were small differences on the time.
+Not all of these were equally important, for instance, the cpu cycles would mainly be used if there were small time differences.
 
 \subsection{Time}
 The time was measured with the use of the \emph{time}\footnote{\url{https://linux.die.net/man/1/time}} function in the Linux command line.
-Time was chosen as a metric because how it relates to the real-time requirements of games\secref{subsec:introduction_game_industry_performance}.
+Time was chosen as a metric because of how it relates to the real-time requirements of games\secref{subsec:introduction_game_industry_performance}.
 Additionally, it is a more relatable and overall easier metric than for example cycles.
 The time command outputs three different measurements, which are the following\cite{stack_overflow_time_output}.
 
@@ -18,21 +18,19 @@ The time command outputs three different measurements, which are the following\c
 \end{itemize}
 
 \paragraph{Real Time}
-Real time measures the wall clock time, which details how long a test spent running from the start to the end of the call.
-There can be problems using this measurement, as one has little to no control on when the operative system context switches, and how different processes are scheduled.
-This problem can be mitigated to a large extent by running the tests with no other programs running at the same time, giving the tests full access to all the CPU's.
+Real time measures the wall clock time, which details how long a test has spent running from the start to the end of the program.
+There can be problems using this measurement, as one has little to no control on when the operating system context switches, and how different processes are scheduled.
+This problem can be mitigated to an extent by running the tests with no other programs running at the same time, giving the tests full access to all the CPU's.
 
 \paragraph{User Time}
 User time measures the total time spent in user-mode of the program being timed.
-This means the total time of all CPU's have spent outside of the kernel.
-In contrast to the real measurement, user measurement is not affected by the operative system.
-This is because the other processes and time the processes spends blocked does not count.
+In contrast to the real measurement, user measurement is not affected by the operating system.
+This is because the time spent in other processes does not count.
 
 \paragraph{Sys Time}
 Sys time is very similar to the User measurement, except that it counts the time spent in kernel-mode, rather than user-mode.
 Adding the user and sys measurements will tells us exactly how much CPU time was spent on a process.
 Sys time is the total time across all CPU's, meaning that if the tests are run on a system with multiple threads, the sum of user and sys time could exceed the real time measurement.
-Using the combined time of user and sys would work if all tests run in a single threaded environment.
 
 \paragraph{Decision}
 We will use real time as our time metric as it is the only viable option when running in a concurrent environment.
@@ -74,7 +72,7 @@ x_{64} = \frac{2^{64} - 1}{2 \times 10^{9}} = \SI{9223372036.85}{\second} \appro
 
 \bigskip
 
-The test were run on a two year old laptop (see table \ref{tab:hardware_info}) with a 64 bit operating system. Additionally tests output correct numbers outside the 32 bit range,
+The test were run on a two year old laptop (see table \ref{tab:hardware_info}) with a 64 bit operating system. Additionally, tests output correct numbers outside the 32 bit range,
 clearly indicating we are running with a 64 bit register.
 
 Counting cycles will give a very consistent metric in addition to measuring real time.
@@ -83,7 +81,7 @@ This will strengthen the validity of the time metrics, by having another measure
 \subsection{Memory Usage}
 \label{subsec:measurements_massif}
 The memory usage is measured with the heap profiler Massif, which is a part of the tool suite called Valgrind.
-Massif\cite{massif_manual} takes snapshots of the processes heap each time a allocation or deallocation happens, but reduces this frequency if the process runs for a prolonged duration.
+Massif\cite{massif_manual} takes snapshots of the processes heap each time an allocation or deallocation happens, but reduces this frequency if the process runs for a prolonged duration.
 The snapshots can come in two different forms, normal and detailed.
 Normal only displays basic information with the time, total bytes consumed, and a few other data points.
 Detailed additionally collects the stack trace of every single allocation point in the program.
@@ -118,7 +116,7 @@ Below is an example of the part of a massif output, where row 10 to 13 are norma
 \label{subsec:measurements_callgrind}
 Additional data points are gathered from Callgrind\cite{callgrind_manual}, which is another profiling tool in the Valgrind tool suite.
 Callgrind collects various data from an executed program, and visualizes the information as a call graph.
-This data are not used as extensively as the three mentioned above,
+This data is not used as extensively as the three mentioned above,
 but are for tests that need further inspection and requires greater detail.
 The data collected involves, but is not limited to.
 
